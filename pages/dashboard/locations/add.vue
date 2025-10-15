@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
-import { AlertCircle, ArrowLeft } from 'lucide-vue-next'
+import { AlertCircle, ArrowLeft, LucideCirclePlus, LucideLoader2 } from 'lucide-vue-next'
 import { InsertLocationSchema } from '~/lib/db/schema'
 
 //2.modules init
