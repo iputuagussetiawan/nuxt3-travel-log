@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronRight } from 'lucide-vue-next'
+import { ChevronRight, LucideMapPin } from 'lucide-vue-next'
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -16,9 +16,7 @@ import {
     CollapsibleTrigger
 } from './ui/collapsible'
 import { Skeleton } from './ui/skeleton'
-
 const sidebarStore = useSidebarStore()
-const mapStore = useMapStore()
 </script>
 
 <template>
@@ -55,17 +53,6 @@ const mapStore = useMapStore()
                                 <SidebarMenuSubItem
                                     v-for="subItem in sidebarStore.sidebarItems"
                                     :key="subItem.id"
-                                    :class="
-                                        mapStore.selectedPoint?.id ===
-                                        subItem.location?.id
-                                            ? 'text-green-600'
-                                            : ''
-                                    "
-                                    @mouseenter="
-                                        mapStore.selectedPoint =
-                                            subItem.location ?? null
-                                    "
-                                    @mouseleave="mapStore.selectedPoint = null"
                                 >
                                     <SidebarMenuSubButton as-child>
                                         <NuxtLink :to="subItem.href">

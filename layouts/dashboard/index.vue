@@ -4,7 +4,6 @@ import {
     SidebarProvider,
     SidebarTrigger
 } from '@/components/ui/sidebar'
-// import AppSidebar from '~/components/AppSidebar.vue'
 import {
     Breadcrumb,
     BreadcrumbItem,

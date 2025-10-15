@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang='ts' >
 //1.modules import
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -25,18 +25,23 @@ import {
 import { cn } from '~/lib/utils'
 import { Skeleton } from '~/components/ui/skeleton'
 
+const locationsStore = useLocationsStore()
+const { locations, status } = storeToRefs(locationsStore)
+
 //2.modules init
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard-location'
 })
 
+onMounted(() => {
+    locationsStore.refresh()
+})
 </script>
-
 <template>
     <section>
         <div class="mt-4 px-4">
             <div
-                v-if="locations && locations.length > 0"
+                
                 class="flex justify-between items-center"
             >
                 <div>
@@ -80,13 +85,8 @@ definePageMeta({
                 <Card
                     v-for="location in locations"
                     :key="location.id"
-                    :class="{
-                        'border-primary':
-                            location.id === mapStore.selectedPoint?.id
-                    }"
                     class="bg-primary/10 hover:bg-primary/20 cursor-pointer transition-all duration-400 ease-in-out"
-                    @click="mapStore.selectedPoint = location"
-                    @mouseleave="mapStore.selectedPoint = null"
+                    
                 >
                     <CardHeader>
                         <CardTitle>{{ location.name }}</CardTitle>
@@ -96,7 +96,7 @@ definePageMeta({
                     </CardHeader>
                 </Card>
             </div>
-            <div v-else class="w-full">
+            <div  v-else  class="w-full">
                 <Empty>
                     <EmptyHeader>
                         <EmptyMedia variant="icon">
@@ -110,35 +110,24 @@ definePageMeta({
                             managing your data.
                         </EmptyDescription>
                     </EmptyHeader>
-
                     <EmptyContent>
                         <div class="flex gap-2">
-                            <NuxtLink
+                            <NuxtLink 
                                 to="/dashboard/locations/add"
                                 :class="cn(buttonVariants({ variant: 'default' }), 'gap-2')"
                             >
                                 Create Location
-                                <LucideCirclePlus class="w-4 h-4" />
                             </NuxtLink>
                         </div>
                     </EmptyContent>
-
                     <NuxtLink to="/dashboard">
                         Learn more about managing locations
-                        <span><ArrowUpRightIcon class="w-4 h-4 ml-1 inline" /></span>
+                        <ArrowUpRightIcon class="w-4 h-4 ml-1 inline" />
                     </NuxtLink>
-
                 </Empty>
-            </div>
-            <div class="mt-6">
-                <!-- <ClientOnly fallback-tag="span" fallback="Loading Map...">
-                    <MapClient />
-                </ClientOnly> -->
-
-                <!-- <ClientOnly fallback-tag="span" fallback="Loading Map...">
-                    <MapClient2 />
-                </ClientOnly> -->
             </div>
         </div>
     </section>
 </template>
+<style lang='scss' scoped>
+</style>

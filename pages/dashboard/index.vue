@@ -6,7 +6,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="px-4 w-full h-[200vh]">
+    <div class="flex">
         <h1>Dashboard</h1>
     </div>
 </template>
