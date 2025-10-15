@@ -16,8 +16,8 @@ import {
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
 
-// const authStore = useAuthStore()
-// await authStore.init()
+const authStore = useAuthStore()
+await authStore.init()
 </script>
 <template>
     <SidebarProvider>

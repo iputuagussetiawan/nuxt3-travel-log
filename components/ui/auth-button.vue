@@ -18,7 +18,7 @@ const authStore = useAuthStore()
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <NuxtLink to="/sign-out">
-                        <Icon icon="lucide:log-out" width="24" height="24" class="text-gray-800 hover:text-red-500" />
+                        <Icon icon="lucide:log-out" width="24" height="24" />
                         Sign out
                     </NuxtLink>
                 </DropdownMenuItem>
