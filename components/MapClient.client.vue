@@ -1,12 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 const map = ref(null)
+const colorMode = useColorMode()
+const lightMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+const darkMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 // Example markers
 const markers = [
   { id: 1, name: 'Marker A', position: [47.41323, -1.219482] },
   { id: 2, name: 'Marker B', position: [47.61322, -0.519482] },
   { id: 3, name: 'Marker C', position: [50, 50] },
 ]
+
+const mapUrl = computed(() =>
+    colorMode.preference === 'dark' ? darkMap : lightMap
+)
 // Function to fly to marker
 const flyToMarker = (marker) => {
   const leafletMap = map.value?.leafletObject
@@ -29,7 +36,7 @@ const flyToMarker = (marker) => {
         :use-global-leaflet="false"
       >
       <LTileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        :url="mapUrl"
         attribution="&copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors"
       />
 
