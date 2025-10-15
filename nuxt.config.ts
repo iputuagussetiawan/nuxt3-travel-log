@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     'nuxt-lucide-icons',
     'nuxt-csurf',
     '@nuxt/icon',
+    '@nuxtjs/leaflet',
   ],
   csurf: {
         // optional
