@@ -1,19 +1,35 @@
 <script lang="ts" setup>
+import UiUserAvatar from './UserAvatar.vue'
 import Button from './button/Button.vue'
-import { createAuthClient } from "better-auth/client"
-const authClient =  createAuthClient()
-async function signIn(){
-    await authClient.signIn.social({
-        provider: "github",
-        callbackUrl: "/dashboard",
-    })
-}
+import DropdownMenu from './dropdown-menu/DropdownMenu.vue'
+import DropdownMenuContent from './dropdown-menu/DropdownMenuContent.vue'
+import DropdownMenuItem from './dropdown-menu/DropdownMenuItem.vue'
+import DropdownMenuTrigger from './dropdown-menu/DropdownMenuTrigger.vue'
+import { Icon } from '@iconify/vue'
+const authStore = useAuthStore()
 </script>
 <template>
     <div>
-        <Button @click="signIn">
-            Continue with GitHub
-            <lucide-github />
+        <DropdownMenu v-if="!authStore.loading && authStore.user">
+            <DropdownMenuTrigger>
+                <UiUserAvatar />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <NuxtLink to="/sign-out">
+                        <Icon icon="lucide:log-out" width="24" height="24" class="text-gray-800 hover:text-red-500" />
+                        Sign out
+                    </NuxtLink>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+        <Button v-else :disabled="authStore.loading" @click="authStore.signIn">
+            Continue with GitHub 
+            <Icon v-if="authStore.loading" icon="line-md:loading-twotone-loop"
+            class="w-8 h-8 animate-spin"
+            />
+            <Icon v-else icon="mdi:github" width="24" height="24" />
         </Button>
     </div>
 </template>
