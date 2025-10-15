@@ -22,22 +22,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from './ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import UiUserAvatar from './ui/UserAvatar.vue'
 
-const props = defineProps<{
-    user: {
-        name: string
-        email: string
-        avatar: string
-    }
-}>()
-
-const authStore = useAuthStore()
-const user = {
-    name: authStore?.user?.name || 'User',
-    email: authStore?.user?.email || 'm@example.com',
-    avatar: authStore?.user?.image || 'https://github.com/unovue.png'
-}
 
 const { isMobile } = useSidebar()
 </script>
