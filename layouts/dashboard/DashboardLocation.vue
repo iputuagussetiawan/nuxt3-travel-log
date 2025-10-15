@@ -4,6 +4,7 @@ import {
     SidebarProvider,
     SidebarTrigger
 } from '@/components/ui/sidebar'
+// import MapClient from '~/components/MapClient.vue'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
 
@@ -33,7 +34,7 @@ await authStore.init()
                 <div>
                     <slot />
                     <div>
-                        map
+                        Map Hire
                     </div>
                 </div>
             </main>

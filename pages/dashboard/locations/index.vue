@@ -24,6 +24,7 @@ import {
 
 import { cn } from '~/lib/utils'
 import { Skeleton } from '~/components/ui/skeleton'
+import MapClientClient from '~/components/MapClient.client.vue'
 
 const locationsStore = useLocationsStore()
 const { locations, status } = storeToRefs(locationsStore)
@@ -126,6 +127,8 @@ onMounted(() => {
                     </NuxtLink>
                 </Empty>
             </div>
+
+            <MapClientClient/>
         </div>
     </section>
 </template>
