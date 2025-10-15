@@ -33,9 +33,7 @@ await authStore.init()
             <main>
                 <div>
                     <slot />
-                    <div>
-                        Map Hire
-                    </div>
+                    <div>Map Hire</div>
                 </div>
             </main>
         </SidebarInset>

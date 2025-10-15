@@ -1,11 +1,7 @@
-<script setup lang='ts' >
+<script setup lang="ts">
 //1.modules import
 import { buttonVariants } from '@/components/ui/button'
-import {
-    ArrowUpRightIcon,
-    LucideCirclePlus,
-    MapPin
-} from 'lucide-vue-next'
+import { ArrowUpRightIcon, LucideCirclePlus, MapPin } from 'lucide-vue-next'
 import {
     Card,
     CardDescription,
@@ -41,10 +37,7 @@ onMounted(() => {
 <template>
     <section>
         <div class="mt-4 px-4">
-            <div
-                
-                class="flex justify-between items-center"
-            >
+            <div class="flex justify-between items-center">
                 <div>
                     <h1 class="text-lg font-bold">List Location</h1>
                     <p class="text-sm text-muted-foreground">
@@ -87,7 +80,6 @@ onMounted(() => {
                     v-for="location in locations"
                     :key="location.id"
                     class="bg-primary/10 hover:bg-primary/20 cursor-pointer transition-all duration-400 ease-in-out"
-                    
                 >
                     <CardHeader>
                         <CardTitle>{{ location.name }}</CardTitle>
@@ -97,7 +89,7 @@ onMounted(() => {
                     </CardHeader>
                 </Card>
             </div>
-            <div  v-else  class="w-full">
+            <div v-else class="w-full">
                 <Empty>
                     <EmptyHeader>
                         <EmptyMedia variant="icon">
@@ -113,9 +105,14 @@ onMounted(() => {
                     </EmptyHeader>
                     <EmptyContent>
                         <div class="flex gap-2">
-                            <NuxtLink 
+                            <NuxtLink
                                 to="/dashboard/locations/add"
-                                :class="cn(buttonVariants({ variant: 'default' }), 'gap-2')"
+                                :class="
+                                    cn(
+                                        buttonVariants({ variant: 'default' }),
+                                        'gap-2'
+                                    )
+                                "
                             >
                                 Create Location
                             </NuxtLink>
@@ -128,9 +125,8 @@ onMounted(() => {
                 </Empty>
             </div>
 
-            <MapClientClient/>
+            <MapClientClient />
         </div>
     </section>
 </template>
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

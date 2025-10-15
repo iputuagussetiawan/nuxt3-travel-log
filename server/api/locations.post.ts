@@ -1,9 +1,12 @@
-import slugify  from 'slug'
+import slugify from 'slug'
 import { nanoid } from 'nanoid'
 import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
-import type {  DrizzleError } from 'drizzle-orm'
+import type { DrizzleError } from 'drizzle-orm'
 import { InsertLocationSchema } from '~/lib/db/schema'
-import { findLocationByName, insertLocation } from '~/lib/db/queries/location-query'
+import {
+    findLocationByName,
+    insertLocation
+} from '~/lib/db/queries/location-query'
 
 export default defineAuthenticatedEventHandler(async (event) => {
     const result = await readValidatedBody(

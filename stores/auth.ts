@@ -2,7 +2,9 @@ import { createAuthClient } from 'better-auth/vue'
 const authClient = createAuthClient()
 
 export const useAuthStore = defineStore('useAuthStore', () => {
-    const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null)
+    const session = ref<Awaited<
+        ReturnType<typeof authClient.useSession>
+    > | null>(null)
     async function init() {
         const data = await authClient.useSession(useFetch)
         session.value = data
@@ -40,6 +42,6 @@ export const useAuthStore = defineStore('useAuthStore', () => {
         loading,
         signIn,
         signOut,
-        user                                               
+        user
     }
 })

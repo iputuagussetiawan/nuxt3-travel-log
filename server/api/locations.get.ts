@@ -1,4 +1,3 @@
-
 import { findLocations } from '~/lib/db/queries/location-query'
 import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
 export default defineAuthenticatedEventHandler(async (event) => {

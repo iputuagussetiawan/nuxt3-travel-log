@@ -24,7 +24,6 @@ import {
 } from './ui/dropdown-menu'
 import UiUserAvatar from './ui/UserAvatar.vue'
 
-
 const { isMobile } = useSidebar()
 </script>
 

@@ -1,9 +1,4 @@
-import {
-    pgTable,
-    text,
-    timestamp,
-    unique,
-} from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, unique } from 'drizzle-orm/pg-core'
 
 import { createInsertSchema } from 'drizzle-zod'
 import type z from 'zod'

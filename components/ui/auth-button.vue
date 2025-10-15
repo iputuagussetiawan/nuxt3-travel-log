@@ -25,9 +25,11 @@ const authStore = useAuthStore()
             </DropdownMenuContent>
         </DropdownMenu>
         <Button v-else :disabled="authStore.loading" @click="authStore.signIn">
-            Continue with GitHub 
-            <Icon v-if="authStore.loading" icon="line-md:loading-twotone-loop"
-            class="w-8 h-8 animate-spin"
+            Continue with GitHub
+            <Icon
+                v-if="authStore.loading"
+                icon="line-md:loading-twotone-loop"
+                class="w-8 h-8 animate-spin"
             />
             <Icon v-else icon="mdi:github" width="24" height="24" />
         </Button>
