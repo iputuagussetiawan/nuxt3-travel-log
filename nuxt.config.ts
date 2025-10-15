@@ -10,8 +10,24 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
     'nuxt-lucide-icons',
+    'nuxt-csurf',
     '@nuxt/icon',
   ],
+  csurf: {
+        // optional
+        https: false, // default true if in production
+        cookieKey: '', // "__Host-csrf" if https is true otherwise just "csrf"
+        cookie: {
+            // CookieSerializeOptions from unjs/cookie-es
+            path: '/',
+            httpOnly: true,
+            sameSite: 'strict'
+        },
+        methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
+        encryptSecret: '',
+        addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
+        headerName: 'csrf-token' // the header where the csrf token is stored
+    },
   icon: {
     serverBundle: {
       collections: ['uil', 'mdi'] // <!--- this
@@ -32,6 +48,8 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
   css: ['~/assets/css/tailwind.css'],
+  
+
   vite: {
     plugins: [
       tailwindcss(),

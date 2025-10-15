@@ -37,7 +37,7 @@ const data = {
             title: 'Travel Location',
             url: '#',
             icon: MapIcon,
-            isActive: true,
+            isActive: false,
             items: [
                 {
                     title: 'All Location',
@@ -60,7 +60,7 @@ const data = {
         </SidebarHeader>
         <SidebarContent>
             <NavMain :items="data.navMain" />
-            <!-- <NavLocation /> -->
+            <NavLocation />
         </SidebarContent>
         <SidebarFooter>
             <NavUser :user="data.userData" />
