@@ -4,6 +4,7 @@ import {
     SidebarProvider,
     SidebarTrigger
 } from '@/components/ui/sidebar'
+import MapClientClient from '~/components/MapClient.client.vue'
 // import MapClient from '~/components/MapClient.vue'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
@@ -16,7 +17,7 @@ await authStore.init()
         <AppSidebar />
         <SidebarInset>
             <header
-                class="sticky top-0 z-40 flex border-b h-16 shrink-0 items-center gap-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+                class="sticky top-0 z-[3000] flex border-b h-16 shrink-0 items-center gap-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
             >
                 <div
                     class="flex items-center gap-2 px-4 justify-between w-full"
@@ -31,10 +32,10 @@ await authStore.init()
                 </div>
             </header>
             <main>
-                <div>
+                <div class="relative">
                     <slot />
-                    <div>
-                        Map Hire
+                    <div class="">
+                        <MapClientClient />
                     </div>
                 </div>
             </main>

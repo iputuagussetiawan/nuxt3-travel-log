@@ -62,7 +62,7 @@ const data = {
             <NavMain :items="data.navMain" />
             <NavLocation />
         </SidebarContent>
-        <SidebarFooter>
+        <SidebarFooter class="z-[30001]">
             <NavUser :user="data.userData" />
         </SidebarFooter>
         <SidebarRail />

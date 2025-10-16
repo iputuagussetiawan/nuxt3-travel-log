@@ -1,7 +1,7 @@
-import { betterAuth, type User } from "better-auth";
+import { betterAuth, type User } from 'better-auth'
 import { createAuthMiddleware } from 'better-auth/plugins'
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "./db"; // your drizzle instance
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { db } from './db' // your drizzle instance
 import * as schema from './db/schema'
 
 export type UserWithId = Omit<User, 'id'> & {
@@ -23,13 +23,13 @@ export const auth = betterAuth({
         })
     },
     database: drizzleAdapter(db, {
-        provider: "pg", // or "mysql", "sqlite"
-        schema,
+        provider: 'pg', // or "mysql", "sqlite"
+        schema
     }),
-    socialProviders: { 
-        github: { 
-            clientId: process.env.GITHUB_CLIENT_ID as string, 
-            clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
-        }, 
-    }, 
-});
+    socialProviders: {
+        github: {
+            clientId: process.env.GITHUB_CLIENT_ID as string,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string
+        }
+    }
+})

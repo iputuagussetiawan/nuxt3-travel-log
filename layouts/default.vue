@@ -5,7 +5,7 @@ await authStore.init()
 <template>
     <div>
         <AppHeader />
-            <slot />
+        <slot />
         <AppFooter />
     </div>
 </template>

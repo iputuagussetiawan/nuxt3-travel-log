@@ -13,9 +13,7 @@ const error = route.query.error || 'Something went wrong'
             <Alert>
                 <AlertTitle>Heads up!</AlertTitle>
                 <AlertDescription> oh no {{ error }} </AlertDescription>
-                <NuxtLink to="/">
-                    Home
-                </NuxtLink>
+                <NuxtLink to="/"> Home </NuxtLink>
             </Alert>
         </div>
     </div>

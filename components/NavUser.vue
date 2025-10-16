@@ -24,7 +24,6 @@ import {
 } from './ui/dropdown-menu'
 import UiUserAvatar from './ui/UserAvatar.vue'
 
-
 const { isMobile } = useSidebar()
 </script>
 
@@ -42,7 +41,7 @@ const { isMobile } = useSidebar()
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                    class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg z-[30001]"
                     :side="isMobile ? 'bottom' : 'right'"
                     align="end"
                     :side-offset="4"
