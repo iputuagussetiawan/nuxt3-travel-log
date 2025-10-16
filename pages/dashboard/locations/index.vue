@@ -124,8 +124,6 @@ onMounted(() => {
                     </NuxtLink>
                 </Empty>
             </div>
-
-            <MapClientClient />
         </div>
     </section>
 </template>
