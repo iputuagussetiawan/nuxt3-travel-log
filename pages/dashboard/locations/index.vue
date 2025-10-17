@@ -25,6 +25,8 @@ import MapClientClient from '~/components/MapClient.client.vue'
 const locationsStore = useLocationsStore()
 const { locations, status } = storeToRefs(locationsStore)
 
+const mapStoreTwo = useMapStoreTwo()
+
 //2.modules init
 definePageMeta({
     layout: 'dashboard-location'
@@ -79,7 +81,13 @@ onMounted(() => {
                 <Card
                     v-for="location in locations"
                     :key="location.id"
+                    @click="mapStoreTwo.navigateToMarker(location)"
                     class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 cursor-pointer rounded-2xl border shadow-md backdrop-blur-md transition-all duration-400 ease-in-out hover:border-blue-500 dark:shadow-lg"
+                    :class="
+                        mapStoreTwo.selectedPoint?.id === location.id
+                            ? 'border-blue-500'
+                            : ''
+                    "
                 >
                     <CardHeader>
                         <CardTitle class="text-muted-foreground">{{
