@@ -1,29 +1,64 @@
 <script setup>
 import { ref } from 'vue'
+import { MAP_CENTER, MAP_BOUNDS } from '~/lib/constants'
+import MapPinMarker from './MapPinMarker.vue'
 const map = ref(null)
+
+// 🌗 Light & Dark Map
 const colorMode = useColorMode()
 const lightMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const darkMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-// Example markers
-const markers = [
-    { id: 1, name: 'Marker A', position: [47.41323, -1.219482] },
-    { id: 2, name: 'Marker B', position: [47.61322, -0.519482] },
-    { id: 3, name: 'Marker C', position: [50, 50] }
-]
 
+const mapStore = useMapStore()
 const mapUrl = computed(() =>
     colorMode.preference === 'dark' ? darkMap : lightMap
 )
-// Function to fly to marker
+
+// ✈️ Fly to one marker
 const flyToMarker = (marker) => {
     const leafletMap = map.value?.leafletObject
-    console.log(leafletMap)
     if (!leafletMap) return
-    leafletMap.flyTo(marker.position, 10, {
+    leafletMap.flyTo([marker.lat, marker.long], 10, {
         animate: true,
         duration: 2 // seconds
     })
 }
+
+// 🗺️ Fit map to all markers
+const fitToMarkers = async () => {
+    const L = await import('leaflet')
+    const leafletMap = map.value?.leafletObject
+    const points = mapStore.mapPoints
+
+    if (!leafletMap || !points.length) return
+
+    const bounds = L.latLngBounds(
+        mapStore.mapPoints.map((p) => [Number(p.lat), Number(p.long)])
+    )
+
+    leafletMap.fitBounds([bounds._northEast, bounds._southWest], {
+        padding: [50, 50]
+    })
+}
+
+// 🚀 When map is ready
+onMounted(async () => {
+    await nextTick()
+    setTimeout(() => {
+        fitToMarkers()
+    }, 500)
+})
+
+// 🔁 Automatically refit when markers change
+watch(
+    () => mapStore.mapPoints,
+    (newPoints) => {
+        if (newPoints.length) {
+            nextTick(() => fitToMarkers())
+        }
+    },
+    { deep: true }
+)
 </script>
 
 <template>
@@ -31,8 +66,11 @@ const flyToMarker = (marker) => {
         <LMap
             ref="map"
             style="height: 850px"
-            :zoom="6"
-            :center="[47.21322, -1.559482]"
+            :options="{ zoomControl: false }"
+            :zoom="5"
+            :min-zoom="3"
+            :max-bounds="MAP_BOUNDS"
+            :center="MAP_CENTER"
             :use-global-leaflet="false"
         >
             <LTileLayer
@@ -41,17 +79,38 @@ const flyToMarker = (marker) => {
             />
 
             <!-- Render all markers -->
-            <LMarker v-for="m in markers" :key="m.id" :lat-lng="m.position">
-                <LPopup>{{ m.name }}</LPopup>
+            <LMarker
+                v-for="point in mapStore.mapPoints"
+                :key="point.id"
+                :lat-lng="[point.lat, point.long]"
+            >
+                <LIcon
+                    :icon-size="[30, 30]"
+                    :icon-anchor="[15, 30]"
+                    :popup-anchor="[0, -30]"
+                    class-name="my-custom-marker"
+                >
+                    <div>
+                        <MapPinMarker :label="point.name" />
+                    </div>
+                </LIcon>
+                <LPopup>
+                    <div>
+                        <h3 class="mb-1 text-2xl">{{ point.name }}</h3>
+                        <div class="m-0 text-sm" v-if="point.description">
+                            {{ point.description }}
+                        </div>
+                    </div>
+                </LPopup>
             </LMarker>
         </LMap>
 
         <!-- Buttons to fly to each marker -->
         <div class="flex gap-2 p-4">
             <button
-                v-for="m in markers"
+                v-for="m in mapStore.mapPoints"
                 :key="m.id"
-                class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                class="rounded bg-blue-500 px-3 py-2 text-white hover:bg-blue-600"
                 @click="flyToMarker(m)"
             >
                 Fly to {{ m.name }}

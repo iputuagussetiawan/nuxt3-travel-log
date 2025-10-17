@@ -35,12 +35,12 @@ onMounted(() => {
 })
 </script>
 <template>
-    <section>
+    <section class="absolute top-0 right-0 left-10 z-[1000]">
         <div class="mt-4 px-4">
-            <div class="flex justify-between items-center">
+            <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-lg font-bold">List Location</h1>
-                    <p class="text-sm text-muted-foreground">
+                    <p class="text-muted-foreground text-sm">
                         List of all locations here
                     </p>
                 </div>
@@ -52,13 +52,13 @@ onMounted(() => {
                         "
                     >
                         Add Location
-                        <LucideCirclePlus class="w-4 h-4" />
+                        <LucideCirclePlus class="h-4 w-4" />
                     </NuxtLink>
                 </div>
             </div>
             <div
                 v-if="status === 'pending'"
-                class="grid grid-cols-6 gap-4 mt-6"
+                class="mt-6 grid grid-cols-6 gap-4"
             >
                 <Card v-for="i in 12" :key="i">
                     <CardHeader>
@@ -74,16 +74,18 @@ onMounted(() => {
             </div>
             <div
                 v-else-if="locations && locations.length > 0"
-                class="grid grid-cols-6 gap-4 mt-6"
+                class="mt-6 grid grid-cols-6 gap-4"
             >
                 <Card
                     v-for="location in locations"
                     :key="location.id"
-                    class="bg-primary/10 hover:bg-primary/20 cursor-pointer transition-all duration-400 ease-in-out"
+                    class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 cursor-pointer rounded-2xl border shadow-md backdrop-blur-md transition-all duration-400 ease-in-out hover:border-blue-500 dark:shadow-lg"
                 >
                     <CardHeader>
-                        <CardTitle>{{ location.name }}</CardTitle>
-                        <CardDescription>
+                        <CardTitle class="text-muted-foreground">{{
+                            location.name
+                        }}</CardTitle>
+                        <CardDescription class="text-muted-foreground">
                             {{ location.description }}
                         </CardDescription>
                     </CardHeader>
@@ -93,7 +95,7 @@ onMounted(() => {
                 <Empty>
                     <EmptyHeader>
                         <EmptyMedia variant="icon">
-                            <MapPin class="w-10 h-10 text-muted-foreground" />
+                            <MapPin class="text-muted-foreground h-10 w-10" />
                         </EmptyMedia>
 
                         <EmptyTitle>No Locations Found</EmptyTitle>
@@ -120,7 +122,7 @@ onMounted(() => {
                     </EmptyContent>
                     <NuxtLink to="/dashboard">
                         Learn more about managing locations
-                        <ArrowUpRightIcon class="w-4 h-4 ml-1 inline" />
+                        <ArrowUpRightIcon class="ml-1 inline h-4 w-4" />
                     </NuxtLink>
                 </Empty>
             </div>
