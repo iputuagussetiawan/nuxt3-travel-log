@@ -35,7 +35,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <section class="absolute top-0 right-0 left-10 z-[1000]">
+    <section class="absolute top-0 right-0 left-0 z-[1000]">
         <div class="mt-4 px-4">
             <div class="flex items-center justify-between">
                 <div>
