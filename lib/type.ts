@@ -1,4 +1,5 @@
 import type { UserWithId } from './auth'
+import { Map as LMap } from 'leaflet'
 
 declare module 'h3' {
     interface H3EventContext {
@@ -16,3 +17,5 @@ export type MapPoint = {
     name: string
     description: string | null
 } & LatLongItem
+
+export type MyMap = LMap

@@ -17,11 +17,13 @@ import {
 } from './ui/collapsible'
 import { Skeleton } from './ui/skeleton'
 const sidebarStore = useSidebarStore()
+const mapStoreTwo = useMapStoreTwo()
 </script>
 
 <template>
     <SidebarGroup>
         <SidebarGroupLabel>My Map</SidebarGroupLabel>
+
         <SidebarMenu v-if="sidebarStore.sidebarItems.length">
             <Collapsible as-child default-open class="group/collapsible">
                 <SidebarMenuItem>
@@ -40,7 +42,7 @@ const sidebarStore = useSidebarStore()
                                 <Skeleton
                                     v-for="i in 5"
                                     :key="i"
-                                    class="w-full h-5 rounded-full mb-2 last:mb-0"
+                                    class="mb-2 h-5 w-full rounded-full last:mb-0"
                                 />
                             </template>
 
@@ -53,9 +55,24 @@ const sidebarStore = useSidebarStore()
                                 <SidebarMenuSubItem
                                     v-for="subItem in sidebarStore.sidebarItems"
                                     :key="subItem.id"
+                                    @click="
+                                        mapStoreTwo.navigateToMarker(
+                                            subItem.location
+                                        )
+                                    "
+                                    class="cursor-pointer"
                                 >
                                     <SidebarMenuSubButton as-child>
-                                        <NuxtLink :to="subItem.href">
+                                        <NuxtLink
+                                            :to="subItem.href"
+                                            :class="
+                                                mapStoreTwo.selectedPoint
+                                                    ?.id ===
+                                                subItem.location?.id
+                                                    ? 'bg-blue-600'
+                                                    : ''
+                                            "
+                                        >
                                             <span>{{ subItem.label }}</span>
                                         </NuxtLink>
                                     </SidebarMenuSubButton>

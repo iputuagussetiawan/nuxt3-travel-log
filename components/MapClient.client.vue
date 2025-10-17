@@ -10,41 +10,36 @@ const lightMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const darkMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 
 const mapStore = useMapStore()
+const mapStoreTwo = useMapStoreTwo()
 const mapUrl = computed(() =>
     colorMode.preference === 'dark' ? darkMap : lightMap
 )
-
-// ✈️ Fly to one marker
-const flyToMarker = (marker) => {
-    const leafletMap = map.value?.leafletObject
-    if (!leafletMap) return
-    leafletMap.flyTo([marker.lat, marker.long], 10, {
-        animate: true,
-        duration: 2 // seconds
-    })
-}
 
 // 🗺️ Fit map to all markers
 const fitToMarkers = async () => {
     const L = await import('leaflet')
     const leafletMap = map.value?.leafletObject
     const points = mapStore.mapPoints
-
     if (!leafletMap || !points.length) return
-
     const bounds = L.latLngBounds(
         mapStore.mapPoints.map((p) => [Number(p.lat), Number(p.long)])
     )
-
     leafletMap.fitBounds([bounds._northEast, bounds._southWest], {
         padding: [50, 50]
     })
 }
-
+const setMapOnStore = async () => {
+    const leafletMap = map.value?.leafletObject
+    if (leafletMap) {
+        // vue-leaflet exposes the map under .leafletObject
+        mapStoreTwo.setMap(leafletMap)
+    }
+}
 // 🚀 When map is ready
 onMounted(async () => {
     await nextTick()
     setTimeout(() => {
+        setMapOnStore()
         fitToMarkers()
     }, 500)
 })
@@ -104,17 +99,5 @@ watch(
                 </LPopup>
             </LMarker>
         </LMap>
-
-        <!-- Buttons to fly to each marker -->
-        <div class="flex gap-2 p-4">
-            <button
-                v-for="m in mapStore.mapPoints"
-                :key="m.id"
-                class="rounded bg-blue-500 px-3 py-2 text-white hover:bg-blue-600"
-                @click="flyToMarker(m)"
-            >
-                Fly to {{ m.name }}
-            </button>
-        </div>
     </div>
 </template>

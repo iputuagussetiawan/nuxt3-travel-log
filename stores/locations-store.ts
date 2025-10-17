@@ -15,14 +15,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
                 href: '#',
                 location
             }))
-
-            mapStore.mapPoints = data.value.map((location) => ({
-                id: location.id,
-                name: location.name,
-                description: location.description,
-                lat: location.lat,
-                long: location.long
-            }))
+            mapStore.mapPoints = data.value
         }
         sidebarStore.loading = status.value === 'pending'
     })

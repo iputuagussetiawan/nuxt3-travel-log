@@ -86,14 +86,13 @@ onBeforeRouteLeave(() => {
 </script>
 
 <template>
-    <div class="absolute top-[-10px] left-0 z-[2000] mt-4 w-[600px] px-6 py-8 
-        rounded-2xl border border-border 
-        bg-card/90 backdrop-blur-md 
-        supports-[backdrop-filter]:bg-card/60 shadow-md dark:shadow-lg">
+    <div
+        class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 absolute top-0 left-4 z-[2000] mt-4 w-[400px] rounded-2xl border px-6 py-8 shadow-md backdrop-blur-md dark:shadow-lg"
+    >
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-lg font-bold">Add Location</h1>
-                <p class="text-sm text-muted-foreground">
+                <p class="text-muted-foreground text-sm">
                     Add a new location here
                 </p>
             </div>
@@ -104,14 +103,14 @@ onBeforeRouteLeave(() => {
                     variant="outline"
                     @click="router.back()"
                 >
-                    <ArrowLeft class="w-4 h-4" /> Back
+                    <ArrowLeft class="h-4 w-4" /> Back
                 </Button>
             </div>
         </div>
 
         <div class="mt-6">
             <Alert v-if="submitError" variant="destructive" class="mb-4">
-                <AlertCircle class="w-4 h-4" />
+                <AlertCircle class="h-4 w-4" />
                 <AlertTitle>Error</AlertTitle>
                 <AlertDescription>
                     {{ submitError }}
