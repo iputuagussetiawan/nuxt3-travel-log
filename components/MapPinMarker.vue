@@ -98,7 +98,7 @@ const pinUrl = computed(() => {
             border-radius: 50%;
             animation: pulse-border 1.5s linear infinite;
             animation-delay: 1s;
-            background-color: #6cf1a699;
+            background-color: #fff;
             opacity: 1;
         }
         &::after {
