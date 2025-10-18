@@ -23,6 +23,7 @@ import {
 import { InsertLocationSchema } from '~/lib/db/schema'
 
 //2.modules init
+const mapStoreTwo = useMapStoreTwo()
 const { $csrfFetch } = useNuxtApp()
 definePageMeta({
     layout: 'dashboard-location'
@@ -33,9 +34,10 @@ const submitError = ref('')
 const loading = ref(false)
 const submitted = ref(false)
 const formSchema = toTypedSchema(InsertLocationSchema)
-const { isFieldDirty, handleSubmit, meta } = useForm({
-    validationSchema: formSchema
-})
+const { isFieldDirty, handleSubmit, meta, setFieldValue, controlledValues } =
+    useForm({
+        validationSchema: formSchema
+    })
 
 //3.methods
 const onSubmit = handleSubmit(async (values) => {
@@ -70,19 +72,26 @@ onBeforeRouteLeave(() => {
         }
     }
 
-    // mapStore.addedPoint = null
+    mapStoreTwo.addedPoint = null
     return true
 })
 
-// onMounted(() => {
-//     mapStore.addedPoint = {
-//         id: '0',
-//         name: '',
-//         description: '',
-//         lat: '0',
-//         long: '1'
-//     }
-// })
+effect(() => {
+    if (mapStoreTwo.addedPoint) {
+        setFieldValue('lat', String(mapStoreTwo.addedPoint.lat))
+        setFieldValue('long', String(mapStoreTwo.addedPoint.long))
+    }
+})
+
+onMounted(() => {
+    mapStoreTwo.addedPoint = {
+        id: 'input-only',
+        name: 'Added Point',
+        description: '',
+        lat: '0',
+        long: '1'
+    }
+})
 </script>
 
 <template>
@@ -153,40 +162,12 @@ onBeforeRouteLeave(() => {
                         </FormItem>
                     </FormField>
 
-                    <FormField
-                        v-slot="{ componentField }"
-                        name="lat"
-                        :validate-on-blur="!isFieldDirty"
-                    >
-                        <FormItem>
-                            <FormLabel>Latitude</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="text"
-                                    placeholder="Latitude"
-                                    v-bind="componentField"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    </FormField>
-                    <FormField
-                        v-slot="{ componentField }"
-                        name="long"
-                        :validate-on-blur="!isFieldDirty"
-                    >
-                        <FormItem>
-                            <FormLabel>Longitude</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="text"
-                                    placeholder="Longitude"
-                                    v-bind="componentField"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    </FormField>
+                    <p>Drug the marker to your location</p>
+
+                    <p class="text-muted-foreground text-xs">
+                        Lat: {{ controlledValues.lat }} , Long:
+                        {{ controlledValues.long }}
+                    </p>
 
                     <div class="flex justify-between">
                         <Button

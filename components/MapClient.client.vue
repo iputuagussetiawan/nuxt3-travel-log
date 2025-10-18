@@ -54,6 +54,15 @@ watch(
     },
     { deep: true }
 )
+
+function updatePoint(location) {
+    console.log('updatePoint function', location)
+
+    if (mapStoreTwo.addedPoint) {
+        mapStoreTwo.addedPoint.lat = location.lat
+        mapStoreTwo.addedPoint.long = location.lng
+    }
+}
 </script>
 
 <template>
@@ -86,7 +95,10 @@ watch(
                     class-name="my-custom-marker"
                 >
                     <div>
-                        <MapPinMarker :label="point.name" />
+                        <MapPinMarker
+                            :label="point.name"
+                            :active="mapStoreTwo.selectedPoint?.id === point.id"
+                        />
                     </div>
                 </LIcon>
                 <LPopup>
@@ -97,6 +109,28 @@ watch(
                         </div>
                     </div>
                 </LPopup>
+            </LMarker>
+
+            <LMarker
+                v-if="mapStoreTwo.addedPoint"
+                :lat-lng="[7.710992, 63.28125]"
+                draggable
+                @update:lat-lng="updatePoint($event)"
+            >
+                <LIcon
+                    :icon-size="[40, 40]"
+                    :icon-anchor="[20, 40]"
+                    :popup-anchor="[0, -40]"
+                    class-name="my-custom-marker"
+                >
+                    <div>
+                        <MapPinMarker
+                            :label="testes"
+                            :active="false"
+                            :useForInput="true"
+                        />
+                    </div>
+                </LIcon>
             </LMarker>
         </LMap>
     </div>

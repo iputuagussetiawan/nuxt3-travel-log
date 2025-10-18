@@ -6,7 +6,8 @@ export const useMapStoreTwo = defineStore('map', {
     state: () => ({
         map: ref<MyMap | null>(null),
         mapPoints: ref<MapPoint[]>([]),
-        selectedPoint: ref<MapPoint | null>(null)
+        selectedPoint: ref<MapPoint | null>(null),
+        addedPoint: ref<MapPoint | null>(null)
     }),
 
     actions: {
