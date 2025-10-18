@@ -117,6 +117,13 @@ function onDoubleClick(location) {
                         <div v-if="point.description" class="m-0 text-sm">
                             {{ point.description }}
                         </div>
+                        <NuxtLink
+                            :to="{
+                                name: 'dashboard-locations-slug',
+                                params: { slug: point.slug }
+                            }"
+                            >Detail Location</NuxtLink
+                        >
                     </div>
                 </LPopup>
             </LMarker>

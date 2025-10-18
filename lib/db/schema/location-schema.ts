@@ -1,5 +1,4 @@
 import { pgTable, text, timestamp, unique } from 'drizzle-orm/pg-core'
-
 import { createInsertSchema } from 'drizzle-zod'
 import type z from 'zod'
 import { user } from './auth-schema'
