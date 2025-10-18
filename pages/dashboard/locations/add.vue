@@ -21,6 +21,7 @@ import {
     LucideLoader2
 } from 'lucide-vue-next'
 import { InsertLocationSchema } from '~/lib/db/schema'
+import { MAP_INPUT_CENTER } from '~/lib/constants'
 
 //2.modules init
 const mapStoreTwo = useMapStoreTwo()
@@ -88,9 +89,10 @@ onMounted(() => {
         id: 'input-only',
         name: 'Added Point',
         description: '',
-        lat: '0',
-        long: '1'
+        lat: MAP_INPUT_CENTER[0].toString(),
+        long: MAP_INPUT_CENTER[1].toString()
     }
+    mapStoreTwo.flyToMarker(mapStoreTwo.addedPoint, 5)
 })
 </script>
 

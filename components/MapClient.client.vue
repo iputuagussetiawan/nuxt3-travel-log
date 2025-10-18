@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { MAP_CENTER, MAP_BOUNDS } from '~/lib/constants'
+import { MAP_CENTER, MAP_BOUNDS, MAP_INPUT_CENTER } from '~/lib/constants'
 import MapPinMarker from './MapPinMarker.vue'
 const map = ref(null)
 
@@ -104,7 +104,7 @@ function updatePoint(location) {
                 <LPopup>
                     <div>
                         <h3 class="mb-1 text-2xl">{{ point.name }}</h3>
-                        <div class="m-0 text-sm" v-if="point.description">
+                        <div v-if="point.description" class="m-0 text-sm">
                             {{ point.description }}
                         </div>
                     </div>
@@ -113,7 +113,7 @@ function updatePoint(location) {
 
             <LMarker
                 v-if="mapStoreTwo.addedPoint"
-                :lat-lng="[7.710992, 63.28125]"
+                :lat-lng="MAP_INPUT_CENTER"
                 draggable
                 @update:lat-lng="updatePoint($event)"
             >
@@ -127,7 +127,7 @@ function updatePoint(location) {
                         <MapPinMarker
                             :label="testes"
                             :active="false"
-                            :useForInput="true"
+                            :use-for-input="true"
                         />
                     </div>
                 </LIcon>

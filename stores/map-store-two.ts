@@ -15,11 +15,13 @@ export const useMapStoreTwo = defineStore('map', {
             this.map = mapInstance
             console.log('Map instance set:', this.map)
         },
-
         // ✈️ Fly to one marker
-        flyToMarker(marker: { lat: string; long: string }) {
+        flyToMarker(
+            marker: { lat: string; long: string },
+            zoom: number = 10 // 👈 default zoom if none is provided
+        ) {
             if (!this.map) return
-            this.map.flyTo([Number(marker.lat), Number(marker.long)], 10, {
+            this.map.flyTo([Number(marker.lat), Number(marker.long)], zoom, {
                 animate: true,
                 duration: 2
             })
