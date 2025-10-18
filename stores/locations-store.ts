@@ -5,6 +5,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
 
     const sidebarStore = useSidebarStore()
     const mapStore = useMapStore()
+    const mapStoreTwo = useMapStoreTwo()
 
     effect(() => {
         if (data.value) {
@@ -16,6 +17,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
                 location
             }))
             mapStore.mapPoints = data.value
+            mapStoreTwo.mapPoints = data.value
         }
         sidebarStore.loading = status.value === 'pending'
     })

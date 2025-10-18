@@ -54,6 +54,24 @@ watch(
     },
     { deep: true }
 )
+
+function updatePoint(location) {
+    console.log('updatePoint function', location)
+
+    if (mapStoreTwo.addedPoint) {
+        mapStoreTwo.addedPoint.lat = location.lat
+        mapStoreTwo.addedPoint.long = location.lng
+    }
+}
+
+function onDoubleClick(location) {
+    console.log('onDoubleClick function', location)
+
+    if (mapStoreTwo.addedPoint) {
+        mapStoreTwo.addedPoint.lat = location.latlng.lat
+        mapStoreTwo.addedPoint.long = location.latlng.lng
+    }
+}
 </script>
 
 <template>
@@ -67,6 +85,7 @@ watch(
             :max-bounds="MAP_BOUNDS"
             :center="MAP_CENTER"
             :use-global-leaflet="false"
+            @click="onDoubleClick($event)"
         >
             <LTileLayer
                 :url="mapUrl"
@@ -86,17 +105,45 @@ watch(
                     class-name="my-custom-marker"
                 >
                     <div>
-                        <MapPinMarker :label="point.name" />
+                        <MapPinMarker
+                            :label="point.name"
+                            :active="mapStoreTwo.selectedPoint?.id === point.id"
+                        />
                     </div>
                 </LIcon>
                 <LPopup>
                     <div>
                         <h3 class="mb-1 text-2xl">{{ point.name }}</h3>
-                        <div class="m-0 text-sm" v-if="point.description">
+                        <div v-if="point.description" class="m-0 text-sm">
                             {{ point.description }}
                         </div>
                     </div>
                 </LPopup>
+            </LMarker>
+
+            <LMarker
+                v-if="mapStoreTwo.addedPoint"
+                :lat-lng="[
+                    mapStoreTwo.addedPoint.lat,
+                    mapStoreTwo.addedPoint.long
+                ]"
+                draggable
+                @update:lat-lng="updatePoint($event)"
+            >
+                <LIcon
+                    :icon-size="[40, 40]"
+                    :icon-anchor="[20, 40]"
+                    :popup-anchor="[0, -40]"
+                    class-name="my-custom-marker"
+                >
+                    <div>
+                        <MapPinMarker
+                            :label="testes"
+                            :active="false"
+                            :use-for-input="true"
+                        />
+                    </div>
+                </LIcon>
             </LMarker>
         </LMap>
     </div>

@@ -41,7 +41,7 @@ const { isMobile } = useSidebar()
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg z-[30001]"
+                    class="z-[30001] w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                     :side="isMobile ? 'bottom' : 'right'"
                     align="end"
                     :side-offset="4"
@@ -53,6 +53,7 @@ const { isMobile } = useSidebar()
                     <DropdownMenuGroup>
                         <DropdownMenuItem>
                             <Sparkles />
+
                             Upgrade to Pro
                         </DropdownMenuItem>
                     </DropdownMenuGroup>

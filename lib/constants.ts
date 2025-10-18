@@ -4,3 +4,5 @@ export const MAP_BOUNDS = [
     [-90, -180], // Southwest corner
     [90, 180] // Northeast corner
 ]
+
+export const MAP_INPUT_CENTER = [6.8828, 109.248047]
