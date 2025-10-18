@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { MAP_CENTER, MAP_BOUNDS, MAP_INPUT_CENTER } from '~/lib/constants'
+import { MAP_CENTER, MAP_BOUNDS } from '~/lib/constants'
 import MapPinMarker from './MapPinMarker.vue'
 const map = ref(null)
 
@@ -63,6 +63,15 @@ function updatePoint(location) {
         mapStoreTwo.addedPoint.long = location.lng
     }
 }
+
+function onDoubleClick(location) {
+    console.log('onDoubleClick function', location)
+
+    if (mapStoreTwo.addedPoint) {
+        mapStoreTwo.addedPoint.lat = location.latlng.lat
+        mapStoreTwo.addedPoint.long = location.latlng.lng
+    }
+}
 </script>
 
 <template>
@@ -76,6 +85,7 @@ function updatePoint(location) {
             :max-bounds="MAP_BOUNDS"
             :center="MAP_CENTER"
             :use-global-leaflet="false"
+            @click="onDoubleClick($event)"
         >
             <LTileLayer
                 :url="mapUrl"
@@ -113,7 +123,10 @@ function updatePoint(location) {
 
             <LMarker
                 v-if="mapStoreTwo.addedPoint"
-                :lat-lng="MAP_INPUT_CENTER"
+                :lat-lng="[
+                    mapStoreTwo.addedPoint.lat,
+                    mapStoreTwo.addedPoint.long
+                ]"
                 draggable
                 @update:lat-lng="updatePoint($event)"
             >

@@ -37,7 +37,13 @@ const submitted = ref(false)
 const formSchema = toTypedSchema(InsertLocationSchema)
 const { isFieldDirty, handleSubmit, meta, setFieldValue, controlledValues } =
     useForm({
-        validationSchema: formSchema
+        validationSchema: formSchema,
+        initialValues: {
+            name: '',
+            description: '',
+            lat: MAP_INPUT_CENTER[0].toString(),
+            long: MAP_INPUT_CENTER[1].toString()
+        }
     })
 
 //3.methods
@@ -164,7 +170,40 @@ onMounted(() => {
                         </FormItem>
                     </FormField>
 
-                    <p>Drug the marker to your location</p>
+                    <p class="text-muted-foreground text-sm">
+                        Drug the
+                        <svg
+                            class="inline h-[20px] w-[20px]"
+                            width="30"
+                            height="30"
+                            viewBox="0 0 30 30"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g clip-path="url(#clip0_2001_8)">
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M23.75 12.25C23.75 17.1981 17.0785 23.2262 15.3865 24.6756C15.1624 24.8675 14.8376 24.8675 14.6135 24.6756C12.9215 23.2262 6.25 17.1981 6.25 12.25C6.25 7.55558 10.1675 3.75 15 3.75C19.8325 3.75 23.75 7.55558 23.75 12.25Z"
+                                    stroke="#0982CD"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                />
+                                <path
+                                    d="M15 15C16.3807 15 17.5 13.8807 17.5 12.5C17.5 11.1193 16.3807 10 15 10C13.6193 10 12.5 11.1193 12.5 12.5C12.5 13.8807 13.6193 15 15 15Z"
+                                    stroke="#0982CD"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_2001_8">
+                                    <rect width="30" height="30" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        marker to your location
+                    </p>
 
                     <p class="text-muted-foreground text-xs">
                         Lat: {{ controlledValues.lat }} , Long:

@@ -57,7 +57,7 @@ const pinUrl = computed(() => {
     }
 
     &__input-info {
-        opacity: 0;
+        opacity: 1;
         min-width: 100px;
         text-align: center;
         position: absolute;
