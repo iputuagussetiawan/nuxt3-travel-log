@@ -1,26 +1,10 @@
-import type { SelectLocationWithLogsType } from '~/lib/db/schema'
-
 export const useLocationsStore = defineStore('useLocationsStore', () => {
-    const route = useRoute()
-    const locationUrlWithSlug = computed(
-        () => `/api/locations/${route.params.slug}`
-    )
     const {
         data: locations,
         status: locationsStatus,
         refresh: refreshLocations
     } = useFetch('/api/locations', {
         lazy: true
-    })
-    const {
-        data: currentLocation,
-        status: currentLocationStatus,
-        error: currentLocationError,
-        refresh: refreshCurrentLocation
-    } = useFetch<SelectLocationWithLogsType>(locationUrlWithSlug, {
-        lazy: true,
-        immediate: false,
-        watch: false
     })
     const sidebarStore = useSidebarStore()
     const mapStore = useMapStore()
@@ -48,10 +32,6 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
     return {
         locations,
         locationsStatus,
-        refreshLocations,
-        currentLocation,
-        currentLocationStatus,
-        currentLocationError,
-        refreshCurrentLocation
+        refreshLocations
     }
 })

@@ -12,18 +12,24 @@ import {
 definePageMeta({
     layout: 'dashboard-location'
 })
-
+const route = useRoute()
+const { slug } = route.params
 const mapStoreTwo = useMapStoreTwo()
-const locationStore = useLocationsStore()
-
 const {
-    currentLocation: location,
-    currentLocationStatus: status,
-    currentLocationError: error
-} = storeToRefs(locationStore)
+    data: location,
+    status,
+    error
+} = await useFetch(`/api/locations/${slug}`, {
+    lazy: true
+})
 
-onMounted(() => {
-    locationStore.refreshCurrentLocation()
+watch(location, (val) => {
+    if (val && val.lat && val.long) {
+        mapStoreTwo.flyToMarker(
+            { lat: String(val.lat), long: String(val.long) },
+            10
+        )
+    }
 })
 </script>
 
