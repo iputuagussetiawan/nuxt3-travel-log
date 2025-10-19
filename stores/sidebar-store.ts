@@ -10,12 +10,27 @@ export type SidebarItem = {
     location?: MapPoint | null
 }
 
+export type iSidebarTop = {
+    items: {
+        title: string
+        url: string
+        icon?: string
+        isActive?: boolean
+        items?: {
+            title: string
+            url: string
+        }[]
+    }[]
+}
+
 export const useSidebarStore = defineStore('useSidebarStore', () => {
     const sidebarItems = ref<SidebarItem[]>([])
+    const sidebarTopItems = ref<iSidebarTop[]>([])
     const loading = ref(false)
 
     return {
         loading,
+        sidebarTopItems,
         sidebarItems
     }
 })

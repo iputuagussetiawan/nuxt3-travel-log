@@ -11,20 +11,67 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import NavLocation from './NavLocation.vue'
-
+const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+const sidebarStore = useSidebarStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
 
-const authStore = useAuthStore()
+// Reactive route watcher
+watch(
+    () => route.name,
+    (newRoute) => {
+        if (
+            newRoute === 'dashboard' ||
+            newRoute === 'dashboard-locations' ||
+            newRoute === 'dashboard-locations-add'
+        ) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Travel Location',
+                    url: '#',
+                    icon: 'Teses',
+                    isActive: false,
+                    items: [
+                        { title: 'All Location', url: '/dashboard/locations' },
+                        {
+                            title: 'Add Location',
+                            url: '/dashboard/locations/add'
+                        }
+                    ]
+                }
+            ]
+        } else if (newRoute === 'dashboard-locations-slug') {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Travel Log',
+                    url: '#',
+                    icon: 'Teses',
+                    isActive: false,
+                    items: [
+                        { title: 'View Log', url: '/dashboard/locations' },
+                        {
+                            title: 'Add Location Log',
+                            url: '/dashboard/locations/add'
+                        }
+                    ]
+                }
+            ]
+        } else {
+            sidebarStore.sidebarTopItems = [] // default or reset
+        }
+    },
+    { immediate: true } // run once on component mount too
+)
 
-const userData = {
+const userData = computed(() => ({
     name: authStore?.user?.name,
     email: authStore?.user?.email,
     avatar: authStore?.user?.image
-}
+}))
 
-// This is sample data.
 const data = {
     userData,
     teams: {
@@ -39,14 +86,8 @@ const data = {
             icon: MapIcon,
             isActive: false,
             items: [
-                {
-                    title: 'All Location',
-                    url: '/dashboard/locations'
-                },
-                {
-                    title: 'Add Location',
-                    url: '/dashboard/locations/add'
-                }
+                { title: 'All Location', url: '/dashboard/locations' },
+                { title: 'Add Location', url: '/dashboard/locations/add' }
             ]
         }
     ]
@@ -59,7 +100,7 @@ const data = {
             <NavLogo :teams="data.teams" />
         </SidebarHeader>
         <SidebarContent>
-            <NavMain :items="data.navMain" />
+            <NavMain />
             <NavLocation />
         </SidebarContent>
         <SidebarFooter class="z-[30001]">

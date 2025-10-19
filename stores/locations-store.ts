@@ -17,6 +17,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
                     name: 'dashboard-locations-slug',
                     params: { slug: location.slug }
                 },
+                toLabel: 'View',
                 location
             }))
             mapStore.mapPoints = data.value
