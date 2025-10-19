@@ -13,7 +13,7 @@ const locationsStore = useLocationsStore()
 const authStore = useAuthStore()
 await authStore.init()
 onMounted(() => {
-    locationsStore.refresh()
+    locationsStore.refreshLocations()
 })
 </script>
 <template>

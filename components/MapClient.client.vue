@@ -8,7 +8,8 @@ const map = ref(null)
 
 // 🌗 Light & Dark Map
 const colorMode = useColorMode()
-const lightMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+const lightMap =
+    'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
 const darkMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 
 const mapStore = useMapStore()
@@ -120,14 +121,14 @@ function onDoubleClick(location) {
                             {{ point.description }}
                         </div>
 
-                        <NuxtLink
+                        <!-- <NuxtLink
                             :to="{
                                 name: 'dashboard-locations-slug',
                                 params: { slug: point.slug }
                             }"
                         >
                             Detail Location
-                        </NuxtLink>
+                        </NuxtLink> -->
                     </div>
                 </LPopup>
             </LMarker>

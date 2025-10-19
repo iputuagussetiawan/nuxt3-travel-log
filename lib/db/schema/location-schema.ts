@@ -3,7 +3,7 @@ import { createInsertSchema } from 'drizzle-zod'
 import type z from 'zod'
 import { user } from './auth-schema'
 import { relations } from 'drizzle-orm'
-import { locationLog } from './location-log-schema'
+import { locationLog, type SelectLocationLogType } from './location-log-schema'
 export const location = pgTable(
     'location',
     {
@@ -44,5 +44,8 @@ export const InsertLocationSchema = createInsertSchema(location, {
     // long: true
 })
 
-export type InsertLocationSchema = z.infer<typeof InsertLocationSchema>
-export type SelectLocationSchema = typeof location.$inferSelect
+export type InsertLocationType = z.infer<typeof InsertLocationSchema>
+export type SelectLocationType = typeof location.$inferSelect
+export type SelectLocationWithLogsType = SelectLocationType & {
+    locationLogs: SelectLocationLogType[]
+}
