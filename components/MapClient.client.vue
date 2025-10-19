@@ -8,8 +8,7 @@ const map = ref(null)
 
 // 🌗 Light & Dark Map
 const colorMode = useColorMode()
-const lightMap =
-    'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
+const lightMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const darkMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 
 const mapStore = useMapStore()
