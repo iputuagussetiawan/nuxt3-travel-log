@@ -64,7 +64,7 @@ const mapStoreTwo = useMapStoreTwo()
                                 >
                                     <SidebarMenuSubButton as-child>
                                         <NuxtLink
-                                            :to="subItem.href"
+                                            :to="subItem.to"
                                             :class="
                                                 mapStoreTwo.selectedPoint
                                                     ?.id ===

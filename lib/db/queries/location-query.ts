@@ -5,6 +5,15 @@ import { db } from '..'
 import { location } from '../schema'
 import type { InsertLocationSchema } from '../schema'
 
+export async function findLocation(slug: string, userId: string) {
+    const result = await db.query.location.findFirst({
+        where: and(eq(location.slug, slug), eq(location.userId, userId)),
+        with: {
+            locationLogs: true
+        }
+    })
+    return result ?? null
+}
 export async function findLocations(userId: string) {
     return await db.select().from(location).where(eq(location.userId, userId))
 }

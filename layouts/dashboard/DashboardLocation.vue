@@ -9,18 +9,22 @@ import MapClientClient from '~/components/MapClient.client.vue'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
 
+const locationsStore = useLocationsStore()
 const authStore = useAuthStore()
 await authStore.init()
+onMounted(() => {
+    locationsStore.refresh()
+})
 </script>
 <template>
     <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
             <header
-                class="sticky top-0 z-[3000] flex border-b h-16 shrink-0 items-center gap-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+                class="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[3000] flex h-16 shrink-0 items-center gap-2 border-b backdrop-blur transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
             >
                 <div
-                    class="flex items-center gap-2 px-4 justify-between w-full"
+                    class="flex w-full items-center justify-between gap-2 px-4"
                 >
                     <div class="flex items-center gap-2">
                         <SidebarTrigger class="-ml-1" />

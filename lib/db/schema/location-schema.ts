@@ -1,8 +1,9 @@
 import { pgTable, text, timestamp, unique } from 'drizzle-orm/pg-core'
-
 import { createInsertSchema } from 'drizzle-zod'
 import type z from 'zod'
 import { user } from './auth-schema'
+import { relations } from 'drizzle-orm'
+import { locationLog } from './location-log-schema'
 export const location = pgTable(
     'location',
     {
@@ -23,6 +24,10 @@ export const location = pgTable(
     },
     (t) => [unique().on(t.name, t.userId)]
 )
+
+export const locationRelations = relations(location, ({ many }) => ({
+    locationLogs: many(locationLog)
+}))
 
 export const InsertLocationSchema = createInsertSchema(location, {
     name: (field) => field.min(1).max(50),
