@@ -15,9 +15,12 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const sidebarStore = useSidebarStore()
+const locationsStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
+
+const { currentLocation, currentLocationStatus } = storeToRefs(locationsStore)
 
 // Reactive route watcher
 watch(
@@ -33,28 +36,45 @@ watch(
                     title: 'Travel Location',
                     url: '#',
                     icon: 'Teses',
-                    isActive: false,
+                    isActive: true,
                     items: [
-                        { title: 'All Location', url: '/dashboard/locations' },
                         {
-                            title: 'Add Location',
-                            url: '/dashboard/locations/add'
+                            id: 'dashboard-locations',
+                            label: 'All Location',
+                            to: '/dashboard/locations',
+                            icon: 'Teses'
+                        },
+                        {
+                            id: 'view-log',
+                            label: 'Add Location',
+                            to: '/dashboard/locations/add',
+                            icon: 'Teses'
                         }
                     ]
                 }
             ]
-        } else if (newRoute === 'dashboard-locations-slug') {
+        } else if (
+            newRoute === 'dashboard-locations-slug' ||
+            newRoute === 'dashboard-locations-slug-add'
+        ) {
             sidebarStore.sidebarTopItems = [
                 {
                     title: 'Travel Log',
                     url: '#',
                     icon: 'Teses',
-                    isActive: false,
+                    isActive: true,
                     items: [
-                        { title: 'View Log', url: '/dashboard/locations' },
                         {
-                            title: 'Add Location Log',
-                            url: '/dashboard/locations/add'
+                            id: 'view-log',
+                            label: 'View Location Log',
+                            to: `/dashboard/locations/${route.params.slug}`,
+                            icon: 'Teses'
+                        },
+                        {
+                            id: 'add-log',
+                            label: 'Add Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/add`,
+                            icon: 'Teses'
                         }
                     ]
                 }

@@ -15,6 +15,7 @@ export type LatLongItem = {
 
 export type MapPoint = {
     id: string
+    slug: string
     name: string
     description: string | null
     to?: RouteLocationRaw

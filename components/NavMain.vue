@@ -46,11 +46,11 @@ const { sidebarTopItems: items } = storeToRefs(sidebarStore)
                         <SidebarMenuSub>
                             <SidebarMenuSubItem
                                 v-for="subItem in item.items"
-                                :key="subItem.title"
+                                :key="subItem.id"
                             >
                                 <SidebarMenuSubButton as-child>
-                                    <NuxtLink :to="subItem.url">
-                                        <span>{{ subItem.title }}</span>
+                                    <NuxtLink :to="subItem.to">
+                                        <span>{{ subItem.label }}</span>
                                     </NuxtLink>
                                 </SidebarMenuSubButton>
                             </SidebarMenuSubItem>

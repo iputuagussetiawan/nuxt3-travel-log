@@ -17,8 +17,12 @@ export type iSidebarTop = {
         icon?: string
         isActive?: boolean
         items?: {
-            title: string
-            url: string
+            id: string
+            label: string
+            icon: string
+            href?: string
+            to?: RouteLocationRaw
+            mapPoint?: MapPoint | null
         }[]
     }[]
 }

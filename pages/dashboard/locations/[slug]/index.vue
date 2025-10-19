@@ -15,6 +15,8 @@ definePageMeta({
 const route = useRoute()
 const { slug } = route.params
 const mapStoreTwo = useMapStoreTwo()
+const locationStore = useLocationsStore()
+
 const {
     data: location,
     status,
@@ -30,6 +32,10 @@ watch(location, (val) => {
             10
         )
     }
+})
+
+onMounted(() => {
+    locationStore.refreshCurrentLocation()
 })
 </script>
 
