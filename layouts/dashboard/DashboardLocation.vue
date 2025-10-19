@@ -13,7 +13,7 @@ const locationsStore = useLocationsStore()
 const authStore = useAuthStore()
 await authStore.init()
 onMounted(() => {
-    locationsStore.refresh()
+    locationsStore.refreshLocations()
 })
 </script>
 <template>
@@ -29,6 +29,31 @@ onMounted(() => {
                     <div class="flex items-center gap-2">
                         <SidebarTrigger class="-ml-1" />
                         <Separator orientation="vertical" class="mr-2 h-4" />
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem class="hidden md:block">
+                                    <BreadcrumbLink as-child>
+                                        <NuxtLink to="/dashboard">
+                                            Dashboard
+                                        </NuxtLink>
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator class="hidden md:block" />
+                                <BreadcrumbItem class="hidden md:block">
+                                    <BreadcrumbLink as-child>
+                                        <NuxtLink to="/dashboard/locations">
+                                            Locations
+                                        </NuxtLink>
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator class="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>
+                                        Data Fetching
+                                    </BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
                     </div>
                     <div>
                         <ThemeToggle />

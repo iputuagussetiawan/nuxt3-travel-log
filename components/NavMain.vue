@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LucideIcon } from 'lucide-vue-next'
+import { storeToRefs } from 'pinia'
 import { ChevronRight } from 'lucide-vue-next'
 import {
     SidebarGroup,
@@ -17,18 +17,8 @@ import {
     CollapsibleTrigger
 } from './ui/collapsible'
 
-defineProps<{
-    items: {
-        title: string
-        url: string
-        icon?: LucideIcon
-        isActive?: boolean
-        items?: {
-            title: string
-            url: string
-        }[]
-    }[]
-}>()
+const sidebarStore = useSidebarStore()
+const { sidebarTopItems: items } = storeToRefs(sidebarStore)
 </script>
 
 <template>
@@ -56,11 +46,11 @@ defineProps<{
                         <SidebarMenuSub>
                             <SidebarMenuSubItem
                                 v-for="subItem in item.items"
-                                :key="subItem.title"
+                                :key="subItem.id"
                             >
                                 <SidebarMenuSubButton as-child>
-                                    <NuxtLink :to="subItem.url">
-                                        <span>{{ subItem.title }}</span>
+                                    <NuxtLink :to="subItem.to">
+                                        <span>{{ subItem.label }}</span>
                                     </NuxtLink>
                                 </SidebarMenuSubButton>
                             </SidebarMenuSubItem>

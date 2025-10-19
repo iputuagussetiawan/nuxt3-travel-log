@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 import { randomUUID } from 'node:crypto'
 import { db } from '..'
 import { location } from '../schema'
-import type { InsertLocationSchema } from '../schema'
+import type { InsertLocationType } from '../schema'
 
 export async function findLocation(slug: string, userId: string) {
     const result = await db.query.location.findFirst({
@@ -19,7 +19,7 @@ export async function findLocations(userId: string) {
 }
 
 export async function findLocationByName(
-    existingLocation: InsertLocationSchema,
+    existingLocation: InsertLocationType,
     userId: string
 ) {
     return await db
@@ -58,7 +58,7 @@ export async function findUniqueSlug(slug: string) {
 }
 
 export async function insertLocation(
-    dataFieldLocation: InsertLocationSchema,
+    dataFieldLocation: InsertLocationType,
     slug: string,
     userId: string
 ) {

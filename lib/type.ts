@@ -1,5 +1,6 @@
 import type { UserWithId } from './auth'
-import { Map as LMap } from 'leaflet'
+import type { Map as LMap } from 'leaflet'
+import type { RouteLocationRaw } from 'vue-router'
 
 declare module 'h3' {
     interface H3EventContext {
@@ -14,8 +15,11 @@ export type LatLongItem = {
 
 export type MapPoint = {
     id: string
+    slug: string
     name: string
     description: string | null
+    to?: RouteLocationRaw
+    toLabel?: string
 } & LatLongItem
 
 export type MyMap = LMap

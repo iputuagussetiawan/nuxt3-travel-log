@@ -11,20 +11,87 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import NavLocation from './NavLocation.vue'
-
+const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+const sidebarStore = useSidebarStore()
+const locationsStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
 
-const authStore = useAuthStore()
+const { currentLocation, currentLocationStatus } = storeToRefs(locationsStore)
 
-const userData = {
+// Reactive route watcher
+watch(
+    () => route.name,
+    (newRoute) => {
+        if (
+            newRoute === 'dashboard' ||
+            newRoute === 'dashboard-locations' ||
+            newRoute === 'dashboard-locations-add'
+        ) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Travel Location',
+                    url: '#',
+                    icon: 'Teses',
+                    isActive: true,
+                    items: [
+                        {
+                            id: 'dashboard-locations',
+                            label: 'All Location',
+                            to: '/dashboard/locations',
+                            icon: 'Teses'
+                        },
+                        {
+                            id: 'view-log',
+                            label: 'Add Location',
+                            to: '/dashboard/locations/add',
+                            icon: 'Teses'
+                        }
+                    ]
+                }
+            ]
+        } else if (
+            newRoute === 'dashboard-locations-slug' ||
+            newRoute === 'dashboard-locations-slug-add'
+        ) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Travel Log',
+                    url: '#',
+                    icon: 'Teses',
+                    isActive: true,
+                    items: [
+                        {
+                            id: 'view-log',
+                            label: 'View Location Log',
+                            to: `/dashboard/locations/${route.params.slug}`,
+                            icon: 'Teses'
+                        },
+                        {
+                            id: 'add-log',
+                            label: 'Add Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/add`,
+                            icon: 'Teses'
+                        }
+                    ]
+                }
+            ]
+        } else {
+            sidebarStore.sidebarTopItems = [] // default or reset
+        }
+    },
+    { immediate: true } // run once on component mount too
+)
+
+const userData = computed(() => ({
     name: authStore?.user?.name,
     email: authStore?.user?.email,
     avatar: authStore?.user?.image
-}
+}))
 
-// This is sample data.
 const data = {
     userData,
     teams: {
@@ -39,14 +106,8 @@ const data = {
             icon: MapIcon,
             isActive: false,
             items: [
-                {
-                    title: 'All Location',
-                    url: '/dashboard/locations'
-                },
-                {
-                    title: 'Add Location',
-                    url: '/dashboard/locations/add'
-                }
+                { title: 'All Location', url: '/dashboard/locations' },
+                { title: 'Add Location', url: '/dashboard/locations/add' }
             ]
         }
     ]
@@ -59,7 +120,7 @@ const data = {
             <NavLogo :teams="data.teams" />
         </SidebarHeader>
         <SidebarContent>
-            <NavMain :items="data.navMain" />
+            <NavMain />
             <NavLocation />
         </SidebarContent>
         <SidebarFooter class="z-[30001]">

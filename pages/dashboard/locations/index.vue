@@ -22,7 +22,7 @@ import { cn } from '~/lib/utils'
 import { Skeleton } from '~/components/ui/skeleton'
 
 const locationsStore = useLocationsStore()
-const { locations, status } = storeToRefs(locationsStore)
+const { locations, locationsStatus: status } = storeToRefs(locationsStore)
 
 const mapStoreTwo = useMapStoreTwo()
 
@@ -32,7 +32,7 @@ definePageMeta({
 })
 
 onMounted(() => {
-    locationsStore.refresh()
+    locationsStore.refreshLocations()
 })
 </script>
 <template>
