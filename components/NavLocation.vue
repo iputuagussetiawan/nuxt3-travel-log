@@ -63,7 +63,8 @@ const mapStoreTwo = useMapStoreTwo()
                                     class="cursor-pointer"
                                 >
                                     <SidebarMenuSubButton as-child>
-                                        <div
+                                        <NuxtLink
+                                            :to="subItem.to"
                                             :class="
                                                 mapStoreTwo.selectedPoint
                                                     ?.id ===
@@ -73,7 +74,7 @@ const mapStoreTwo = useMapStoreTwo()
                                             "
                                         >
                                             <span>{{ subItem.label }}</span>
-                                        </div>
+                                        </NuxtLink>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
                             </template>

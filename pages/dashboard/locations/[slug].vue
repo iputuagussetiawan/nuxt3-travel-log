@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FolderOpen } from 'lucide-vue-next'
+import { FolderOpen, Cloud, CirclePlus } from 'lucide-vue-next'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
     Empty,
@@ -10,10 +10,11 @@ import {
     EmptyTitle
 } from '@/components/ui/empty'
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard-location'
 })
 const route = useRoute()
 const { slug } = route.params
+const mapStoreTwo = useMapStoreTwo()
 const {
     data: location,
     status,
@@ -21,10 +22,21 @@ const {
 } = await useFetch(`/api/locations/${slug}`, {
     lazy: true
 })
+
+watch(location, (val) => {
+    if (val && val.lat && val.long) {
+        mapStoreTwo.flyToMarker(
+            { lat: String(val.lat), long: String(val.long) },
+            10
+        )
+    }
+})
 </script>
 
 <template>
-    <div class="p-4">
+    <div
+        class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 absolute top-0 left-4 z-[2000] mt-4 w-[400px] rounded-2xl border px-6 py-8 shadow-md backdrop-blur-md dark:shadow-lg"
+    >
         <!-- Loading -->
         <div v-if="status === 'pending'">...Loading</div>
         <!-- Success -->
@@ -33,7 +45,31 @@ const {
                 Location Name : {{ location.name }}
             </h1>
             <h2>{{ location.description }}</h2>
+            <p>{{ location.lat }}, {{ location.long }}</p>
         </div>
+
+        <div v-if="location && !location.locationLogs.length" class="mt-4">
+            <Empty class="border border-dashed">
+                <EmptyHeader>
+                    <EmptyMedia variant="icon">
+                        <Cloud />
+                    </EmptyMedia>
+                    <EmptyTitle class="mb-0">Location Log is empty</EmptyTitle>
+                    <EmptyDescription>
+                        Please create a location log
+                    </EmptyDescription>
+                </EmptyHeader>
+                <EmptyContent>
+                    <NuxtLink
+                        to="/dashboard/locations"
+                        :class="buttonVariants({ variant: 'outline' })"
+                    >
+                        Create Location Log <CirclePlus class="ml-2" />
+                    </NuxtLink>
+                </EmptyContent>
+            </Empty>
+        </div>
+
         <!-- Error -->
         <div v-if="error && status !== 'pending'">
             <Empty>

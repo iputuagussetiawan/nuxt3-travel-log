@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { MAP_CENTER, MAP_BOUNDS } from '~/lib/constants'
 import MapPinMarker from './MapPinMarker.vue'
+import { cn } from '~/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 const map = ref(null)
 
 // 🌗 Light & Dark Map
@@ -117,13 +119,15 @@ function onDoubleClick(location) {
                         <div v-if="point.description" class="m-0 text-sm">
                             {{ point.description }}
                         </div>
+
                         <NuxtLink
                             :to="{
                                 name: 'dashboard-locations-slug',
                                 params: { slug: point.slug }
                             }"
-                            >Detail Location</NuxtLink
                         >
+                            Detail Location
+                        </NuxtLink>
                     </div>
                 </LPopup>
             </LMarker>
