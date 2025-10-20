@@ -72,14 +72,6 @@ effect(() => {
                         icon: 'sds'
                     },
                     {
-                        id: 'view-log',
-                        label: currentLocation
-                            ? currentLocation?.value?.name
-                            : 'View Logs',
-                        to: `/dashboard/locations/${route.params.slug}`,
-                        icon: 'sds'
-                    },
-                    {
                         id: 'edit-location',
                         label: 'Edit Location',
                         to: `/dashboard/locations/${route.params.slug}/edit`,
