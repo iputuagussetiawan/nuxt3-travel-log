@@ -22,6 +22,7 @@ import {
 } from 'lucide-vue-next'
 import { InsertLocationSchema } from '~/lib/db/schema'
 import { MAP_INPUT_CENTER } from '~/lib/constants'
+import { Icon } from '@iconify/vue'
 
 //2.modules init
 const mapStoreTwo = useMapStoreTwo()
@@ -93,6 +94,7 @@ effect(() => {
 onMounted(() => {
     mapStoreTwo.addedPoint = {
         id: 'input-only',
+        slug: 'input-only',
         name: 'Added Point',
         description: '',
         lat: MAP_INPUT_CENTER[0].toString(),
