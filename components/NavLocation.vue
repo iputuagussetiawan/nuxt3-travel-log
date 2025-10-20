@@ -22,7 +22,9 @@ const mapStoreTwo = useMapStoreTwo()
 
 <template>
     <SidebarGroup>
-        <SidebarGroupLabel>My Map</SidebarGroupLabel>
+        <SidebarGroupLabel v-if="sidebarStore.sidebarItems.length"
+            >My Map</SidebarGroupLabel
+        >
 
         <SidebarMenu v-if="sidebarStore.sidebarItems.length">
             <Collapsible as-child default-open class="group/collapsible">

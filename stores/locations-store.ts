@@ -1,5 +1,16 @@
 import type { SelectLocationWithLogsType } from '~/lib/db/schema'
 
+const listLocationInSidebar = new Set([
+    'dashboard-locations',
+    'dashboard-locations'
+])
+
+const listCurrentLocationInSidebar = new Set([
+    'dashboard-locations-slug',
+    'dashboard-locations-slug-add',
+    'dashboard-locations-slug-edit'
+])
+
 export const useLocationsStore = defineStore('useLocationsStore', () => {
     const route = useRoute()
     const sidebarStore = useSidebarStore()
@@ -41,7 +52,10 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
     })
 
     effect(() => {
-        if (locations.value) {
+        if (
+            locations.value &&
+            listLocationInSidebar.has(route.name?.toString() || '')
+        ) {
             sidebarStore.sidebarItems = locations.value.map((location) => ({
                 id: `location-${location.id}`,
                 label: location.name,
@@ -55,6 +69,12 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             }))
             mapStore.mapPoints = locations.value
             mapStoreTwo.mapPoints = locations.value
+        } else if (
+            currentLocation.value &&
+            listCurrentLocationInSidebar.has(route.name?.toString() || '')
+        ) {
+            sidebarStore.sidebarItems = []
+            mapStoreTwo.mapPoints = [currentLocation.value]
         }
         sidebarStore.loading = locationsStatus.value === 'pending'
     })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GalleryVerticalEnd, MapIcon } from 'lucide-vue-next'
+import { ArrowRight, GalleryVerticalEnd, MapIcon } from 'lucide-vue-next'
 import {
     Sidebar,
     SidebarContent,
@@ -11,6 +11,7 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import NavLocation from './NavLocation.vue'
+import { Icon } from '@iconify/vue'
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
@@ -23,68 +24,72 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 const { currentLocation, currentLocationStatus } = storeToRefs(locationsStore)
 
 // Reactive route watcher
-watch(
-    () => route.name,
-    (newRoute) => {
-        if (
-            newRoute === 'dashboard' ||
-            newRoute === 'dashboard-locations' ||
-            newRoute === 'dashboard-locations-add'
-        ) {
-            sidebarStore.sidebarTopItems = [
-                {
-                    title: 'Travel Location',
-                    url: '#',
-                    icon: 'Teses',
-                    isActive: true,
-                    items: [
-                        {
-                            id: 'dashboard-locations',
-                            label: 'All Location',
-                            to: '/dashboard/locations',
-                            icon: 'Teses'
-                        },
-                        {
-                            id: 'view-log',
-                            label: 'Add Location',
-                            to: '/dashboard/locations/add',
-                            icon: 'Teses'
-                        }
-                    ]
-                }
-            ]
-        } else if (
-            newRoute === 'dashboard-locations-slug' ||
-            newRoute === 'dashboard-locations-slug-add'
-        ) {
-            sidebarStore.sidebarTopItems = [
-                {
-                    title: 'Travel Log',
-                    url: '#',
-                    icon: 'Teses',
-                    isActive: true,
-                    items: [
-                        {
-                            id: 'view-log',
-                            label: 'View Location Log',
-                            to: `/dashboard/locations/${route.params.slug}`,
-                            icon: 'Teses'
-                        },
-                        {
-                            id: 'add-log',
-                            label: 'Add Location Log',
-                            to: `/dashboard/locations/${route.params.slug}/add`,
-                            icon: 'Teses'
-                        }
-                    ]
-                }
-            ]
-        } else {
-            sidebarStore.sidebarTopItems = [] // default or reset
-        }
-    },
-    { immediate: true } // run once on component mount too
-)
+
+effect(() => {
+    if (
+        route.name === 'dashboard' ||
+        route.name === 'dashboard-locations' ||
+        route.name === 'dashboard-locations-add'
+    ) {
+        sidebarStore.sidebarTopItems = [
+            {
+                title: 'Travel Location',
+                url: '#',
+                icon: 'Teses',
+                isActive: true,
+                items: [
+                    {
+                        id: 'dashboard-locations',
+                        label: 'All Location',
+                        to: '/dashboard/locations',
+                        icon: 'Teses'
+                    },
+                    {
+                        id: 'view-log',
+                        label: 'Add Location',
+                        to: '/dashboard/locations/add',
+                        icon: 'Teses'
+                    }
+                ]
+            }
+        ]
+    } else if (
+        route.name === 'dashboard-locations-slug' ||
+        route.name === 'dashboard-locations-slug-add' ||
+        route.name === 'dashboard-locations-slug-edit'
+    ) {
+        sidebarStore.sidebarTopItems = [
+            {
+                title: 'Travel Log',
+                url: '#',
+                icon: 'sds',
+                isActive: true,
+                items: [
+                    {
+                        id: 'back-locations',
+                        label: 'Back To Location',
+                        to: '/dashboard/locations',
+                        icon: 'sds'
+                    },
+                    {
+                        id: 'edit-location',
+                        label: 'Edit Location',
+                        to: `/dashboard/locations/${route.params.slug}/edit`,
+                        icon: 'sds'
+                    },
+                    {
+                        id: 'add-log',
+                        label: 'Add Location Log',
+                        to: `/dashboard/locations/${route.params.slug}/add`,
+                        icon: 'sds'
+                    }
+                ]
+            }
+        ]
+    } else {
+        sidebarStore.sidebarTopItems = [] // default or reset
+    }
+})
 
 const userData = computed(() => ({
     name: authStore?.user?.name,

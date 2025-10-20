@@ -50,6 +50,10 @@ const { sidebarTopItems: items } = storeToRefs(sidebarStore)
                             >
                                 <SidebarMenuSubButton as-child>
                                     <NuxtLink :to="subItem.to">
+                                        <component
+                                            :is="item.icon"
+                                            v-if="item.icon"
+                                        />
                                         <span>{{ subItem.label }}</span>
                                     </NuxtLink>
                                 </SidebarMenuSubButton>

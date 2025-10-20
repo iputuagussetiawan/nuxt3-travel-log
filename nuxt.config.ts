@@ -14,6 +14,10 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxtjs/leaflet'
     ],
+    icon: {
+        mode: 'css',
+        cssLayer: 'base'
+    },
     csurf: {
         // optional
         https: false, // default true if in production
