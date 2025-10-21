@@ -22,16 +22,12 @@ export async function findLocationByName(
     existingLocation: InsertLocationType,
     userId: string
 ) {
-    return await db
-        .select()
-        .from(location)
-        .where(
-            and(
-                eq(location.name, existingLocation.name),
-                eq(location.userId, userId)
-            )
+    return db.query.location.findFirst({
+        where: and(
+            eq(location.name, existingLocation.name),
+            eq(location.userId, userId)
         )
-        .limit(1)
+    })
 }
 
 export async function findLocationBySlug(slug: string) {
@@ -74,4 +70,17 @@ export async function insertLocation(
         })
         .returning()
     return createdLocation
+}
+
+export async function updateLocationBySlug(
+    updates: InsertLocationType,
+    slug: string,
+    userId: string
+) {
+    const [updated] = await db
+        .update(location)
+        .set(updates)
+        .where(and(eq(location.slug, slug), eq(location.userId, userId)))
+        .returning()
+    return updated
 }

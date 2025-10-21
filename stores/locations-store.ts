@@ -1,15 +1,5 @@
 import type { SelectLocationWithLogsType } from '~/lib/db/schema'
-
-const listLocationInSidebar = new Set([
-    'dashboard-locations',
-    'dashboard-locations'
-])
-
-const listCurrentLocationInSidebar = new Set([
-    'dashboard-locations-slug',
-    'dashboard-locations-slug-add',
-    'dashboard-locations-slug-edit'
-])
+import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
 
 export const useLocationsStore = defineStore('useLocationsStore', () => {
     const route = useRoute()
@@ -54,7 +44,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
     effect(() => {
         if (
             locations.value &&
-            listLocationInSidebar.has(route.name?.toString() || '')
+            LOCATION_PAGES.has(route.name?.toString() || '')
         ) {
             sidebarStore.sidebarItems = locations.value.map((location) => ({
                 id: `location-${location.id}`,
@@ -71,7 +61,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             mapStoreTwo.mapPoints = locations.value
         } else if (
             currentLocation.value &&
-            listCurrentLocationInSidebar.has(route.name?.toString() || '')
+            CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')
         ) {
             sidebarStore.sidebarItems = []
             mapStoreTwo.mapPoints = [currentLocation.value]

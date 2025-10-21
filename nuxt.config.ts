@@ -11,13 +11,12 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-lucide-icons',
         'nuxt-csurf',
-        '@nuxt/icon',
         '@nuxtjs/leaflet'
     ],
-    icon: {
-        mode: 'css',
-        cssLayer: 'base'
-    },
+    // icon: {
+    //     mode: 'css',
+    //     cssLayer: 'base'
+    // },
     csurf: {
         // optional
         https: false, // default true if in production
@@ -33,11 +32,11 @@ export default defineNuxtConfig({
         addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
         headerName: 'csrf-token' // the header where the csrf token is stored
     },
-    icon: {
-        serverBundle: {
-            collections: ['uil', 'mdi'] // <!--- this
-        }
-    },
+    // icon: {
+    //     serverBundle: {
+    //         collections: ['uil', 'mdi'] // <!--- this
+    //     }
+    // },
     colorMode: {
         classSuffix: ''
     },

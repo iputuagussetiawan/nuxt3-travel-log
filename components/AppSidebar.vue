@@ -11,26 +11,18 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import NavLocation from './NavLocation.vue'
-import { Icon } from '@iconify/vue'
+import { CURRENT_LOCATION_PAGES } from '~/lib/constants'
+import { LOCATION_PAGES } from '../lib/constants'
 const route = useRoute()
-const router = useRouter()
 const authStore = useAuthStore()
 const sidebarStore = useSidebarStore()
 const locationsStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
-
-const { currentLocation, currentLocationStatus } = storeToRefs(locationsStore)
-
 // Reactive route watcher
-
 effect(() => {
-    if (
-        route.name === 'dashboard' ||
-        route.name === 'dashboard-locations' ||
-        route.name === 'dashboard-locations-add'
-    ) {
+    if (LOCATION_PAGES.has(route.name?.toString() || '')) {
         sidebarStore.sidebarTopItems = [
             {
                 title: 'Travel Location',
@@ -53,11 +45,7 @@ effect(() => {
                 ]
             }
         ]
-    } else if (
-        route.name === 'dashboard-locations-slug' ||
-        route.name === 'dashboard-locations-slug-add' ||
-        route.name === 'dashboard-locations-slug-edit'
-    ) {
+    } else if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')) {
         sidebarStore.sidebarTopItems = [
             {
                 title: 'Travel Log',
