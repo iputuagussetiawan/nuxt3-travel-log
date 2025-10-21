@@ -6,3 +6,14 @@ export const MAP_BOUNDS = [
 ]
 
 export const MAP_INPUT_CENTER = [6.8828, 109.248047]
+
+export const LOCATION_PAGES = new Set([
+    'dashboard-locations',
+    'dashboard-locations'
+])
+
+export const CURRENT_LOCATION_PAGES = new Set([
+    'dashboard-locations-slug',
+    'dashboard-locations-slug-add',
+    'dashboard-locations-slug-edit'
+])
