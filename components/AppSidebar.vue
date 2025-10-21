@@ -20,11 +20,7 @@ const locationsStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
-
-const { currentLocation, currentLocationStatus } = storeToRefs(locationsStore)
-
 // Reactive route watcher
-
 effect(() => {
     if (LOCATION_PAGES.has(route.name?.toString() || '')) {
         sidebarStore.sidebarTopItems = [

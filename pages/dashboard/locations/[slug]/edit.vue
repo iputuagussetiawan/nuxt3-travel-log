@@ -1,16 +1,30 @@
 <script setup lang="ts">
 import { AlertCircle, ArrowLeft } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
-const mapStoreTwo = useMapStoreTwo()
+import LocationForm from '~/components/LocationForm.vue'
+import getFetchErrorMessage from '~/lib/get-fetch-error-message'
+import { type InsertLocationType } from '~/lib/db/schema'
+import type { FetchError } from 'ofetch'
 const { $csrfFetch } = useNuxtApp()
 const router = useRouter()
 const submitError = ref('')
 const loading = ref(false)
 const submitted = ref(false)
 const submitErrors = ref<Record<string, string>>({})
+
+const locationStore = useLocationsStore()
 definePageMeta({
     layout: 'dashboard-location'
 })
+
+async function onSubmit(values: InsertLocationType) {
+    console.log('Update Location', values)
+    // await $csrfFetch('/api/locations', {
+    //     method: 'POST',
+    //     body: values
+    // })
+    // navigateTo(`/dashboard/locations`)
+}
 </script>
 <template>
     <div
@@ -32,15 +46,11 @@ definePageMeta({
                 </Button>
             </div>
         </div>
-
         <div class="mt-6">
-            <Alert v-if="submitError" variant="destructive" class="mb-4">
-                <AlertCircle class="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>
-                    {{ submitError }}
-                </AlertDescription>
-            </Alert>
+            <LocationForm
+                :on-submit="onSubmit"
+                :initial-values="locationStore.currentLocation"
+            />
         </div>
     </div>
 </template>

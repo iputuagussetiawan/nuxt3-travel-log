@@ -9,10 +9,16 @@ export const MAP_INPUT_CENTER = [6.8828, 109.248047]
 
 export const LOCATION_PAGES = new Set([
     'dashboard-locations',
-    'dashboard-locations'
+    'dashboard-locations-add'
 ])
 
 export const CURRENT_LOCATION_PAGES = new Set([
+    'dashboard-locations-slug',
+    'dashboard-locations-slug-add',
+    'dashboard-locations-slug-edit'
+])
+
+export const EDIT_PAGES = new Set([
     'dashboard-locations-slug',
     'dashboard-locations-slug-add',
     'dashboard-locations-slug-edit'
