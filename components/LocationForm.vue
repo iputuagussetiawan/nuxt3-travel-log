@@ -23,6 +23,7 @@ import getFetchErrorMessage from '~/lib/get-fetch-error-message'
 const props = defineProps<{
     initialValues?: InsertLocationType | null
     onSubmit: (location: InsertLocationType) => Promise<any>
+    onSubmitComplete: () => void
     submitLabel: string
     submitIcon: string
 }>()
@@ -66,6 +67,7 @@ const onSubmit = handleSubmit(async (values: InsertLocationType) => {
         loading.value = true
         await props.onSubmit(values)
         submitted.value = true
+        props.onSubmitComplete()
         // navigateTo('/dashboard/locations')
     } catch (e) {
         const error = e as FetchError

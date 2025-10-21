@@ -11,7 +11,8 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-lucide-icons',
         'nuxt-csurf',
-        '@nuxtjs/leaflet'
+        '@nuxtjs/leaflet',
+        'nuxt-icon'
     ],
     // icon: {
     //     mode: 'css',

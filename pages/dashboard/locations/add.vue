@@ -18,7 +18,11 @@ async function onSubmit(values: InsertLocationType) {
         method: 'POST',
         body: values
     })
-    navigateTo(`/dashboard/locations`)
+}
+function onSubmitComplete() {
+    navigateTo({
+        name: 'dashboard-locations'
+    })
 }
 </script>
 
@@ -42,6 +46,7 @@ async function onSubmit(values: InsertLocationType) {
         <div class="mt-6">
             <LocationForm
                 :on-submit="onSubmit"
+                :on-submit-complete="onSubmitComplete"
                 submit-label="Add Location"
                 submit-icon="add-location-icon"
             />
