@@ -11,12 +11,12 @@ import LocationForm from '~/components/LocationForm.vue'
 import getFetchErrorMessage from '~/lib/get-fetch-error-message'
 
 //2.modules init
-const mapStoreTwo = useMapStoreTwo()
-const { $csrfFetch } = useNuxtApp()
 definePageMeta({
     layout: 'dashboard-location'
 })
-
+const mapStoreTwo = useMapStoreTwo()
+const { $csrfFetch } = useNuxtApp()
+const router = useRouter()
 const submitError = ref('')
 const loading = ref(false)
 const submitted = ref(false)
