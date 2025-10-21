@@ -40,7 +40,11 @@ async function onSubmit(values: InsertLocationType) {
             </div>
         </div>
         <div class="mt-6">
-            <LocationForm :on-submit="onSubmit" />
+            <LocationForm
+                :on-submit="onSubmit"
+                submit-label="Add Location"
+                submit-icon="add-location-icon"
+            />
         </div>
     </div>
 </template>

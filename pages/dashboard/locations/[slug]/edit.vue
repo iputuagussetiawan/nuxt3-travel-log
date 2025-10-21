@@ -6,11 +6,9 @@ import getFetchErrorMessage from '~/lib/get-fetch-error-message'
 import { type InsertLocationType } from '~/lib/db/schema'
 import type { FetchError } from 'ofetch'
 const { $csrfFetch } = useNuxtApp()
+const route = useRoute()
 const router = useRouter()
-const submitError = ref('')
 const loading = ref(false)
-const submitted = ref(false)
-const submitErrors = ref<Record<string, string>>({})
 
 const locationStore = useLocationsStore()
 definePageMeta({
@@ -19,11 +17,16 @@ definePageMeta({
 
 async function onSubmit(values: InsertLocationType) {
     console.log('Update Location', values)
-    // await $csrfFetch('/api/locations', {
-    //     method: 'POST',
-    //     body: values
-    // })
-    // navigateTo(`/dashboard/locations`)
+    await $csrfFetch(`/api/locations/${route.params.slug}`, {
+        method: 'PUT',
+        body: values
+    })
+    navigateTo({
+        name: 'dashboard-locations-slug',
+        params: {
+            slug: route.params.slug
+        }
+    })
 }
 </script>
 <template>
@@ -48,8 +51,11 @@ async function onSubmit(values: InsertLocationType) {
         </div>
         <div class="mt-6">
             <LocationForm
+                v-if="locationStore.currentLocationStatus !== 'pending'"
                 :on-submit="onSubmit"
                 :initial-values="locationStore.currentLocation"
+                submit-label="Edit Location"
+                submit-icon="edit-location-icon"
             />
         </div>
     </div>

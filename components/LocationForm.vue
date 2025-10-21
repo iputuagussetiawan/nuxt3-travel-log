@@ -4,7 +4,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
-import { AlertCircle, ArrowLeft } from 'lucide-vue-next'
+import { AlertCircle, ArrowRight } from 'lucide-vue-next'
 import {
     FormControl,
     FormField,
@@ -23,6 +23,8 @@ import getFetchErrorMessage from '~/lib/get-fetch-error-message'
 const props = defineProps<{
     initialValues?: InsertLocationType | null
     onSubmit: (location: InsertLocationType) => Promise<any>
+    submitLabel: string
+    submitIcon: string
 }>()
 
 //2.modules init
@@ -58,38 +60,23 @@ const {
 
 //3.methods
 // const onSubmit = handleSubmit(props.onSubmit)
-const onSubmit=handleSubmit(async(values: InsertLocationType) {
+const onSubmit = handleSubmit(async (values: InsertLocationType) => {
     try {
         submitError.value = ''
         loading.value = true
         await props.onSubmit(values)
         submitted.value = true
-        // navigateTo(`/dashboard/locations`)
+        // navigateTo('/dashboard/locations')
     } catch (e) {
         const error = e as FetchError
         if (error.data?.data) {
-            setErrors(error.data?.data);
+            setErrors(error.data.data)
         }
         submitError.value = getFetchErrorMessage(error)
     } finally {
         loading.value = false
     }
 })
-
-//4.events
-onBeforeRouteLeave(() => {
-    if (!submitted.value && meta.value.dirty) {
-        const confirm = window.confirm('Are you sure you want to leave?')
-        if (!confirm) {
-            return false
-        }
-    }
-
-    mapStoreTwo.addedPoint = null
-    return true
-})
-
-
 
 effect(() => {
     if (mapStoreTwo.addedPoint) {
@@ -115,6 +102,12 @@ onMounted(() => {
         mapStoreTwo.addedPoint,
         props.initialValues?.lat ? 10 : 5
     )
+})
+
+const SubmitIcon = computed(() => {
+    return props.submitIcon === 'add-location-icon'
+        ? LucideCirclePlus
+        : ArrowRight
 })
 </script>
 <template>
@@ -213,9 +206,9 @@ onMounted(() => {
                         Cancel
                     </Button>
                     <Button :disabled="loading" type="submit">
-                        Submit
+                        {{ submitLabel }}
                         <LucideLoader2 v-if="loading" class="animate-spin" />
-                        <LucideCirclePlus v-else />
+                        <component v-else :is="SubmitIcon" class="h-4 w-4" />
                     </Button>
                 </div>
             </fieldset>
