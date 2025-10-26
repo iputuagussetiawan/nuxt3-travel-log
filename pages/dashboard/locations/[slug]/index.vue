@@ -37,6 +37,12 @@ watch(location, (val) => {
 onMounted(() => {
     locationStore.refreshCurrentLocation()
 })
+
+onBeforeRouteUpdate((to) => {
+    if (to.name == 'dashboard-locations-slug') {
+        locationStore.refreshCurrentLocation()
+    }
+})
 </script>
 
 <template>

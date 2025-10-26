@@ -4,7 +4,7 @@ import type { MapPoint } from '~/lib/type'
 export type SidebarItem = {
     id: string
     label: string
-    icon: string
+    icon?: string
     href?: string
     to?: RouteLocationRaw
     location?: MapPoint | null
@@ -19,7 +19,7 @@ export type iSidebarTop = {
         items?: {
             id: string
             label: string
-            icon: string
+            icon?: string
             href?: string
             to?: RouteLocationRaw
             mapPoint?: MapPoint | null

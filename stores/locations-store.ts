@@ -1,4 +1,5 @@
 import type { SelectLocationWithLogsType } from '~/lib/db/schema'
+import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
 
 export const useLocationsStore = defineStore('useLocationsStore', () => {
     const route = useRoute()
@@ -41,7 +42,10 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
     })
 
     effect(() => {
-        if (locations.value) {
+        if (
+            locations.value &&
+            LOCATION_PAGES.has(route.name?.toString() || '')
+        ) {
             sidebarStore.sidebarItems = locations.value.map((location) => ({
                 id: `location-${location.id}`,
                 label: location.name,
@@ -55,6 +59,12 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             }))
             mapStore.mapPoints = locations.value
             mapStoreTwo.mapPoints = locations.value
+        } else if (
+            currentLocation.value &&
+            CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')
+        ) {
+            sidebarStore.sidebarItems = []
+            mapStoreTwo.mapPoints = [currentLocation.value]
         }
         sidebarStore.loading = locationsStatus.value === 'pending'
     })

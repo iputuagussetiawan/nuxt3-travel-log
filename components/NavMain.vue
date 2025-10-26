@@ -18,7 +18,7 @@ import {
 } from './ui/collapsible'
 
 const sidebarStore = useSidebarStore()
-const { sidebarTopItems: items } = storeToRefs(sidebarStore)
+const { sidebarTopItems } = storeToRefs(sidebarStore)
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const { sidebarTopItems: items } = storeToRefs(sidebarStore)
         <SidebarGroupLabel>Platform</SidebarGroupLabel>
         <SidebarMenu>
             <Collapsible
-                v-for="item in items"
+                v-for="item in sidebarTopItems"
                 :key="item.title"
                 as-child
                 :default-open="item.isActive"
@@ -50,6 +50,10 @@ const { sidebarTopItems: items } = storeToRefs(sidebarStore)
                             >
                                 <SidebarMenuSubButton as-child>
                                     <NuxtLink :to="subItem.to">
+                                        <component
+                                            :is="item.icon"
+                                            v-if="item.icon"
+                                        />
                                         <span>{{ subItem.label }}</span>
                                     </NuxtLink>
                                 </SidebarMenuSubButton>

@@ -11,9 +11,19 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-lucide-icons',
         'nuxt-csurf',
-        '@nuxt/icon',
-        '@nuxtjs/leaflet'
+        '@nuxtjs/leaflet',
+        'nuxt-icon',
+        '@nuxtjs/google-fonts'
     ],
+    googleFonts: {
+        families: {
+            Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+        },
+        display: 'swap',
+        download: true, // optional: downloads font locally for better performance
+        inject: true // automatically injects <link> in <head>
+    },
+
     csurf: {
         // optional
         https: false, // default true if in production
@@ -29,11 +39,11 @@ export default defineNuxtConfig({
         addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
         headerName: 'csrf-token' // the header where the csrf token is stored
     },
-    icon: {
-        serverBundle: {
-            collections: ['uil', 'mdi'] // <!--- this
-        }
-    },
+    // icon: {
+    //     serverBundle: {
+    //         collections: ['uil', 'mdi'] // <!--- this
+    //     }
+    // },
     colorMode: {
         classSuffix: ''
     },
