@@ -16,8 +16,15 @@ import {
     CollapsibleTrigger
 } from './ui/collapsible'
 import { Skeleton } from './ui/skeleton'
+import type { MapPoint } from '~/lib/type'
 const sidebarStore = useSidebarStore()
 const mapStoreTwo = useMapStoreTwo()
+
+const navigateToMarker = (location: MapPoint | null) => {
+    if (location) {
+        mapStoreTwo.navigateToMarker(location)
+    }
+}
 </script>
 
 <template>
@@ -57,11 +64,7 @@ const mapStoreTwo = useMapStoreTwo()
                                 <SidebarMenuSubItem
                                     v-for="subItem in sidebarStore.sidebarItems"
                                     :key="subItem.id"
-                                    @click="
-                                        mapStoreTwo.navigateToMarker(
-                                            subItem.location
-                                        )
-                                    "
+                                    @click="navigateToMarker(subItem.location)"
                                     class="cursor-pointer"
                                 >
                                     <SidebarMenuSubButton as-child>

@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { MAP_CENTER, MAP_BOUNDS } from '~/lib/constants'
+import { MAP_CENTER, MAP_BOUNDS, SHOW_MARKER_ON_PAGES } from '~/lib/constants'
 import MapPinMarker from './MapPinMarker.vue'
 import { cn } from '~/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
+import { CURRENT_LOCATION_PAGES } from '~/lib/constants'
 const map = ref(null)
-
+const route = useRoute()
 // 🌗 Light & Dark Map
 const colorMode = useColorMode()
 const lightMap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -119,21 +120,12 @@ function onDoubleClick(location) {
                         <div v-if="point.description" class="m-0 text-sm">
                             {{ point.description }}
                         </div>
-
-                        <!-- <NuxtLink
-                            :to="{
-                                name: 'dashboard-locations-slug',
-                                params: { slug: point.slug }
-                            }"
-                        >
-                            Detail Location
-                        </NuxtLink> -->
                     </div>
                 </LPopup>
             </LMarker>
 
             <LMarker
-                v-if="mapStoreTwo.addedPoint"
+                v-if="SHOW_MARKER_ON_PAGES.has(route.name?.toString() || '')"
                 :lat-lng="[
                     mapStoreTwo.addedPoint.lat,
                     mapStoreTwo.addedPoint.long
