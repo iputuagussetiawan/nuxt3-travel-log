@@ -1,10 +1,6 @@
 <script lang="ts" setup>
-import UiAuthButton from '../components/ui/auth-button.vue'
+import Banner from '../components/sections/home/banner.vue'
 </script>
 <template>
-    <div>
-        <h1>Welcome to the homepage</h1>
-        <Button>Welcome</Button>
-        <UiAuthButton />
-    </div>
+    <Banner />
 </template>

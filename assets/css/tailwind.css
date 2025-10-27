@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@theme {
+    --font-sans: 'Inter', sans-serif;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -147,4 +150,8 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+html {
+    font-family: var(--font-sans);
 }

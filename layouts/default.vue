@@ -1,11 +1,25 @@
 <script setup lang="ts">
+import Header from '~/components/layout/Header.vue'
+
 const authStore = useAuthStore()
 await authStore.init()
 </script>
 <template>
     <div>
-        <AppHeader />
+        <div class="fixed h-full w-full">
+            <video
+                class="h-full w-full object-cover"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+            >
+                <source src="/videos/globe.mp4" type="video/mp4" />
+            </video>
+        </div>
+        <Header />
         <slot />
-        <AppFooter />
+        <Footer />
     </div>
 </template>

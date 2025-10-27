@@ -16,7 +16,6 @@ import { LOCATION_PAGES } from '../lib/constants'
 const route = useRoute()
 const authStore = useAuthStore()
 const sidebarStore = useSidebarStore()
-const locationsStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
