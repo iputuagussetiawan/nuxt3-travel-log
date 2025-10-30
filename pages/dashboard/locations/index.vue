@@ -20,16 +20,22 @@ import {
 
 import { cn } from '~/lib/utils'
 import { Skeleton } from '~/components/ui/skeleton'
+import type { MapPoint } from '~/lib/type'
 
 const locationsStore = useLocationsStore()
 const { locations, locationsStatus: status } = storeToRefs(locationsStore)
 
 const mapStoreTwo = useMapStoreTwo()
+const mapStore = useMapStore()
 
 //2.modules init
 definePageMeta({
     layout: 'dashboard-location'
 })
+
+const handleNavigateToLocation = (location: MapPoint) => {
+    mapStore.navigateToMarker(location)
+}
 
 onMounted(() => {
     locationsStore.refreshLocations()
@@ -82,11 +88,11 @@ onMounted(() => {
                     :key="location.id"
                     class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 cursor-pointer rounded-2xl border shadow-md backdrop-blur-md transition-all duration-400 ease-in-out hover:border-blue-500 dark:shadow-lg"
                     :class="
-                        mapStoreTwo.selectedPoint?.id === location.id
+                        mapStore.selectedPoint?.id === location.id
                             ? 'border-blue-500'
                             : ''
                     "
-                    @click="mapStoreTwo.navigateToMarker(location)"
+                    @click="handleNavigateToLocation(location)"
                 >
                     <CardHeader>
                         <CardTitle class="text-muted-foreground">{{
