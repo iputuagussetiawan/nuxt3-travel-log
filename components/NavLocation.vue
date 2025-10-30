@@ -18,11 +18,11 @@ import {
 import { Skeleton } from './ui/skeleton'
 import type { MapPoint } from '~/lib/type'
 const sidebarStore = useSidebarStore()
-const mapStoreTwo = useMapStoreTwo()
+const mapStore = useMapStore()
 
 const navigateToMarker = (location: MapPoint | null) => {
     if (location) {
-        mapStoreTwo.navigateToMarker(location)
+        mapStore.navigateToMarker(location)
     }
 }
 </script>
@@ -64,15 +64,18 @@ const navigateToMarker = (location: MapPoint | null) => {
                                 <SidebarMenuSubItem
                                     v-for="subItem in sidebarStore.sidebarItems"
                                     :key="subItem.id"
-                                    @click="navigateToMarker(subItem.location)"
+                                    @click="
+                                        navigateToMarker(
+                                            subItem.location ?? null
+                                        )
+                                    "
                                     class="cursor-pointer"
                                 >
                                     <SidebarMenuSubButton as-child>
                                         <NuxtLink
                                             :to="subItem.to"
                                             :class="
-                                                mapStoreTwo.selectedPoint
-                                                    ?.id ===
+                                                mapStore.selectedPoint?.id ===
                                                 subItem.location?.id
                                                     ? 'bg-blue-600'
                                                     : ''

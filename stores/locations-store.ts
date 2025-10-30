@@ -65,6 +65,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
         ) {
             sidebarStore.sidebarItems = []
             mapStoreTwo.mapPoints = [currentLocation.value]
+            mapStore.mapPoints = [currentLocation.value]
         }
         sidebarStore.loading = locationsStatus.value === 'pending'
     })
