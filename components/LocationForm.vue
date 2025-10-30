@@ -29,7 +29,7 @@ const props = defineProps<{
 }>()
 
 //2.modules init
-const mapStoreTwo = useMapStoreTwo()
+const mapStore = useMapStore()
 definePageMeta({
     layout: 'dashboard-location'
 })
@@ -81,14 +81,14 @@ const onSubmit = handleSubmit(async (values: InsertLocationType) => {
 })
 
 effect(() => {
-    if (mapStoreTwo.addedPoint) {
-        setFieldValue('lat', String(mapStoreTwo.addedPoint.lat))
-        setFieldValue('long', String(mapStoreTwo.addedPoint.long))
+    if (mapStore.addedPoint) {
+        setFieldValue('lat', String(mapStore.addedPoint.lat))
+        setFieldValue('long', String(mapStore.addedPoint.long))
     }
 })
 
 onMounted(() => {
-    mapStoreTwo.addedPoint = {
+    mapStore.addedPoint = {
         id: 'input-only',
         slug: 'input-only',
         name: 'Added Point',
@@ -100,10 +100,7 @@ onMounted(() => {
             ? props.initialValues.long.toString()
             : MAP_INPUT_CENTER[1].toString()
     }
-    mapStoreTwo.flyToMarker(
-        mapStoreTwo.addedPoint,
-        props.initialValues?.lat ? 10 : 5
-    )
+    mapStore.flyToMarker(mapStore.addedPoint, props.initialValues?.lat ? 10 : 5)
 })
 
 const SubmitIcon = computed(() => {

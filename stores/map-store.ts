@@ -11,9 +11,9 @@ export const useMapStore = defineStore('useMapStore', () => {
         console.log('Map instance set:', map.value)
     }
 
-    const flyToMarker = (marker: { lat: string; long: string }) => {
+    const flyToMarker = (marker: { lat: string; long: string }, zoom = 10) => {
         if (!map.value) return
-        map.value.flyTo([Number(marker.lat), Number(marker.long)], 10, {
+        map.value.flyTo([Number(marker.lat), Number(marker.long)], zoom, {
             animate: true,
             duration: 2
         })
