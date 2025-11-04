@@ -14,7 +14,7 @@ definePageMeta({
 })
 const route = useRoute()
 const { slug } = route.params
-const mapStoreTwo = useMapStoreTwo()
+const mapStore = useMapStore()
 const locationStore = useLocationsStore()
 
 const {
@@ -27,7 +27,7 @@ const {
 
 watch(location, (val) => {
     if (val && val.lat && val.long) {
-        mapStoreTwo.flyToMarker(
+        mapStore.flyToMarker(
             { lat: String(val.lat), long: String(val.long) },
             10
         )
@@ -35,7 +35,9 @@ watch(location, (val) => {
 })
 
 onMounted(() => {
-    locationStore.refreshCurrentLocation()
+    setTimeout(() => {
+        locationStore.refreshCurrentLocation()
+    }, 3000) // 3000ms = 3 seconds
 })
 
 onBeforeRouteUpdate((to) => {

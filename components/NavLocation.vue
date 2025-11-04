@@ -20,10 +20,8 @@ import type { MapPoint } from '~/lib/type'
 const sidebarStore = useSidebarStore()
 const mapStore = useMapStore()
 
-const navigateToMarker = (location: MapPoint | null) => {
-    if (location) {
-        mapStore.navigateToMarker(location)
-    }
+const handleNavigateToLocation = (location: MapPoint) => {
+    mapStore.navigateToMarker(location)
 }
 </script>
 
@@ -64,15 +62,15 @@ const navigateToMarker = (location: MapPoint | null) => {
                                 <SidebarMenuSubItem
                                     v-for="subItem in sidebarStore.sidebarItems"
                                     :key="subItem.id"
-                                    @click="
-                                        navigateToMarker(
-                                            subItem.location ?? null
-                                        )
-                                    "
                                     class="cursor-pointer"
                                 >
                                     <SidebarMenuSubButton as-child>
                                         <NuxtLink
+                                            @click="
+                                                handleNavigateToLocation(
+                                                    subItem.location as MapPoint
+                                                )
+                                            "
                                             :to="subItem.to"
                                             :class="
                                                 mapStore.selectedPoint?.id ===

@@ -15,13 +15,12 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
         lazy: true
     })
 
-    // ✅ Reactive slug source: use route first, fallback to mapStoreTwo
+    // ✅ Reactive slug source: use route first, fallback to mapStore
     const activeSlug = computed(() => {
         // Try route slug first
         if (route.params.slug) return route.params.slug
-        // Fallback to slug stored in mapStoreTwo (if available)
-        if (mapStoreTwo.selectedPoint?.slug)
-            return mapStoreTwo.selectedPoint.slug
+        // Fallback to slug stored in mapStore (if available)
+        if (mapStore.selectedPoint?.slug) return mapStore.selectedPoint.slug
         return null
     })
 

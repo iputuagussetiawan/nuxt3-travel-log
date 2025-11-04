@@ -21,11 +21,21 @@ export const useMapStore = defineStore('useMapStore', () => {
 
     const navigateToMarker = (mapPoint: MapPoint) => {
         selectedPoint.value = mapPoint
-        map.value?.flyTo([Number(mapPoint.lat), Number(mapPoint.long)], 10, {
-            animate: true,
-            duration: 2
-        })
+        // map.value?.flyTo([Number(mapPoint.lat), Number(mapPoint.long)], 10, {
+        //     animate: true,
+        //     duration: 2
+        // })
     }
+
+    // Watch selectedPoint for changes
+    watch(selectedPoint, (newPoint) => {
+        if (newPoint && map.value) {
+            map.value.flyTo([Number(newPoint.lat), Number(newPoint.long)], 10, {
+                animate: true,
+                duration: 2
+            })
+        }
+    })
 
     return {
         map,
