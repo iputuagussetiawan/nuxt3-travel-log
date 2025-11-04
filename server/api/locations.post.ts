@@ -44,7 +44,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
         result.data,
         event.context.user.id
     )
-    if (existingLocation.length > 0) {
+    if (existingLocation) {
         return sendError(
             event,
             createError({

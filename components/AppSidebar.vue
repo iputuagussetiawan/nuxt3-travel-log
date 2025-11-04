@@ -97,7 +97,7 @@ const data = {
             url: '#',
             icon: MapIcon,
             isActive: false,
-            items: [
+            subitems: [
                 { title: 'All Location', url: '/dashboard/locations' },
                 { title: 'Add Location', url: '/dashboard/locations/add' }
             ]
