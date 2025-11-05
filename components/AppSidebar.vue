@@ -16,6 +16,7 @@ import { LOCATION_PAGES } from '../lib/constants'
 const route = useRoute()
 const authStore = useAuthStore()
 const sidebarStore = useSidebarStore()
+const locationStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
@@ -45,34 +46,37 @@ effect(() => {
             }
         ]
     } else if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')) {
-        sidebarStore.sidebarTopItems = [
-            {
-                title: 'Travel Log',
-                url: '#',
-                icon: 'sds',
-                isActive: true,
-                items: [
-                    {
-                        id: 'back-locations',
-                        label: 'Back To Location',
-                        to: '/dashboard/locations',
-                        icon: 'sds'
-                    },
-                    {
-                        id: 'edit-location',
-                        label: 'Edit Location',
-                        to: `/dashboard/locations/${route.params.slug}/edit`,
-                        icon: 'sds'
-                    },
-                    {
-                        id: 'add-log',
-                        label: 'Add Location Log',
-                        to: `/dashboard/locations/${route.params.slug}/add`,
-                        icon: 'sds'
-                    }
-                ]
-            }
-        ]
+        if (locationStore?.currentLocation?.id) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Travel Log',
+                    url: '#',
+                    icon: 'sds',
+                    isActive: true,
+                    items: [
+                        {
+                            id: 'back-locations',
+                            label: 'Back To Location',
+                            to: '/dashboard/locations',
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'edit-location',
+                            label: 'Edit Location',
+                            to: `/dashboard/locations/${route.params.slug}/edit`,
+                            icon: 'sds'
+                        },
+                        {
+                            id: 'add-log',
+                            label: 'Add Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/add`,
+                            icon: 'sds'
+                        }
+                    ]
+                }
+            ]
+        }
     } else {
         sidebarStore.sidebarTopItems = [] // default or reset
     }

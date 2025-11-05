@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { FolderOpen, Cloud, CirclePlus } from 'lucide-vue-next'
+import {
+    FolderOpen,
+    Cloud,
+    CirclePlus,
+    EllipsisVertical
+} from 'lucide-vue-next'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
     Empty,
@@ -9,6 +14,21 @@ import {
     EmptyMedia,
     EmptyTitle
 } from '@/components/ui/empty'
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+
+import { Icon } from '@iconify/vue'
+import { ref } from 'vue'
+import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
+import type { FetchError } from 'ofetch'
+
 definePageMeta({
     layout: 'dashboard-location'
 })
@@ -16,6 +36,11 @@ const route = useRoute()
 const { slug } = route.params
 const mapStore = useMapStore()
 const locationStore = useLocationsStore()
+const isDeleteDialogOpen = ref(false)
+const isDeleting = ref(false)
+const deleteError = ref('')
+
+const loading = computed(() => status.value === 'pending' || isDeleting.value)
 
 const {
     data: location,
@@ -24,6 +49,26 @@ const {
 } = await useFetch(`/api/locations/${slug}`, {
     lazy: true
 })
+
+const handleDeleteLocation = () => {
+    isDeleteDialogOpen.value = true
+}
+
+async function handleContinueDelete() {
+    try {
+        deleteError.value = ''
+        isDeleting.value = true
+        await $fetch(`/api/locations/${slug}`, {
+            method: 'DELETE'
+        })
+        navigateTo('/dashboard/locations')
+    } catch (e) {
+        const error = e as FetchError
+    } finally {
+        isDeleting.value = false
+        isDeleteDialogOpen.value = false // optionally close the dialog
+    }
+}
 
 watch(location, (val) => {
     if (val && val.lat && val.long) {
@@ -55,9 +100,38 @@ onBeforeRouteUpdate((to) => {
         <div v-if="status === 'pending'">...Loading</div>
         <!-- Success -->
         <div v-if="location && status !== 'pending'">
-            <h1 class="text-xl font-bold">
-                Location Name : {{ location.name }}
-            </h1>
+            <div class="relative flex items-center justify-between">
+                <h1 class="text-xl font-bold">
+                    Location Name : {{ location.name }}
+                </h1>
+
+                <ClientOnly>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger class="cursor-pointer">
+                            <EllipsisVertical class="h-5 w-5" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" class="z-[2000]">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem @click="handleDeleteLocation">
+                                <Icon icon="lucide:trash" class="ml-2 inline" />
+                                Delete
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <NuxtLink
+                                    :to="`/dashboard/locations/${location.slug}/edit`"
+                                >
+                                    <Icon
+                                        icon="lucide:edit"
+                                        class="ml-2 inline"
+                                    />
+                                    Edit
+                                </NuxtLink>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </ClientOnly>
+            </div>
             <h2>{{ location.description }}</h2>
             <p>{{ location.lat }}, {{ location.long }}</p>
         </div>
@@ -108,6 +182,14 @@ onBeforeRouteUpdate((to) => {
                 </EmptyContent>
             </Empty>
         </div>
+
+        <CustomAlertDialog
+            title="Are you sure want to delete?"
+            description="Deleting this location will delete all location logs as well"
+            confirm-label="Yes, delete this location"
+            v-model:open="isDeleteDialogOpen"
+            @confirm="handleContinueDelete"
+        />
     </div>
 </template>
 
