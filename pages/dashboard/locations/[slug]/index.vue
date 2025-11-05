@@ -149,7 +149,10 @@ onBeforeRouteUpdate((to) => {
                 </EmptyHeader>
                 <EmptyContent>
                     <NuxtLink
-                        to="/dashboard/locations"
+                        :to="{
+                            name: 'dashboard-locations-slug-add',
+                            params: { slug: location.slug }
+                        }"
                         :class="buttonVariants({ variant: 'outline' })"
                     >
                         Create Location Log <CirclePlus class="ml-2" />

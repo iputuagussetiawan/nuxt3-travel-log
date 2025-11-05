@@ -32,16 +32,12 @@ export const locationRelations = relations(location, ({ many }) => ({
 export const InsertLocationSchema = createInsertSchema(location, {
     name: (field) => field.min(1).max(50),
     description: (field) => field.min(1).max(50)
-    // lat: (field) => field.min(-90).max(90),
-    // long: (field) => field.min(-180).max(180)
 }).omit({
     id: true,
     slug: true,
     userId: true,
     createdAt: true,
     updatedAt: true
-    // lat: true,
-    // long: true
 })
 
 export type InsertLocationType = z.infer<typeof InsertLocationSchema>
