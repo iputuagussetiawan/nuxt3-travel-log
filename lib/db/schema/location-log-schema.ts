@@ -2,6 +2,8 @@ import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { location } from './location-schema'
 import { user } from './auth-schema'
 import { relations } from 'drizzle-orm'
+import { createInsertSchema } from 'drizzle-zod'
+import type z from 'zod'
 export const locationLog = pgTable('locationLog', {
     id: text('id').primaryKey(),
     name: text('name').notNull(),
@@ -30,4 +32,16 @@ export const locationLogRelations = relations(locationLog, ({ one }) => ({
     })
 }))
 
+export const InsertLocationLogSchema = createInsertSchema(locationLog, {
+    name: (field) => field.min(1).max(50),
+    description: (field) => field.min(1).max(50)
+}).omit({
+    id: true,
+    userId: true,
+    locationId: true,
+    createdAt: true,
+    updatedAt: true
+})
+
+export type InsertLocationLogType = z.infer<typeof InsertLocationLogSchema>
 export type SelectLocationLogType = typeof locationLog.$inferSelect

@@ -100,7 +100,7 @@ onMounted(() => {
             ? props.initialValues.long.toString()
             : MAP_INPUT_CENTER[1].toString()
     }
-    mapStore.flyToMarker(mapStore.addedPoint, props.initialValues?.lat ? 5 : 5)
+    // mapStore.flyToMarker(mapStore.addedPoint, props.initialValues?.lat ? 5 : 5)
 })
 
 const SubmitIcon = computed(() => {
