@@ -37,6 +37,15 @@ export const useMapStore = defineStore('useMapStore', () => {
         }
     })
 
+    watch(addedPoint, (newPoint) => {
+        if (newPoint && map.value) {
+            map.value.flyTo([Number(newPoint.lat), Number(newPoint.long)], 10, {
+                animate: true,
+                duration: 2
+            })
+        }
+    })
+
     return {
         map,
         setMap,
