@@ -1,9 +1,32 @@
 <script setup lang="ts">
 import LocationLogForm from '~/components/LocationLogForm.vue'
+import { MAP_INPUT_CENTER } from '~/lib/constants'
+import type { InsertLocationLogType } from '~/lib/db/schema'
+import { fromDate, getLocalTimeZone, parseDate } from '@internationalized/date'
 
 definePageMeta({
     layout: 'dashboard-location'
 })
+const tz = getLocalTimeZone()
+const { $csrfFetch } = useNuxtApp()
+const route = useRoute()
+const { currentLocation } = useLocationsStore()
+
+//3.methods
+async function onSubmit(values: InsertLocationLogType) {
+    await $csrfFetch(`/api/locations/${route.params.slug}/add`, {
+        method: 'POST',
+        body: values
+    })
+}
+function onSubmitComplete() {
+    navigateTo({
+        name: 'dashboard-locations-slug',
+        params: {
+            slug: route.params.slug
+        }
+    })
+}
 </script>
 <template>
     <div
@@ -16,8 +39,23 @@ definePageMeta({
             </p>
         </div>
         <LocationLogForm
+            :on-submit="onSubmit"
+            :on-submit-complete="onSubmitComplete"
             submit-label="Add Location Log"
             submit-icon="add-location-icon"
+            :initial-values="{
+                slug: '',
+                name: '',
+                description: '',
+                startedAt: '',
+                endedAt: '',
+                lat:
+                    currentLocation?.lat.toString() ||
+                    MAP_INPUT_CENTER[0].toString(),
+                long:
+                    currentLocation?.long.toString() ||
+                    MAP_INPUT_CENTER[1].toString()
+            }"
         />
     </div>
 </template>
