@@ -8,8 +8,8 @@ export const locationLog = pgTable('locationLog', {
     id: text('id').primaryKey(),
     name: text('name').notNull(),
     description: text('description'),
-    startedAt: timestamp('started_at').notNull(),
-    endedAt: timestamp('ended_at').notNull(),
+    startedAt: text('started_at').notNull(),
+    endedAt: text('ended_at').notNull(),
     lat: text('lat').notNull(),
     long: text('long').notNull(),
     locationId: text('location_id')
@@ -34,7 +34,9 @@ export const locationLogRelations = relations(locationLog, ({ one }) => ({
 
 export const InsertLocationLogSchema = createInsertSchema(locationLog, {
     name: (field) => field.min(1).max(50),
-    description: (field) => field.min(1).max(50)
+    description: (field) => field.min(1).max(50),
+    startedAt: (field) => field.min(1).max(50),
+    endedAt: (field) => field.min(1).max(50)
 }).omit({
     id: true,
     userId: true,
