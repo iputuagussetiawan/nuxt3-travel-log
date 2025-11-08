@@ -1,3 +1,5 @@
+import slugify from 'slug'
+import { nanoid } from 'nanoid'
 import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
 import { InsertLocationLogSchema } from '~/lib/db/schema'
 import { findLocation } from '~/lib/db/queries/location-query'
@@ -28,5 +30,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
         return sendZodError(event, result.error)
     }
 
-    return insertLocationLog(location.id, result.data, currentUserId)
+    const createSlug = `${result.data.name}-${nanoid()}`
+    const newSlug = slugify(createSlug, {
+        lower: true
+    })
+
+    return insertLocationLog(location.id, result.data, newSlug, currentUserId)
 })

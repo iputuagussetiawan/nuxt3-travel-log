@@ -7,6 +7,7 @@ import type z from 'zod'
 export const locationLog = pgTable('locationLog', {
     id: text('id').primaryKey(),
     name: text('name').notNull(),
+    slug: text('slug').notNull().unique(),
     description: text('description'),
     startedAt: text('started_at').notNull(),
     endedAt: text('ended_at').notNull(),

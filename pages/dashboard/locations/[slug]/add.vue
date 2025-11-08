@@ -44,6 +44,7 @@ function onSubmitComplete() {
             submit-label="Add Location Log"
             submit-icon="add-location-icon"
             :initial-values="{
+                slug: '',
                 name: '',
                 description: '',
                 startedAt: '',

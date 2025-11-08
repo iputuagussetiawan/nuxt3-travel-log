@@ -51,7 +51,6 @@ const loading = ref(false)
 const submitted = ref(false)
 
 //3.methods
-const tz = getLocalTimeZone()
 const formSchema = toTypedSchema(InsertLocationLogSchema)
 const {
     isFieldDirty,
@@ -63,6 +62,7 @@ const {
 } = useForm({
     validationSchema: formSchema,
     initialValues: {
+        slug: props.initialValues?.slug || '',
         name: props.initialValues?.name || '',
         description: props.initialValues?.description || '',
         startedAt: props.initialValues?.startedAt || '2020-01-07',

@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid'
 export async function insertLocationLog(
     locationId: string,
     locationLogData: InsertLocationLogType,
+    slug: string,
     userId: string
 ) {
     const [createdLocationLog] = await db
@@ -13,6 +14,7 @@ export async function insertLocationLog(
         .values({
             id: nanoid(),
             ...locationLogData,
+            slug,
             locationId,
             userId
         })
