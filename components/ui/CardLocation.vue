@@ -6,7 +6,6 @@ import {
     CardHeader,
     CardTitle
 } from '~/components/ui/card'
-import { map } from 'zod'
 
 defineProps<{
     mapPoint: MapPoint

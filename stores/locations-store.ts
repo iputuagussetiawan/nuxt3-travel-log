@@ -59,35 +59,38 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             }))
             mapStore.mapPoints = locations.value
             // mapStoreTwo.mapPoints = locations.value
-        } else if (
+        }
+        if (
             currentLocation.value &&
             CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')
         ) {
             const mapPoints: MapPoint[] = []
-            sidebarStore.sidebarItems = currentLocation.value.locationLogs.map(
-                (log) => ({
-                    id: `location-log-${log.id}`,
-                    label: log.name,
-                    icon: 'tabler:map-pin-filled',
-                    to: {
-                        name: 'dashboard-locations-slug-id',
-                        params: { id: log.id }
-                    },
-                    toLabel: 'View',
-                    location: log
-                })
-            )
+            sidebarStore.sidebarItems = []
+
             currentLocation.value.locationLogs.forEach((log) => {
                 const mapPoint = createMapPointFromLocationLog(log)
                 mapPoints.push(mapPoint)
             })
+            if (mapPoints.length) {
+                mapStore.mapPoints = mapPoints
+            } else {
+                mapStore.mapPoints = [currentLocation.value]
+            }
+            // sidebarStore.sidebarItems = currentLocation.value.locationLogs.map(
+            //     (log) => ({
+            //         id: `location-log-${log.id}`,
+            //         label: log.name,
+            //         icon: 'tabler:map-pin-filled',
+            //         to: {
+            //             name: 'dashboard-locations-slug-id',
+            //             params: { id: log.id }
+            //         },
+            //         toLabel: 'View',
+            //         location: log
+            //     })
+            // )
 
-            // sidebarStore.sidebarItems = sidebarItems
-            mapStore.mapPoints = [currentLocation.value]
-            // if (mapPoints.length) {
-            //     mapStore.mapPoints = mapPoints
-            // } else {
-            // }
+            // // sidebarStore.sidebarItems = sidebarItems
         }
         sidebarStore.loading = locationsStatus.value === 'pending'
     })
