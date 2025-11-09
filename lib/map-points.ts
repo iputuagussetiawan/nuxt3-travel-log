@@ -20,7 +20,7 @@ export function createMapPointFromLocationLog(
     return {
         ...locationLog,
         to: {
-            name: 'dashboard-location-slug-id',
+            name: 'dashboard-locations-slug-id',
             params: { id: locationLog.id }
         },
         toLabel: 'View'

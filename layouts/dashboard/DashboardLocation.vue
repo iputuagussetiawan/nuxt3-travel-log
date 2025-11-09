@@ -73,7 +73,7 @@ onMounted(() => {
             </header>
             <main>
                 <div class="relative">
-                    <slot />
+                    <NuxtPage />
                     <div class="">
                         <MapClientClient />
                     </div>

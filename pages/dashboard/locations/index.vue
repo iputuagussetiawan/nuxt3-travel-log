@@ -6,6 +6,7 @@ import { cn } from '~/lib/utils'
 import CardLocation from '~/components/ui/CardLocation.vue'
 import CardLocationSkelton from '~/components/ui/CardLocationSkelton.vue'
 import EmptyState from '~/components/ui/EmptyState.vue'
+import { createMapPointFromLocationLog } from '~/lib/map-points'
 
 const locationsStore = useLocationsStore()
 const { locations, locationsStatus: status } = storeToRefs(locationsStore)

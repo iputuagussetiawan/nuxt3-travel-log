@@ -27,7 +27,7 @@ effect(() => {
             {
                 title: 'Travel Location',
                 url: '#',
-                icon: 'Teses',
+                icon: 'tabler:map-pin-filled',
                 isActive: true,
                 items: [
                     {
@@ -51,7 +51,7 @@ effect(() => {
                 {
                     title: 'Travel Log',
                     url: '#',
-                    icon: 'sds',
+                    icon: 'tabler:map-pin-filled',
                     isActive: true,
                     items: [
                         {

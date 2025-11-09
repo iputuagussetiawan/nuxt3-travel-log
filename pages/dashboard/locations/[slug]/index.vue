@@ -31,6 +31,7 @@ import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
 import type { FetchError } from 'ofetch'
 import CardLocation from '~/components/ui/CardLocation.vue'
 import CardLocationSkelton from '~/components/ui/CardLocationSkelton.vue'
+import { createMapPointFromLocationLog } from '~/lib/map-points'
 
 definePageMeta({
     layout: 'dashboard-location'
@@ -172,7 +173,9 @@ onBeforeRouteUpdate((to) => {
                         <CardLocation
                             v-for="locationLog in location.locationLogs"
                             :key="locationLog.id"
-                            :map-point="locationLog"
+                            :map-point="
+                                createMapPointFromLocationLog(locationLog)
+                            "
                         />
                     </div>
                 </div>

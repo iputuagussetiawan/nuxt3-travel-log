@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle
 } from '~/components/ui/card'
+import { map } from 'zod'
 
 defineProps<{
     mapPoint: MapPoint
@@ -13,11 +14,17 @@ defineProps<{
 const mapStore = useMapStore()
 const handleNavigateToLocation = (mapPoint: MapPoint) => {
     mapStore.navigateToMarker(mapPoint)
+
+    if (mapPoint.to) {
+        navigateTo(mapPoint.to)
+
+        console.log(mapPoint.to)
+    }
 }
 </script>
 <template>
     <Card
-        class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 cursor-pointer rounded-2xl border shadow-md backdrop-blur-md transition-all duration-400 ease-in-out hover:border-blue-500 dark:shadow-lg"
+        class="border-border bg-card/90 supports-[backdrop-filter]:bg-card/60 inline-block cursor-pointer rounded-2xl border shadow-md backdrop-blur-md transition-all duration-400 ease-in-out hover:border-blue-500 dark:shadow-lg"
         :class="
             mapStore.selectedPoint?.id === mapPoint.id ? 'border-blue-500' : ''
         "

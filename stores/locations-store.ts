@@ -1,11 +1,12 @@
 import type { SelectLocationWithLogsType } from '~/lib/db/schema'
 import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
+import { createMapPointFromLocationLog } from '~/lib/map-points'
+import type { MapPoint } from '~/lib/type'
 
 export const useLocationsStore = defineStore('useLocationsStore', () => {
     const route = useRoute()
     const sidebarStore = useSidebarStore()
     const mapStore = useMapStore()
-    const mapStoreTwo = useMapStoreTwo()
 
     const {
         data: locations,
@@ -57,14 +58,36 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
                 location
             }))
             mapStore.mapPoints = locations.value
-            mapStoreTwo.mapPoints = locations.value
+            // mapStoreTwo.mapPoints = locations.value
         } else if (
             currentLocation.value &&
             CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')
         ) {
-            sidebarStore.sidebarItems = []
-            mapStoreTwo.mapPoints = [currentLocation.value]
+            const mapPoints: MapPoint[] = []
+            sidebarStore.sidebarItems = currentLocation.value.locationLogs.map(
+                (log) => ({
+                    id: `location-log-${log.id}`,
+                    label: log.name,
+                    icon: 'tabler:map-pin-filled',
+                    to: {
+                        name: 'dashboard-locations-slug-id',
+                        params: { id: log.id }
+                    },
+                    toLabel: 'View',
+                    location: log
+                })
+            )
+            currentLocation.value.locationLogs.forEach((log) => {
+                const mapPoint = createMapPointFromLocationLog(log)
+                mapPoints.push(mapPoint)
+            })
+
+            // sidebarStore.sidebarItems = sidebarItems
             mapStore.mapPoints = [currentLocation.value]
+            // if (mapPoints.length) {
+            //     mapStore.mapPoints = mapPoints
+            // } else {
+            // }
         }
         sidebarStore.loading = locationsStatus.value === 'pending'
     })
