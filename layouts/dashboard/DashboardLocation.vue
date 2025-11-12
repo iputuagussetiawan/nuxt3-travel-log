@@ -8,7 +8,11 @@ import MapClientClient from '~/components/MapClient.client.vue'
 // import MapClient from '~/components/MapClient.vue'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
-import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
+import {
+    CURRENT_LOCATION_LOG_PAGES,
+    CURRENT_LOCATION_PAGES,
+    LOCATION_PAGES
+} from '~/lib/constants'
 
 const locationsStore = useLocationsStore()
 const authStore = useAuthStore()
@@ -19,8 +23,15 @@ if (LOCATION_PAGES.has(route.name?.toString() || '')) {
     await locationsStore.refreshLocations()
 }
 
-if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')) {
+if (
+    CURRENT_LOCATION_PAGES.has(route.name?.toString() || '') ||
+    CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')
+) {
     await locationsStore.refreshCurrentLocation()
+}
+
+if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
+    await locationsStore.refreshCurrentLocationLog()
 }
 
 onMounted(() => {
@@ -73,7 +84,7 @@ onMounted(() => {
             </header>
             <main>
                 <div class="relative">
-                    <slot />
+                    <NuxtPage />
                     <div class="">
                         <MapClientClient />
                     </div>

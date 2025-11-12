@@ -11,7 +11,10 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import NavLocation from './NavLocation.vue'
-import { CURRENT_LOCATION_PAGES } from '~/lib/constants'
+import {
+    CURRENT_LOCATION_LOG_PAGES,
+    CURRENT_LOCATION_PAGES
+} from '~/lib/constants'
 import { LOCATION_PAGES } from '../lib/constants'
 const route = useRoute()
 const authStore = useAuthStore()
@@ -27,7 +30,7 @@ effect(() => {
             {
                 title: 'Travel Location',
                 url: '#',
-                icon: 'Teses',
+                icon: 'tabler:map-pin-filled',
                 isActive: true,
                 items: [
                     {
@@ -51,7 +54,7 @@ effect(() => {
                 {
                     title: 'Travel Log',
                     url: '#',
-                    icon: 'sds',
+                    icon: 'tabler:map-pin-filled',
                     isActive: true,
                     items: [
                         {
@@ -62,11 +65,68 @@ effect(() => {
                         },
 
                         {
+                            id: 'location-log',
+                            label: 'All Location Log',
+                            to: `/dashboard/locations/${route.params.slug}`,
+                            icon: 'sds'
+                        },
+
+                        {
                             id: 'edit-location',
-                            label: 'Edit Location',
+                            label: 'Edit Location Log',
                             to: `/dashboard/locations/${route.params.slug}/edit`,
                             icon: 'sds'
                         },
+                        {
+                            id: 'add-log',
+                            label: 'Add Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/add`,
+                            icon: 'sds'
+                        }
+                    ]
+                }
+            ]
+        }
+    } else if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
+        if (locationStore?.currentLocation?.id) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Current Location Log',
+                    url: '#',
+                    icon: 'tabler:map-pin-filled',
+                    isActive: true,
+                    items: [
+                        {
+                            id: 'back-locations',
+                            label:
+                                'Back To ' +
+                                locationStore?.currentLocation?.name,
+                            to: `/dashboard/locations/${route.params.slug}`,
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'all-location-log',
+                            label:
+                                'Back To ' +
+                                locationStore?.currentLocationLog?.name,
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}`,
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'edit-location-log',
+                            label: 'Edit Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}/edit`,
+                            icon: 'sds'
+                        },
+                        {
+                            id: 'location-log-images',
+                            label: 'Manage Images',
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}/images`,
+                            icon: 'sds'
+                        },
+
                         {
                             id: 'add-log',
                             label: 'Add Location Log',

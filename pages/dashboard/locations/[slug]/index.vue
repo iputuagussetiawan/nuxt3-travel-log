@@ -31,6 +31,7 @@ import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
 import type { FetchError } from 'ofetch'
 import CardLocation from '~/components/ui/CardLocation.vue'
 import CardLocationSkelton from '~/components/ui/CardLocationSkelton.vue'
+import { createMapPointFromLocationLog } from '~/lib/map-points'
 
 definePageMeta({
     layout: 'dashboard-location'
@@ -42,14 +43,6 @@ const locationStore = useLocationsStore()
 const isDeleteDialogOpen = ref(false)
 const isDeleting = ref(false)
 const deleteError = ref('')
-
-// const {
-//     data: location,
-//     status,
-//     error
-// } = await useFetch(`/api/locations/${slug}`, {
-//     lazy: true
-// })
 
 const {
     currentLocation: location,
@@ -172,7 +165,9 @@ onBeforeRouteUpdate((to) => {
                         <CardLocation
                             v-for="locationLog in location.locationLogs"
                             :key="locationLog.id"
-                            :map-point="locationLog"
+                            :map-point="
+                                createMapPointFromLocationLog(locationLog)
+                            "
                         />
                     </div>
                 </div>
