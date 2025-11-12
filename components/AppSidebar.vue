@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, GalleryVerticalEnd, MapIcon } from 'lucide-vue-next'
+import { ArrowRight, GalleryVerticalEnd, Image, MapIcon } from 'lucide-vue-next'
 import {
     Sidebar,
     SidebarContent,
@@ -151,8 +151,8 @@ const userData = computed(() => ({
 const data = {
     userData,
     teams: {
-        name: 'Acme Inc',
-        logo: GalleryVerticalEnd,
+        name: 'Travel Log',
+        logo: Image,
         plan: 'Enterprise'
     },
     navMain: [

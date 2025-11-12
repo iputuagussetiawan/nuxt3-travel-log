@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 const authStore = useAuthStore()
+
+const props = withDefaults(
+    defineProps<{
+        showInfo?: boolean
+    }>(),
+    {
+        showInfo: true
+    }
+)
 </script>
 
 <template>
@@ -15,11 +24,15 @@ const authStore = useAuthStore()
                 {{ authStore?.user?.name?.charAt(0)?.toUpperCase() || 'U' }}
             </AvatarFallback>
         </Avatar>
-        <div class="grid flex-1 text-left text-sm leading-tight">
-            <span class="truncate font-semibold">
-                {{ authStore?.user?.name }}
-            </span>
-            <span class="truncate text-xs">{{ authStore?.user?.email }}</span>
-        </div>
+        <template v-if="showInfo">
+            <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-semibold">
+                    {{ authStore?.user?.name }}
+                </span>
+                <span class="truncate text-xs">
+                    {{ authStore?.user?.email }}
+                </span>
+            </div>
+        </template>
     </div>
 </template>
