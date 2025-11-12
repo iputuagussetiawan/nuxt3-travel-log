@@ -20,12 +20,17 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { EllipsisVertical } from 'lucide-vue-next'
+import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
+import type { FetchError } from 'ofetch'
 
 definePageMeta({
     layout: 'dashboard-location'
 })
-
 const route = useRoute()
+const { slug } = route.params
+const isDeleteDialogOpen = ref(false)
+const isDeleting = ref(false)
+const deleteError = ref('')
 const locationStore = useLocationsStore()
 const {
     currentLocationLog: locationLog,
@@ -33,14 +38,10 @@ const {
     currentLocationLogError: error
 } = storeToRefs(locationStore)
 
-const loading = computed(() => status.value === 'pending')
-const errorMessage = computed(() => error.value?.statusMessage)
-
-const slug = route.params.slug as string
-const id = route.params.id as string
-
-console.log('Slug:', slug)
-console.log('ID:', id)
+const loading = computed(() => isDeleting.value || status.value === 'pending')
+const errorMessage = computed(
+    () => deleteError.value || error.value?.statusMessage
+)
 
 onMounted(() => {
     setTimeout(() => {
@@ -53,6 +54,31 @@ onBeforeRouteUpdate((to) => {
         locationStore.refreshCurrentLocationLog()
     }
 })
+
+async function handleContinueDelete() {
+    try {
+        deleteError.value = ''
+        isDeleting.value = true
+        await $fetch(`/api/locations/${route.params.slug}/${route.params.id}`, {
+            method: 'DELETE'
+        })
+        navigateTo({
+            name: 'dashboard-locations-slug',
+            params: {
+                slug: route.params.slug
+            }
+        })
+    } catch (e) {
+        const error = e as FetchError
+    } finally {
+        isDeleting.value = false
+        isDeleteDialogOpen.value = false // optionally close the dialog
+    }
+}
+
+const handleDeleteLocation = () => {
+    isDeleteDialogOpen.value = true
+}
 </script>
 
 <template>
@@ -83,7 +109,7 @@ onBeforeRouteUpdate((to) => {
                                         Add
                                     </NuxtLink>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem @click="handleDeleteLocation">
                                     <Icon
                                         icon="lucide:trash"
                                         class="ml-2 inline"
@@ -111,5 +137,13 @@ onBeforeRouteUpdate((to) => {
                 <p>Ended At : {{ locationLog.endedAt }}</p>
             </div>
         </div>
+
+        <CustomAlertDialog
+            title="Are you sure want to delete?"
+            description="Deleting this location will remove your data permanently"
+            confirm-label="Yes, delete this location"
+            v-model:open="isDeleteDialogOpen"
+            @confirm="handleContinueDelete"
+        />
     </section>
 </template>

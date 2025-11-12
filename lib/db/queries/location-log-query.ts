@@ -50,3 +50,16 @@ export async function updateLocationLog(
         .returning()
     return updatedLocationLog
 }
+
+export async function deleteLocationLog(locationLogId: string, userId: string) {
+    const [deletedLocationLog] = await db
+        .delete(locationLog)
+        .where(
+            and(
+                eq(locationLog.id, locationLogId),
+                eq(locationLog.userId, userId)
+            )
+        )
+        .returning()
+    return deletedLocationLog
+}
