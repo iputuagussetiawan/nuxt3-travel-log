@@ -2,7 +2,11 @@ import type {
     SelectLocationLogType,
     SelectLocationWithLogsType
 } from '~/lib/db/schema'
-import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
+import {
+    CURRENT_LOCATION_LOG_PAGES,
+    CURRENT_LOCATION_PAGES,
+    LOCATION_PAGES
+} from '~/lib/constants'
 import { createMapPointFromLocationLog } from '~/lib/map-points'
 import type { MapPoint } from '~/lib/type'
 
@@ -77,8 +81,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             }))
             mapStore.mapPoints = locations.value
             // mapStoreTwo.mapPoints = locations.value
-        }
-        if (
+        } else if (
             currentLocation.value &&
             CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')
         ) {
@@ -109,6 +112,12 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             // )
 
             // // sidebarStore.sidebarItems = sidebarItems
+        } else if (
+            currentLocationLog.value &&
+            CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')
+        ) {
+            sidebarStore.sidebarItems = []
+            mapStore.mapPoints = [currentLocationLog.value]
         }
         sidebarStore.loading =
             locationsStatus.value === 'pending' ||

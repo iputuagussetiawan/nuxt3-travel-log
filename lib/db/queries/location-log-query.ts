@@ -32,3 +32,21 @@ export async function insertLocationLog(
         .returning()
     return createdLocationLog
 }
+
+export async function updateLocationLog(
+    locationLogId: string,
+    locationLogData: InsertLocationLogType,
+    userId: string
+) {
+    const [updatedLocationLog] = await db
+        .update(locationLog)
+        .set(locationLogData)
+        .where(
+            and(
+                eq(locationLog.id, locationLogId),
+                eq(locationLog.userId, userId)
+            )
+        )
+        .returning()
+    return updatedLocationLog
+}

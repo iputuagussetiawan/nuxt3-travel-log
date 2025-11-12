@@ -73,9 +73,7 @@ const {
 })
 
 //3.methods
-// const onSubmit = handleSubmit(props.onSubmit)
 const onSubmit = handleSubmit(async (values: InsertLocationLogType) => {
-    console.log(values)
     try {
         submitError.value = ''
         loading.value = true

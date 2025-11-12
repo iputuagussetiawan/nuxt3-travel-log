@@ -27,7 +27,8 @@ export const CURRENT_LOCATION_PAGES = new Set([
 export const SHOW_MARKER_ON_PAGES = new Set([
     'dashboard-locations-add',
     'dashboard-locations-slug-add',
-    'dashboard-locations-slug-edit'
+    'dashboard-locations-slug-edit',
+    'dashboard-locations-slug-id-edit'
 ])
 
 export const EDIT_PAGES = new Set([

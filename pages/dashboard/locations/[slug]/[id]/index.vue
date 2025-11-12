@@ -92,7 +92,7 @@ onBeforeRouteUpdate((to) => {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <NuxtLink
-                                        :to="`/dashboard/locations/${locationLog.slug}/edit`"
+                                        :to="`/dashboard/locations/${locationLog.slug}/${locationLog.id}/edit`"
                                     >
                                         <Icon
                                             icon="lucide:edit"
