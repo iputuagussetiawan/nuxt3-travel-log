@@ -121,6 +121,13 @@ effect(() => {
                             icon: 'sds'
                         },
                         {
+                            id: 'location-log-images',
+                            label: 'Manage Images',
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}/images`,
+                            icon: 'sds'
+                        },
+
+                        {
                             id: 'add-log',
                             label: 'Add Location Log',
                             to: `/dashboard/locations/${route.params.slug}/add`,
