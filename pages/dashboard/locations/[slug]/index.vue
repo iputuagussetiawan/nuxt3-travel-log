@@ -44,14 +44,6 @@ const isDeleteDialogOpen = ref(false)
 const isDeleting = ref(false)
 const deleteError = ref('')
 
-// const {
-//     data: location,
-//     status,
-//     error
-// } = await useFetch(`/api/locations/${slug}`, {
-//     lazy: true
-// })
-
 const {
     currentLocation: location,
     currentLocationError: error,

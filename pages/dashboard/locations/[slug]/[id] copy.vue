@@ -1,25 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { useRoute } from 'vue-router'
-import { Button, buttonVariants } from '@/components/ui/button'
-import {
-    Empty,
-    EmptyContent,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyMedia,
-    EmptyTitle
-} from '@/components/ui/empty'
-
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { EllipsisVertical } from 'lucide-vue-next'
 
 definePageMeta({
     layout: 'dashboard-location'
@@ -35,30 +16,12 @@ const {
 
 const loading = computed(() => status.value === 'pending')
 const errorMessage = computed(() => error.value?.statusMessage)
-
-const slug = route.params.slug as string
-const id = route.params.id as string
-
-console.log('Slug:', slug)
-console.log('ID:', id)
-
-onMounted(() => {
-    setTimeout(() => {
-        locationStore.refreshCurrentLocationLog()
-    }, 3000) // 3000ms = 3 seconds
-})
-
-onBeforeRouteUpdate((to) => {
-    if (to.name == 'dashboard-locations-slug-id') {
-        locationStore.refreshCurrentLocationLog()
-    }
-})
 </script>
 
 <template>
-    <section class="absolute top-0 right-0 left-0 z-[1000]">
+    <section class="">
         <div class="mt-4 px-4">
-            <div v-if="locationLog && status !== 'pending'">
+            <div>
                 <div class="relative flex items-center justify-between">
                     <h1 class="text-xl font-bold">
                         Location Name : {{ locationLog.name }}
@@ -107,9 +70,40 @@ onBeforeRouteUpdate((to) => {
                 </div>
                 <h2>{{ locationLog.description }}</h2>
                 <p>{{ locationLog.lat }}, {{ locationLog.long }}</p>
-                <p>Start At : {{ locationLog.startedAt }}</p>
-                <p>Ended At : {{ locationLog.endedAt }}</p>
             </div>
+
+            <!-- Error -->
+            <div>
+                <Empty>
+                    <EmptyHeader>
+                        <EmptyMedia variant="icon">
+                            <FolderOpen />
+                        </EmptyMedia>
+                        <EmptyTitle>
+                            <h2 class="text-xl font-bold">
+                                {{ error.statusMessage }}
+                            </h2>
+                        </EmptyTitle>
+                        <EmptyDescription>No data found</EmptyDescription>
+                    </EmptyHeader>
+                    <EmptyContent>
+                        <NuxtLink
+                            to="/dashboard/locations"
+                            :class="buttonVariants({ variant: 'outline' })"
+                        >
+                            Back To Location
+                        </NuxtLink>
+                    </EmptyContent>
+                </Empty>
+            </div>
+
+            <!-- <CustomAlertDialog
+                title="Are you sure want to delete?"
+                description="Deleting this location will delete all location logs as well"
+                confirm-label="Yes, delete this location"
+                v-model:open="isDeleteDialogOpen"
+                @confirm="handleContinueDelete"
+            /> -->
         </div>
     </section>
 </template>
