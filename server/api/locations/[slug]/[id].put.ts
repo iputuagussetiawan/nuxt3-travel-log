@@ -6,17 +6,21 @@ import sendZodError from '~/lib/send-zod-error'
 export default defineAuthenticatedEventHandler(async (event) => {
     const currentUserId = event.context.user.id
     const slug = getRouterParam(event, 'slug') as string
-    const location = await findLocation(slug, currentUserId)
 
-    if (!location) {
-        return sendError(
-            event,
-            createError({
-                statusCode: 404,
-                statusMessage: 'Location not found'
-            })
-        )
-    }
+    console.log('Updating location log for location:', slug)
+    console.log('Current user ID:', currentUserId)
+
+    // const location = await findLocation(slug, currentUserId)
+
+    // if (!location) {
+    //     return sendError(
+    //         event,
+    //         createError({
+    //             statusCode: 404,
+    //             statusMessage: 'Location not found'
+    //         })
+    //     )
+    // }
 
     const result = await readValidatedBody(
         event,

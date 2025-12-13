@@ -118,7 +118,7 @@ const handleDeleteLocation = () => {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <NuxtLink
-                                        :to="`/dashboard/locations/${locationLog.slug}/${locationLog.id}/edit`"
+                                        :to="`/dashboard/locations/${route.params.slug}/${locationLog.id}/edit`"
                                     >
                                         <Icon
                                             icon="lucide:edit"
