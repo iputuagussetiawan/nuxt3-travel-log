@@ -11,12 +11,19 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-lucide-icons',
         'nuxt-csurf',
-        '@nuxtjs/leaflet'
+        '@nuxtjs/leaflet',
+        'nuxt-icon',
+        '@nuxtjs/google-fonts'
     ],
-    // icon: {
-    //     mode: 'css',
-    //     cssLayer: 'base'
-    // },
+    googleFonts: {
+        families: {
+            Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+        },
+        display: 'swap',
+        download: true, // optional: downloads font locally for better performance
+        inject: true // automatically injects <link> in <head>
+    },
+
     csurf: {
         // optional
         https: false, // default true if in production

@@ -21,6 +21,9 @@ async function onSubmit(values: InsertLocationType) {
         method: 'PUT',
         body: values
     })
+}
+
+function onSubmitComplete() {
     navigateTo({
         name: 'dashboard-locations-slug',
         params: {
@@ -53,6 +56,7 @@ async function onSubmit(values: InsertLocationType) {
             <LocationForm
                 v-if="locationStore.currentLocationStatus !== 'pending'"
                 :on-submit="onSubmit"
+                :on-submit-complete="onSubmitComplete"
                 :initial-values="locationStore.currentLocation"
                 submit-label="Edit Location"
                 submit-icon="edit-location-icon"
