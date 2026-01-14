@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import UiThemeToggle from '~/components/ui/ThemeToggle.vue'
-import UiAuthButton from '../components/ui/auth-button.vue'
+import UiAuthButton from '../ui/auth-button.vue'
 </script>
 <template>
     <header
