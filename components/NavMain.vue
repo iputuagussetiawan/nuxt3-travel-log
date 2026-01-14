@@ -16,6 +16,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger
 } from './ui/collapsible'
+import { Icon } from '@iconify/vue'
 
 const sidebarStore = useSidebarStore()
 const { sidebarTopItems } = storeToRefs(sidebarStore)
@@ -27,7 +28,7 @@ const { sidebarTopItems } = storeToRefs(sidebarStore)
         <SidebarMenu>
             <Collapsible
                 v-for="item in sidebarTopItems"
-                :key="item.title"
+                :key="item.items.title"
                 as-child
                 :default-open="item.isActive"
                 class="group/collapsible"
@@ -35,7 +36,7 @@ const { sidebarTopItems } = storeToRefs(sidebarStore)
                 <SidebarMenuItem>
                     <CollapsibleTrigger as-child>
                         <SidebarMenuButton :tooltip="item.title">
-                            <component :is="item.icon" v-if="item.icon" />
+                            <Icon :icon="item.icon" v-if="item.icon" />
                             <span>{{ item.title }}</span>
                             <ChevronRight
                                 class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"

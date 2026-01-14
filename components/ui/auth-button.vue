@@ -11,13 +11,27 @@ const authStore = useAuthStore()
 <template>
     <div>
         <DropdownMenu v-if="!authStore.loading && authStore.user">
-            <DropdownMenuTrigger>
-                <UiUserAvatar />
+            <DropdownMenuTrigger
+                class="flex items-center rounded-md py-1 transition-colors hover:cursor-pointer"
+            >
+                <UiUserAvatar :show-info="false" />
+                <Icon
+                    icon="lucide:chevron-down"
+                    class="text-muted-foreground h-4 w-4 transition-transform duration-200"
+                />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuContent align="end" class="min-w-[150px]">
+                <DropdownMenuItem>
+                    <NuxtLink
+                        to="/dashboard/locations"
+                        class="flex items-center gap-2"
+                    >
+                        <Icon icon="lucide:image" width="24" height="24" />
+                        My Travels
+                    </NuxtLink>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <NuxtLink to="/sign-out">
+                    <NuxtLink to="/sign-out" class="flex items-center gap-2">
                         <Icon icon="lucide:log-out" width="24" height="24" />
                         Sign out
                     </NuxtLink>

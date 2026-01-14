@@ -2,9 +2,6 @@
 import { ref } from 'vue'
 import { MAP_CENTER, MAP_BOUNDS, SHOW_MARKER_ON_PAGES } from '~/lib/constants'
 import MapPinMarker from './MapPinMarker.vue'
-import { cn } from '~/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
-import { CURRENT_LOCATION_PAGES } from '~/lib/constants'
 const map = ref(null)
 const route = useRoute()
 // 🌗 Light & Dark Map
@@ -35,7 +32,7 @@ const setMapOnStore = async () => {
     const leafletMap = map.value?.leafletObject
     if (leafletMap) {
         // vue-leaflet exposes the map under .leafletObject
-        mapStoreTwo.setMap(leafletMap)
+        mapStore.setMap(leafletMap)
     }
 }
 // 🚀 When map is ready
@@ -61,18 +58,18 @@ watch(
 function updatePoint(location) {
     console.log('updatePoint function', location)
 
-    if (mapStoreTwo.addedPoint) {
-        mapStoreTwo.addedPoint.lat = location.lat
-        mapStoreTwo.addedPoint.long = location.lng
+    if (mapStore.addedPoint) {
+        mapStore.addedPoint.lat = location.lat
+        mapStore.addedPoint.long = location.lng
     }
 }
 
 function onDoubleClick(location) {
     console.log('onDoubleClick function', location)
 
-    if (mapStoreTwo.addedPoint) {
-        mapStoreTwo.addedPoint.lat = location.latlng.lat
-        mapStoreTwo.addedPoint.long = location.latlng.lng
+    if (mapStore.addedPoint) {
+        mapStore.addedPoint.lat = location.latlng.lat
+        mapStore.addedPoint.long = location.latlng.lng
     }
 }
 </script>
@@ -110,7 +107,7 @@ function onDoubleClick(location) {
                     <div>
                         <MapPinMarker
                             :label="point.name"
-                            :active="mapStoreTwo.selectedPoint?.id === point.id"
+                            :active="mapStore.selectedPoint?.id === point.id"
                         />
                     </div>
                 </LIcon>
@@ -126,10 +123,7 @@ function onDoubleClick(location) {
 
             <LMarker
                 v-if="SHOW_MARKER_ON_PAGES.has(route.name?.toString() || '')"
-                :lat-lng="[
-                    mapStoreTwo.addedPoint.lat,
-                    mapStoreTwo.addedPoint.long
-                ]"
+                :lat-lng="[mapStore.addedPoint.lat, mapStore.addedPoint.long]"
                 draggable
                 @update:lat-lng="updatePoint($event)"
             >

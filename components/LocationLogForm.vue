@@ -15,14 +15,25 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { LucideCirclePlus, LucideLoader2 } from 'lucide-vue-next'
-import { InsertLocationSchema, type InsertLocationType } from '~/lib/db/schema'
+import {
+    InsertLocationLogSchema,
+    type InsertLocationLogType
+} from '~/lib/db/schema'
 import { MAP_INPUT_CENTER } from '~/lib/constants'
 import type { FetchError } from 'ofetch'
 import getFetchErrorMessage from '~/lib/get-fetch-error-message'
+import {
+    CalendarDate,
+    today,
+    getLocalTimeZone,
+    parseDate,
+    fromDate
+} from '@internationalized/date'
+import DatePickerField from '@/components/DatePickerField.vue'
 
 const props = defineProps<{
-    initialValues?: InsertLocationType | null
-    onSubmit: (location: InsertLocationType) => Promise<any>
+    initialValues?: InsertLocationLogType | null
+    onSubmit: (location: InsertLocationLogType) => Promise<any>
     onSubmitComplete: () => void
     submitLabel: string
     submitIcon: string
@@ -40,8 +51,7 @@ const loading = ref(false)
 const submitted = ref(false)
 
 //3.methods
-
-const formSchema = toTypedSchema(InsertLocationSchema)
+const formSchema = toTypedSchema(InsertLocationLogSchema)
 const {
     isFieldDirty,
     handleSubmit,
@@ -52,16 +62,18 @@ const {
 } = useForm({
     validationSchema: formSchema,
     initialValues: {
+        slug: props.initialValues?.slug || '',
         name: props.initialValues?.name || '',
         description: props.initialValues?.description || '',
+        startedAt: props.initialValues?.startedAt || '2020-01-07',
+        endedAt: props.initialValues?.endedAt || '2020-01-08',
         lat: props.initialValues?.lat || MAP_INPUT_CENTER[0].toString(),
         long: props.initialValues?.long || MAP_INPUT_CENTER[1].toString()
     }
 })
 
 //3.methods
-// const onSubmit = handleSubmit(props.onSubmit)
-const onSubmit = handleSubmit(async (values: InsertLocationType) => {
+const onSubmit = handleSubmit(async (values: InsertLocationLogType) => {
     try {
         submitError.value = ''
         loading.value = true
@@ -154,6 +166,10 @@ const SubmitIcon = computed(() => {
                         <FormMessage />
                     </FormItem>
                 </FormField>
+
+                <DatePickerField name="startedAt" label="Start At" />
+
+                <DatePickerField name="endedAt" label="End At" />
 
                 <p class="text-muted-foreground text-sm">
                     Drug the

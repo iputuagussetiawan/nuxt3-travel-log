@@ -12,6 +12,13 @@ export const LOCATION_PAGES = new Set([
     'dashboard-locations-add'
 ])
 
+export const CURRENT_LOCATION_LOG_PAGES = new Set([
+    'dashboard-locations-slug-id',
+    'dashboard-locations-slug-id-add',
+    'dashboard-locations-slug-id-edit',
+    'dashboard-locations-slug-id-images'
+])
+
 export const CURRENT_LOCATION_PAGES = new Set([
     'dashboard-locations-slug',
     'dashboard-locations-slug-add',
@@ -20,9 +27,9 @@ export const CURRENT_LOCATION_PAGES = new Set([
 
 export const SHOW_MARKER_ON_PAGES = new Set([
     'dashboard-locations-add',
-    'dashboard-locations-slug',
     'dashboard-locations-slug-add',
-    'dashboard-locations-slug-edit'
+    'dashboard-locations-slug-edit',
+    'dashboard-locations-slug-id-edit'
 ])
 
 export const EDIT_PAGES = new Set([

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, GalleryVerticalEnd, MapIcon } from 'lucide-vue-next'
+import { ArrowRight, GalleryVerticalEnd, Image, MapIcon } from 'lucide-vue-next'
 import {
     Sidebar,
     SidebarContent,
@@ -11,11 +11,15 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import NavLocation from './NavLocation.vue'
-import { CURRENT_LOCATION_PAGES } from '~/lib/constants'
+import {
+    CURRENT_LOCATION_LOG_PAGES,
+    CURRENT_LOCATION_PAGES
+} from '~/lib/constants'
 import { LOCATION_PAGES } from '../lib/constants'
 const route = useRoute()
 const authStore = useAuthStore()
 const sidebarStore = useSidebarStore()
+const locationStore = useLocationsStore()
 const props = withDefaults(defineProps<SidebarProps>(), {
     collapsible: 'icon'
 })
@@ -26,7 +30,7 @@ effect(() => {
             {
                 title: 'Travel Location',
                 url: '#',
-                icon: 'Teses',
+                icon: 'tabler:map-pin-filled',
                 isActive: true,
                 items: [
                     {
@@ -45,34 +49,94 @@ effect(() => {
             }
         ]
     } else if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')) {
-        sidebarStore.sidebarTopItems = [
-            {
-                title: 'Travel Log',
-                url: '#',
-                icon: 'sds',
-                isActive: true,
-                items: [
-                    {
-                        id: 'back-locations',
-                        label: 'Back To Location',
-                        to: '/dashboard/locations',
-                        icon: 'sds'
-                    },
-                    {
-                        id: 'edit-location',
-                        label: 'Edit Location',
-                        to: `/dashboard/locations/${route.params.slug}/edit`,
-                        icon: 'sds'
-                    },
-                    {
-                        id: 'add-log',
-                        label: 'Add Location Log',
-                        to: `/dashboard/locations/${route.params.slug}/add`,
-                        icon: 'sds'
-                    }
-                ]
-            }
-        ]
+        if (locationStore?.currentLocation?.id) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Travel Log',
+                    url: '#',
+                    icon: 'tabler:map-pin-filled',
+                    isActive: true,
+                    items: [
+                        {
+                            id: 'back-locations',
+                            label: 'Back To Location',
+                            to: '/dashboard/locations',
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'location-log',
+                            label: 'All Location Log',
+                            to: `/dashboard/locations/${route.params.slug}`,
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'edit-location',
+                            label: 'Edit Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/edit`,
+                            icon: 'sds'
+                        },
+                        {
+                            id: 'add-log',
+                            label: 'Add Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/add`,
+                            icon: 'sds'
+                        }
+                    ]
+                }
+            ]
+        }
+    } else if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
+        if (locationStore?.currentLocation?.id) {
+            sidebarStore.sidebarTopItems = [
+                {
+                    title: 'Current Location Log',
+                    url: '#',
+                    icon: 'tabler:map-pin-filled',
+                    isActive: true,
+                    items: [
+                        {
+                            id: 'back-locations',
+                            label:
+                                'Back To ' +
+                                locationStore?.currentLocation?.name,
+                            to: `/dashboard/locations/${route.params.slug}`,
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'all-location-log',
+                            label:
+                                'Back To ' +
+                                locationStore?.currentLocationLog?.name,
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}`,
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'edit-location-log',
+                            label: 'Edit Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}/edit`,
+                            icon: 'sds'
+                        },
+                        {
+                            id: 'location-log-images',
+                            label: 'Manage Images',
+                            to: `/dashboard/locations/${route.params.slug}/${route.params.id}/images`,
+                            icon: 'sds'
+                        },
+
+                        {
+                            id: 'add-log',
+                            label: 'Add Location Log',
+                            to: `/dashboard/locations/${route.params.slug}/add`,
+                            icon: 'sds'
+                        }
+                    ]
+                }
+            ]
+        }
     } else {
         sidebarStore.sidebarTopItems = [] // default or reset
     }
@@ -87,8 +151,8 @@ const userData = computed(() => ({
 const data = {
     userData,
     teams: {
-        name: 'Acme Inc',
-        logo: GalleryVerticalEnd,
+        name: 'Travel Log',
+        logo: Image,
         plan: 'Enterprise'
     },
     navMain: [
@@ -97,7 +161,7 @@ const data = {
             url: '#',
             icon: MapIcon,
             isActive: false,
-            items: [
+            subitems: [
                 { title: 'All Location', url: '/dashboard/locations' },
                 { title: 'Add Location', url: '/dashboard/locations/add' }
             ]
