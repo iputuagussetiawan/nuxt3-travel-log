@@ -5,6 +5,11 @@ import type { InsertUserType } from '~/lib/db/schema'
 
 definePageMeta({ layout: 'dashboard' })
 
+useSeoMeta({
+    title: 'Profile',
+    description: 'Manage your Travel Log profile and personal information.'
+})
+
 const authStore = useAuthStore()
 const { $csrfFetch } = useNuxtApp()
 

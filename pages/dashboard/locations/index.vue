@@ -4,6 +4,11 @@ import EmptyState from '~/components/ui/EmptyState.vue'
 
 definePageMeta({ layout: 'dashboard-location' })
 
+useSeoMeta({
+    title: 'My Locations',
+    description: 'View and manage all your logged travel locations on the map.'
+})
+
 const locationsStore = useLocationsStore()
 const { locations, locationsStatus: status } = storeToRefs(locationsStore)
 </script>

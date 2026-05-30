@@ -6,8 +6,11 @@ import { type InsertLocationType } from '~/lib/db/schema'
 import LocationForm from '~/components/LocationForm.vue'
 
 //2.modules init
-definePageMeta({
-    layout: 'dashboard-location'
+definePageMeta({ layout: 'dashboard-location' })
+
+useSeoMeta({
+    title: 'Add Location',
+    description: 'Add a new travel location to your map.'
 })
 const { $csrfFetch } = useNuxtApp()
 const router = useRouter()

@@ -3,9 +3,8 @@ import LocationLogForm from '~/components/LocationLogForm.vue'
 import { MAP_INPUT_CENTER } from '~/lib/constants'
 import type { InsertLocationLogType } from '~/lib/db/schema'
 
-definePageMeta({
-    layout: 'dashboard-location'
-})
+definePageMeta({ layout: 'dashboard-location' })
+useSeoMeta({ title: 'Edit Log', description: 'Edit this travel log entry.' })
 
 const { $csrfFetch } = useNuxtApp()
 const route = useRoute()
