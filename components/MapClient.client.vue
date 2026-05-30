@@ -13,14 +13,18 @@ const mapStore = useMapStore()
 const mapStoreTwo = useMapStoreTwo()
 const mapUrl = computed(() => (colorMode.value === 'dark' ? darkMap : lightMap))
 
-// 🗺️ Fit map to all markers
+// 🗺️ Fit map to all markers, or reset to global view when no markers
 const fitToMarkers = async () => {
     const L = await import('leaflet')
     const leafletMap = map.value?.leafletObject
+    if (!leafletMap) return
     const points = mapStore.mapPoints
-    if (!leafletMap || !points.length) return
+    if (!points.length) {
+        leafletMap.setView(MAP_CENTER, 3, { animate: true })
+        return
+    }
     const bounds = L.latLngBounds(
-        mapStore.mapPoints.map((p) => [Number(p.lat), Number(p.long)])
+        points.map((p) => [Number(p.lat), Number(p.long)])
     )
     leafletMap.fitBounds([bounds._northEast, bounds._southWest], {
         padding: [50, 50]
@@ -42,13 +46,11 @@ onMounted(async () => {
     }, 500)
 })
 
-// 🔁 Automatically refit when markers change
+// 🔁 Refit when markers change (including empty → global view)
 watch(
     () => mapStore.mapPoints,
-    (newPoints) => {
-        if (newPoints.length) {
-            nextTick(() => fitToMarkers())
-        }
+    () => {
+        nextTick(() => fitToMarkers())
     },
     { deep: true }
 )
