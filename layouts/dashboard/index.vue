@@ -5,7 +5,7 @@ import {
     SidebarTrigger
 } from '@/components/ui/sidebar'
 import { Separator } from '~/components/ui/separator'
-import ThemeToggle from '~/components/ui/ThemeToggle.vue'
+import ThemeToggle from '~/components/ThemeToggle.vue'
 import DashboardBreadcrumb from '~/components/DashboardBreadcrumb.vue'
 
 const authStore = useAuthStore()

@@ -16,7 +16,7 @@ import {
     DropdownMenuTrigger
 } from './ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import UiUserAvatar from './ui/UserAvatar.vue'
+import UiUserAvatar from '~/components/UserAvatar.vue'
 
 const { isMobile, state } = useSidebar()
 const authStore = useAuthStore()

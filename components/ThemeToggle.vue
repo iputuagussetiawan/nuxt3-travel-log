@@ -10,12 +10,10 @@ import {
 
 const colorMode = useColorMode()
 
-// Toggle between light and dark
 const toggleMode = () => {
     colorMode.preference = colorMode.preference === 'dark' ? 'light' : 'dark'
 }
 
-// Tooltip text
 const tooltipText = computed(() =>
     colorMode.preference === 'dark'
         ? 'Switch to Light Mode'
@@ -44,9 +42,7 @@ const tooltipText = computed(() =>
                     <span class="sr-only">Toggle theme</span>
                 </Button>
             </TooltipTrigger>
-            <TooltipContent side="bottom">
-                {{ tooltipText }}
-            </TooltipContent>
+            <TooltipContent side="bottom">{{ tooltipText }}</TooltipContent>
         </Tooltip>
     </TooltipProvider>
 </template>

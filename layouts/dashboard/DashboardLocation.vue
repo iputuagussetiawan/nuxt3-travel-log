@@ -8,7 +8,7 @@ import MapClientClient from '~/components/MapClient.client.vue'
 import MapListDrawer from '~/components/MapListDrawer.vue'
 import DashboardBreadcrumb from '~/components/DashboardBreadcrumb.vue'
 import { Separator } from '~/components/ui/separator'
-import ThemeToggle from '~/components/ui/ThemeToggle.vue'
+import ThemeToggle from '~/components/ThemeToggle.vue'
 import { Plus } from 'lucide-vue-next'
 import {
     CURRENT_LOCATION_LOG_PAGES,

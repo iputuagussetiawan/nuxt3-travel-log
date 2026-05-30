@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage } from './avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
+
 const authStore = useAuthStore()
 
-const props = withDefaults(
-    defineProps<{
-        showInfo?: boolean
-    }>(),
-    {
-        showInfo: true
-    }
-)
+withDefaults(defineProps<{ showInfo?: boolean }>(), { showInfo: true })
 </script>
 
 <template>
@@ -34,12 +28,12 @@ const props = withDefaults(
         </Avatar>
         <template v-if="showInfo">
             <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">
-                    {{ authStore?.user?.name }}
-                </span>
-                <span class="truncate text-xs">
-                    {{ authStore?.user?.email }}
-                </span>
+                <span class="truncate font-semibold">{{
+                    authStore?.user?.name
+                }}</span>
+                <span class="truncate text-xs">{{
+                    authStore?.user?.email
+                }}</span>
             </div>
         </template>
     </div>

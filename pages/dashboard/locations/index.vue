@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MapPin } from 'lucide-vue-next'
-import EmptyState from '~/components/ui/EmptyState.vue'
+import EmptyState from '~/components/EmptyState.vue'
 
 definePageMeta({ layout: 'dashboard-location' })
 
