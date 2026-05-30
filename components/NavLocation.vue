@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronRight, LucideMapPin } from 'lucide-vue-next'
+import { ChevronRight, ChevronLeft, LucideMapPin } from 'lucide-vue-next'
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -21,6 +21,33 @@ import type { MapPoint } from '~/lib/type'
 const route = useRoute()
 const sidebarStore = useSidebarStore()
 const mapStore = useMapStore()
+
+const PAGE_SIZE = 8
+const page = ref(1)
+
+const totalPages = computed(() =>
+    Math.max(1, Math.ceil(sidebarStore.sidebarItems.length / PAGE_SIZE))
+)
+
+const pagedItems = computed(() => {
+    const start = (page.value - 1) * PAGE_SIZE
+    return sidebarStore.sidebarItems.slice(start, start + PAGE_SIZE)
+})
+
+// Reset to page 1 when items change (route navigation)
+watch(
+    () => sidebarStore.sidebarItems,
+    () => {
+        page.value = 1
+    }
+)
+
+function prev() {
+    if (page.value > 1) page.value--
+}
+function next() {
+    if (page.value < totalPages.value) page.value++
+}
 
 function handleNavigateToLocation(location: MapPoint) {
     mapStore.navigateToMarker(location)
@@ -74,9 +101,9 @@ function isCurrentPage(subItem: any) {
                                 </li>
                             </template>
 
-                            <!-- Items -->
+                            <!-- Paged items -->
                             <SidebarMenuSubItem
-                                v-for="subItem in sidebarStore.sidebarItems"
+                                v-for="subItem in pagedItems"
                                 v-else
                                 :key="subItem.id"
                                 role="listitem"
@@ -115,6 +142,36 @@ function isCurrentPage(subItem: any) {
                                 </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                         </SidebarMenuSub>
+
+                        <!-- Pagination -->
+                        <div
+                            v-if="!sidebarStore.loading && totalPages > 1"
+                            class="mt-1 flex items-center justify-between px-2 py-1"
+                        >
+                            <button
+                                :disabled="page === 1"
+                                class="text-muted-foreground hover:text-foreground hover:bg-sidebar-accent rounded p-1 transition-colors disabled:cursor-not-allowed disabled:opacity-30"
+                                aria-label="Previous page"
+                                @click="prev"
+                            >
+                                <ChevronLeft class="h-3.5 w-3.5" />
+                            </button>
+
+                            <span
+                                class="text-muted-foreground text-xs tabular-nums"
+                            >
+                                {{ page }} / {{ totalPages }}
+                            </span>
+
+                            <button
+                                :disabled="page === totalPages"
+                                class="text-muted-foreground hover:text-foreground hover:bg-sidebar-accent rounded p-1 transition-colors disabled:cursor-not-allowed disabled:opacity-30"
+                                aria-label="Next page"
+                                @click="next"
+                            >
+                                <ChevronRight class="h-3.5 w-3.5" />
+                            </button>
+                        </div>
                     </CollapsibleContent>
                 </SidebarMenuItem>
             </Collapsible>

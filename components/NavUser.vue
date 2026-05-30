@@ -15,10 +15,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from './ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import UiUserAvatar from './ui/UserAvatar.vue'
 
-const { isMobile } = useSidebar()
+const { isMobile, state } = useSidebar()
 const authStore = useAuthStore()
+const isCollapsed = computed(() => state.value === 'collapsed')
 </script>
 
 <template>
@@ -29,14 +31,33 @@ const authStore = useAuthStore()
                     <SidebarMenuButton
                         size="lg"
                         class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        :class="isCollapsed ? 'justify-center px-0' : ''"
                         :aria-label="`User menu for ${authStore.user?.name ?? 'user'}`"
                         aria-haspopup="menu"
                     >
-                        <UiUserAvatar />
-                        <ChevronsUpDown
-                            class="ml-auto size-4"
-                            aria-hidden="true"
-                        />
+                        <!-- Collapsed: bare avatar centered -->
+                        <Avatar v-if="isCollapsed" class="h-7 w-7">
+                            <AvatarImage
+                                v-if="authStore.user?.image"
+                                :src="authStore.user.image"
+                                :alt="authStore.user?.name || 'User'"
+                            />
+                            <AvatarFallback class="text-xs font-semibold">
+                                {{
+                                    authStore.user?.name
+                                        ?.slice(0, 2)
+                                        .toUpperCase() || 'U'
+                                }}
+                            </AvatarFallback>
+                        </Avatar>
+                        <!-- Expanded: full avatar with name/email -->
+                        <template v-else>
+                            <UiUserAvatar />
+                            <ChevronsUpDown
+                                class="ml-auto size-4"
+                                aria-hidden="true"
+                            />
+                        </template>
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
 

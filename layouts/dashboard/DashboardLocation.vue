@@ -5,7 +5,7 @@ import {
     SidebarTrigger
 } from '@/components/ui/sidebar'
 import MapClientClient from '~/components/MapClient.client.vue'
-// import MapClient from '~/components/MapClient.vue'
+import MapListDrawer from '~/components/MapListDrawer.vue'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
 import {
@@ -35,7 +35,7 @@ if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
 }
 </script>
 <template>
-    <SidebarProvider>
+    <SidebarProvider :default-open="false">
         <AppSidebar />
         <SidebarInset>
             <header
@@ -81,9 +81,8 @@ if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
             <main>
                 <div class="relative">
                     <NuxtPage />
-                    <div class="">
-                        <MapClientClient />
-                    </div>
+                    <MapClientClient />
+                    <MapListDrawer />
                 </div>
             </main>
         </SidebarInset>
