@@ -33,10 +33,6 @@ if (
 if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
     await locationsStore.refreshCurrentLocationLog()
 }
-
-onMounted(() => {
-    locationsStore.refreshLocations()
-})
 </script>
 <template>
     <SidebarProvider>

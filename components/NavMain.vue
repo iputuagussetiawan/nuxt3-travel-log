@@ -25,7 +25,7 @@ const { sidebarTopItems } = storeToRefs(sidebarStore)
 function isActive(to: string | object | undefined) {
     if (!to) return false
     const path = typeof to === 'string' ? to : ((to as any).path ?? '')
-    return route.path === path || route.path.startsWith(path + '/')
+    return route.path === path
 }
 </script>
 

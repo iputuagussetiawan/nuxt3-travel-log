@@ -70,24 +70,12 @@ async function handleContinueDelete() {
     }
 }
 
-onMounted(() => {
-    setTimeout(() => {
-        locationStore.refreshCurrentLocation()
-    }, 3000) // 3000ms = 3 seconds
-
-    watch(location, (val: any) => {
-        if (val && val.lat && val.long) {
-            mapStore.flyToMarker(
-                { lat: String(val.lat), long: String(val.long) },
-                10
-            )
-        }
-    })
-})
-
-onBeforeRouteUpdate((to) => {
-    if (to.name == 'dashboard-locations-slug') {
-        locationStore.refreshCurrentLocation()
+watch(location, (val: any) => {
+    if (val && val.lat && val.long) {
+        mapStore.flyToMarker(
+            { lat: String(val.lat), long: String(val.long) },
+            10
+        )
     }
 })
 </script>

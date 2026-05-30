@@ -20,7 +20,7 @@ const fitToMarkers = async () => {
     if (!leafletMap) return
     const points = mapStore.mapPoints
     if (!points.length) {
-        leafletMap.setView(MAP_CENTER, 3, { animate: true })
+        leafletMap.setView(MAP_CENTER, 2, { animate: true })
         return
     }
     const bounds = L.latLngBounds(
@@ -46,11 +46,13 @@ onMounted(async () => {
     }, 500)
 })
 
-// 🔁 Refit when markers change (including empty → global view)
+// 🔁 Refit when markers settle (debounced to avoid flicker on route change)
+let refitTimer = null
 watch(
     () => mapStore.mapPoints,
     () => {
-        nextTick(() => fitToMarkers())
+        clearTimeout(refitTimer)
+        refitTimer = setTimeout(() => fitToMarkers(), 300)
     },
     { deep: true }
 )
@@ -80,7 +82,7 @@ function onDoubleClick(location) {
             ref="map"
             style="height: 850px"
             :options="{ zoomControl: false }"
-            :zoom="5"
+            :zoom="2"
             :min-zoom="3"
             :max-bounds="MAP_BOUNDS"
             :center="MAP_CENTER"
