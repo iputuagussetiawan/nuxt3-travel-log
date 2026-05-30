@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
-import { DropdownMenu, DropdownMenuTrigger } from './ui/dropdown-menu'
 
-const props = defineProps<{
+defineProps<{
     teams: {
         name: string
         logo: Component
@@ -15,30 +14,32 @@ const props = defineProps<{
 <template>
     <SidebarMenu>
         <SidebarMenuItem>
-            <DropdownMenu>
-                <DropdownMenuTrigger as-child>
-                    <SidebarMenuButton
-                        size="lg"
-                        class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            <SidebarMenuButton
+                size="lg"
+                as-child
+                class="hover:bg-sidebar-accent"
+            >
+                <NuxtLink
+                    to="/dashboard/locations"
+                    aria-label="Go to dashboard"
+                >
+                    <div
+                        class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
+                        aria-hidden="true"
                     >
-                        <div
-                            class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
+                        <component :is="teams.logo" class="size-4" />
+                    </div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-semibold">{{
+                            teams.name
+                        }}</span>
+                        <span
+                            class="text-sidebar-foreground/60 truncate text-xs"
+                            >{{ teams.plan }}</span
                         >
-                            <component :is="props.teams.logo" class="size-4" />
-                        </div>
-                        <div
-                            class="grid flex-1 text-left text-sm leading-tight"
-                        >
-                            <span class="truncate font-semibold">
-                                {{ props.teams.name }}
-                            </span>
-                            <span class="truncate text-xs">{{
-                                props.teams.plan
-                            }}</span>
-                        </div>
-                    </SidebarMenuButton>
-                </DropdownMenuTrigger>
-            </DropdownMenu>
+                    </div>
+                </NuxtLink>
+            </SidebarMenuButton>
         </SidebarMenuItem>
     </SidebarMenu>
 </template>

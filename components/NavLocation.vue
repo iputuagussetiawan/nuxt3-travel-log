@@ -17,73 +17,103 @@ import {
 } from './ui/collapsible'
 import { Skeleton } from './ui/skeleton'
 import type { MapPoint } from '~/lib/type'
+
+const route = useRoute()
 const sidebarStore = useSidebarStore()
 const mapStore = useMapStore()
 
-const handleNavigateToLocation = (location: MapPoint) => {
+function handleNavigateToLocation(location: MapPoint) {
     mapStore.navigateToMarker(location)
+}
+
+function isSelected(subItem: any) {
+    return mapStore.selectedPoint?.id === subItem.location?.id
+}
+
+function isCurrentPage(subItem: any) {
+    return (
+        route.path === subItem.to ||
+        route.path.startsWith(String(subItem.to) + '/')
+    )
 }
 </script>
 
 <template>
-    <SidebarGroup>
-        <SidebarGroupLabel v-if="sidebarStore.sidebarItems.length"
-            >My Map</SidebarGroupLabel
-        >
-
-        <SidebarMenu v-if="sidebarStore.sidebarItems.length">
+    <SidebarGroup
+        v-if="sidebarStore.loading || sidebarStore.sidebarItems.length"
+    >
+        <SidebarGroupLabel>My Map</SidebarGroupLabel>
+        <SidebarMenu>
             <Collapsible as-child default-open class="group/collapsible">
                 <SidebarMenuItem>
                     <CollapsibleTrigger as-child>
-                        <SidebarMenuButton tooltip="My Map Listing">
-                            <LucideMapPin />
+                        <SidebarMenuButton
+                            tooltip="Map Listing"
+                            aria-label="Map Listing"
+                        >
+                            <LucideMapPin aria-hidden="true" />
                             <span>Map Listing</span>
                             <ChevronRight
                                 class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                                aria-hidden="true"
                             />
                         </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                        <SidebarMenuSub>
+                        <SidebarMenuSub role="list">
+                            <!-- Loading skeletons -->
                             <template v-if="sidebarStore.loading">
-                                <Skeleton
+                                <li
                                     v-for="i in 5"
                                     :key="i"
-                                    class="mb-2 h-5 w-full rounded-full last:mb-0"
-                                />
+                                    role="listitem"
+                                    aria-hidden="true"
+                                    class="px-2 py-1"
+                                >
+                                    <Skeleton class="h-5 w-full rounded-full" />
+                                </li>
                             </template>
 
-                            <template
-                                v-if="
-                                    !sidebarStore.loading &&
-                                    sidebarStore.sidebarItems.length
-                                "
+                            <!-- Items -->
+                            <SidebarMenuSubItem
+                                v-for="subItem in sidebarStore.sidebarItems"
+                                v-else
+                                :key="subItem.id"
+                                role="listitem"
                             >
-                                <SidebarMenuSubItem
-                                    v-for="subItem in sidebarStore.sidebarItems"
-                                    :key="subItem.id"
-                                    class="cursor-pointer"
+                                <SidebarMenuSubButton
+                                    as-child
+                                    :class="[
+                                        isSelected(subItem)
+                                            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                            : '',
+                                        isCurrentPage(subItem) &&
+                                        !isSelected(subItem)
+                                            ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
+                                            : ''
+                                    ]"
                                 >
-                                    <SidebarMenuSubButton as-child>
-                                        <NuxtLink
-                                            @click="
-                                                handleNavigateToLocation(
-                                                    subItem.location as MapPoint
-                                                )
-                                            "
-                                            :to="subItem.to"
-                                            :class="
-                                                mapStore.selectedPoint?.id ===
-                                                subItem.location?.id
-                                                    ? 'bg-blue-600'
-                                                    : ''
-                                            "
-                                        >
-                                            <span>{{ subItem.label }}</span>
-                                        </NuxtLink>
-                                    </SidebarMenuSubButton>
-                                </SidebarMenuSubItem>
-                            </template>
+                                    <NuxtLink
+                                        :to="subItem.to"
+                                        :aria-current="
+                                            isCurrentPage(subItem)
+                                                ? 'page'
+                                                : undefined
+                                        "
+                                        :aria-pressed="
+                                            isSelected(subItem) || undefined
+                                        "
+                                        @click="
+                                            subItem.location &&
+                                            handleNavigateToLocation(
+                                                subItem.location as MapPoint
+                                            )
+                                        "
+                                    >
+                                        <span>{{ subItem.label }}</span>
+                                    </NuxtLink>
+                                </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
                         </SidebarMenuSub>
                     </CollapsibleContent>
                 </SidebarMenuItem>

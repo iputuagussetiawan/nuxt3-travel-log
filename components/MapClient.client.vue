@@ -11,9 +11,7 @@ const darkMap = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 
 const mapStore = useMapStore()
 const mapStoreTwo = useMapStoreTwo()
-const mapUrl = computed(() =>
-    colorMode.preference === 'dark' ? darkMap : lightMap
-)
+const mapUrl = computed(() => (colorMode.value === 'dark' ? darkMap : lightMap))
 
 // 🗺️ Fit map to all markers
 const fitToMarkers = async () => {

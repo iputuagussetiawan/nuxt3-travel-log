@@ -4,16 +4,9 @@ import {
     SidebarProvider,
     SidebarTrigger
 } from '@/components/ui/sidebar'
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator
-} from '~/components/ui/breadcrumb'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
+import DashboardBreadcrumb from '~/components/DashboardBreadcrumb.vue'
 
 const authStore = useAuthStore()
 await authStore.init()
@@ -32,19 +25,7 @@ await authStore.init()
                         <SidebarTrigger class="-ml-1" />
 
                         <Separator orientation="vertical" class="mr-2 h-4" />
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <!-- <BreadcrumbItem class="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Travel Log
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem> -->
-                                <!-- <BreadcrumbSeparator class="hidden md:block" /> -->
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>Dashboard</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
+                        <DashboardBreadcrumb />
                     </div>
                     <div>
                         <ThemeToggle />
