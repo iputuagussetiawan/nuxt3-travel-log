@@ -12,7 +12,7 @@ const authStore = useAuthStore()
 await authStore.init()
 </script>
 <template>
-    <SidebarProvider>
+    <SidebarProvider :default-open="false">
         <AppSidebar />
         <SidebarInset>
             <header

@@ -11,8 +11,10 @@ const router = useRouter()
 const loading = ref(false)
 
 const locationStore = useLocationsStore()
-definePageMeta({
-    layout: 'dashboard-location'
+definePageMeta({ layout: 'dashboard-location' })
+useSeoMeta({
+    title: 'Edit Location',
+    description: 'Edit your travel location details.'
 })
 
 async function onSubmit(values: InsertLocationType) {

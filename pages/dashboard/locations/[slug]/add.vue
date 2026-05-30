@@ -4,8 +4,10 @@ import { MAP_INPUT_CENTER } from '~/lib/constants'
 import type { InsertLocationLogType } from '~/lib/db/schema'
 import { fromDate, getLocalTimeZone, parseDate } from '@internationalized/date'
 
-definePageMeta({
-    layout: 'dashboard-location'
+definePageMeta({ layout: 'dashboard-location' })
+useSeoMeta({
+    title: 'Add Location Log',
+    description: 'Add a new log entry to this travel location.'
 })
 const { $csrfFetch } = useNuxtApp()
 const route = useRoute()

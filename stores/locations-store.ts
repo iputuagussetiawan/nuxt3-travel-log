@@ -86,7 +86,6 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             CURRENT_LOCATION_PAGES.has(route.name?.toString() || '')
         ) {
             const mapPoints: MapPoint[] = []
-            sidebarStore.sidebarItems = []
 
             currentLocation.value.locationLogs.forEach((log) => {
                 const mapPoint = createMapPointFromLocationLog(log)
@@ -97,21 +96,19 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             } else {
                 mapStore.mapPoints = [currentLocation.value]
             }
-            // sidebarStore.sidebarItems = currentLocation.value.locationLogs.map(
-            //     (log) => ({
-            //         id: `location-log-${log.id}`,
-            //         label: log.name,
-            //         icon: 'tabler:map-pin-filled',
-            //         to: {
-            //             name: 'dashboard-locations-slug-id',
-            //             params: { id: log.id }
-            //         },
-            //         toLabel: 'View',
-            //         location: log
-            //     })
-            // )
 
-            // // sidebarStore.sidebarItems = sidebarItems
+            sidebarStore.sidebarItems = currentLocation.value.locationLogs.map(
+                (log) => ({
+                    id: `location-log-${log.id}`,
+                    label: log.name,
+                    icon: 'tabler:map-pin-filled',
+                    to: {
+                        name: 'dashboard-locations-slug-id',
+                        params: { slug: route.params.slug, id: log.id }
+                    },
+                    location: createMapPointFromLocationLog(log)
+                })
+            )
         } else if (
             currentLocationLog.value &&
             CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')
@@ -122,10 +119,6 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
         sidebarStore.loading =
             locationsStatus.value === 'pending' ||
             currentLocationStatus.value === 'pending'
-
-        if (sidebarStore.loading) {
-            mapStore.mapPoints = []
-        }
     })
 
     return {

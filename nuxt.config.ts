@@ -2,6 +2,26 @@
 import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
+    app: {
+        head: {
+            titleTemplate: '%s · Travel Log',
+            meta: [
+                { charset: 'utf-8' },
+                {
+                    name: 'viewport',
+                    content: 'width=device-width, initial-scale=1'
+                },
+                {
+                    name: 'description',
+                    content:
+                        'Pin your memories on the map, log your adventures, and revisit every place that took your breath away.'
+                },
+                { property: 'og:site_name', content: 'Travel Log' },
+                { property: 'og:type', content: 'website' },
+                { name: 'twitter:card', content: 'summary_large_image' }
+            ]
+        }
+    },
     devtools: { enabled: true },
     modules: [
         '@nuxt/eslint',

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-definePageMeta({
-    layout: 'dashboard-location'
+definePageMeta({ layout: 'dashboard-location' })
+useSeoMeta({
+    title: 'Manage Images',
+    description: 'Manage images for this travel log entry.'
 })
 </script>
 <template>

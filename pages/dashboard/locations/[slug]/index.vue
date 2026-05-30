@@ -33,22 +33,30 @@ import CardLocation from '~/components/ui/CardLocation.vue'
 import CardLocationSkelton from '~/components/ui/CardLocationSkelton.vue'
 import { createMapPointFromLocationLog } from '~/lib/map-points'
 
-definePageMeta({
-    layout: 'dashboard-location'
-})
+definePageMeta({ layout: 'dashboard-location' })
+
 const route = useRoute()
 const { slug } = route.params
 const mapStore = useMapStore()
 const locationStore = useLocationsStore()
-const isDeleteDialogOpen = ref(false)
-const isDeleting = ref(false)
-const deleteError = ref('')
 
 const {
     currentLocation: location,
     currentLocationError: error,
     currentLocationStatus: status
 } = storeToRefs(locationStore)
+
+useSeoMeta({
+    title: computed(() => location.value?.name ?? String(slug)),
+    description: computed(
+        () => location.value?.description ?? `Explore logs for ${slug}.`
+    ),
+    ogTitle: computed(() => `${location.value?.name ?? slug} · Travel Log`)
+})
+
+const isDeleteDialogOpen = ref(false)
+const isDeleting = ref(false)
+const deleteError = ref('')
 
 const handleDeleteLocation = () => {
     isDeleteDialogOpen.value = true
@@ -70,24 +78,12 @@ async function handleContinueDelete() {
     }
 }
 
-onMounted(() => {
-    setTimeout(() => {
-        locationStore.refreshCurrentLocation()
-    }, 3000) // 3000ms = 3 seconds
-
-    watch(location, (val: any) => {
-        if (val && val.lat && val.long) {
-            mapStore.flyToMarker(
-                { lat: String(val.lat), long: String(val.long) },
-                10
-            )
-        }
-    })
-})
-
-onBeforeRouteUpdate((to) => {
-    if (to.name == 'dashboard-locations-slug') {
-        locationStore.refreshCurrentLocation()
+watch(location, (val: any) => {
+    if (val && val.lat && val.long) {
+        mapStore.flyToMarker(
+            { lat: String(val.lat), long: String(val.long) },
+            10
+        )
     }
 })
 </script>

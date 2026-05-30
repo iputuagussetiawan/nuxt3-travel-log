@@ -13,15 +13,23 @@ const props = withDefaults(
 </script>
 
 <template>
-    <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-        <Avatar class="h-7 w-7">
+    <div
+        :class="
+            showInfo
+                ? 'flex items-center gap-2 px-1 py-1.5 text-left text-sm'
+                : 'flex items-center justify-center'
+        "
+    >
+        <Avatar class="h-8 w-8 shrink-0">
             <AvatarImage
                 v-if="authStore?.user?.image"
-                :src="authStore.user.image || 'https://github.com/unovue.png'"
+                :src="authStore.user.image"
                 :alt="authStore.user.name || 'User avatar'"
             />
-            <AvatarFallback>
-                {{ authStore?.user?.name?.charAt(0)?.toUpperCase() || 'U' }}
+            <AvatarFallback
+                class="flex items-center justify-center text-xs font-semibold"
+            >
+                {{ authStore?.user?.name?.slice(0, 2).toUpperCase() || 'U' }}
             </AvatarFallback>
         </Avatar>
         <template v-if="showInfo">

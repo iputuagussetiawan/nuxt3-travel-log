@@ -23,20 +23,28 @@ import { EllipsisVertical } from 'lucide-vue-next'
 import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
 import type { FetchError } from 'ofetch'
 
-definePageMeta({
-    layout: 'dashboard-location'
-})
+definePageMeta({ layout: 'dashboard-location' })
+
 const route = useRoute()
 const { slug } = route.params
-const isDeleteDialogOpen = ref(false)
-const isDeleting = ref(false)
-const deleteError = ref('')
 const locationStore = useLocationsStore()
 const {
     currentLocationLog: locationLog,
     currentLocationLogStatus: status,
     currentLocationLogError: error
 } = storeToRefs(locationStore)
+
+useSeoMeta({
+    title: computed(() => locationLog.value?.name ?? 'Location Log'),
+    description: computed(
+        () => locationLog.value?.description ?? 'View this travel log entry.'
+    ),
+    ogTitle: computed(() => `${locationLog.value?.name ?? 'Log'} · Travel Log`)
+})
+
+const isDeleteDialogOpen = ref(false)
+const isDeleting = ref(false)
+const deleteError = ref('')
 
 const loading = computed(() => isDeleting.value || status.value === 'pending')
 const errorMessage = computed(
