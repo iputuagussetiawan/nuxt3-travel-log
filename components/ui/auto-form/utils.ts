@@ -1,17 +1,16 @@
 import type { z } from 'zod'
 
-// TODO: This should support recursive ZodEffects but TypeScript doesn't allow circular type definitions.
+// Zod v4: ZodEffects is gone — use ZodPipe (z.ZodPipe) for transform/pipe.
+// We support ZodObject directly or wrapped in a ZodPipe.
 export type ZodObjectOrWrapped =
-    | z.ZodObject<any, any>
-    | z.ZodEffects<z.ZodObject<any, any>>
+    | z.ZodObject<any>
+    | z.ZodPipe<any, z.ZodObject<any>>
 
 /**
  * Beautify a camelCase string.
  * e.g. "myString" -> "My String"
  */
 export function beautifyObjectName(string: string) {
-    // Remove bracketed indices
-    // if numbers only return the string
     let output = string.replace(/\[\d+\]/g, '').replace(/([A-Z])/g, ' $1')
     output = output.charAt(0).toUpperCase() + output.slice(1)
     return output
@@ -19,84 +18,104 @@ export function beautifyObjectName(string: string) {
 
 /**
  * Parse string and extract the index
- * @param string
- * @returns index or undefined
  */
 export function getIndexIfArray(string: string) {
     const indexRegex = /\[(\d+)\]/
-    // Match the index
     const match = string.match(indexRegex)
-    // Extract the index (number)
-    const index = match ? Number.parseInt(match[1]) : undefined
-    return index
+    return match ? Number.parseInt(match[1]) : undefined
 }
 
 /**
- * Get the lowest level Zod type.
- * This will unpack optionals, refinements, etc.
+ * Get the lowest-level Zod schema, unwrapping optional/nullable/default/pipe.
+ * Zod v4 uses _def.type (string) instead of _def.typeName.
  */
-export function getBaseSchema<
-    ChildType extends z.ZodAny | z.AnyZodObject = z.ZodAny
->(schema: ChildType | z.ZodEffects<ChildType>): ChildType | null {
+export function getBaseSchema<ChildType extends z.ZodTypeAny = z.ZodTypeAny>(
+    schema: ChildType
+): ChildType | null {
     if (!schema) return null
-    if ('innerType' in schema._def)
-        return getBaseSchema(schema._def.innerType as ChildType)
+    const defType = (schema._def as any)?.type
 
-    if ('schema' in schema._def)
-        return getBaseSchema(schema._def.schema as ChildType)
-
-    return schema as ChildType
-}
-
-/**
- * Get the type name of the lowest level Zod type.
- * This will unpack optionals, refinements, etc.
- */
-export function getBaseType(schema: z.ZodAny) {
-    const baseSchema = getBaseSchema(schema)
-    return baseSchema ? baseSchema._def.typeName : ''
-}
-
-/**
- * Search for a "ZodDefault" in the Zod stack and return its value.
- */
-export function getDefaultValueInZodStack(schema: z.ZodAny): any {
-    const typedSchema = schema as unknown as z.ZodDefault<
-        z.ZodNumber | z.ZodString
-    >
-
-    if (typedSchema._def.typeName === 'ZodDefault')
-        return typedSchema._def.defaultValue()
-
-    if ('innerType' in typedSchema._def) {
-        return getDefaultValueInZodStack(
-            typedSchema._def.innerType as unknown as z.ZodAny
-        )
+    // unwrap optional / nullable / default
+    if (['optional', 'nullable', 'default'].includes(defType)) {
+        return getBaseSchema((schema._def as any).innerType as ChildType)
     }
-    if ('schema' in typedSchema._def) {
-        return getDefaultValueInZodStack(
-            (typedSchema._def as any).schema as z.ZodAny
-        )
+    // unwrap pipe (replaces ZodEffects/transform in v4): recurse into the output schema
+    if (defType === 'pipe') {
+        return getBaseSchema((schema._def as any).out as ChildType)
+    }
+
+    return schema
+}
+
+/**
+ * Get the _def.type string of the lowest-level Zod schema.
+ */
+export function getBaseType(schema: z.ZodTypeAny): string {
+    const base = getBaseSchema(schema)
+    if (!base) return ''
+    // Map zod v4 _def.type → display type names consistent with DEFAULT_ZOD_HANDLERS
+    const raw = (base._def as any)?.type ?? ''
+    const map: Record<string, string> = {
+        string: 'ZodString',
+        number: 'ZodNumber',
+        boolean: 'ZodBoolean',
+        date: 'ZodDate',
+        enum: 'ZodEnum',
+        array: 'ZodArray',
+        object: 'ZodObject'
+    }
+    return map[raw] ?? `Zod${raw.charAt(0).toUpperCase()}${raw.slice(1)}`
+}
+
+/**
+ * Search for a "default" wrapper in the Zod stack and return its value.
+ * Zod v4: _def.type === 'default', value at _def.defaultValue (not a fn).
+ */
+export function getDefaultValueInZodStack(schema: z.ZodTypeAny): any {
+    const def = schema._def as any
+    if (!def) return undefined
+
+    if (def.type === 'default') {
+        // Zod v4 stores the raw default value directly (not a function)
+        return def.defaultValue
+    }
+
+    if (def.innerType) {
+        return getDefaultValueInZodStack(def.innerType)
+    }
+    if (def.schema) {
+        return getDefaultValueInZodStack(def.schema)
+    }
+    // pipe: check the input side for a default
+    if (def.in) {
+        return getDefaultValueInZodStack(def.in)
     }
 
     return undefined
 }
 
+/**
+ * Unwrap a ZodObjectOrWrapped to the underlying ZodObject.
+ * Zod v4: pipe replaces ZodEffects; pipe._def.out holds the output schema.
+ */
 export function getObjectFormSchema(
     schema: ZodObjectOrWrapped
-): z.ZodObject<any, any> {
-    if (schema?._def.typeName === 'ZodEffects') {
-        const typedSchema = schema as z.ZodEffects<z.ZodObject<any, any>>
-        return getObjectFormSchema(typedSchema._def.schema)
+): z.ZodObject<any> {
+    const defType = (schema._def as any)?.type
+    if (defType === 'pipe') {
+        return getObjectFormSchema(
+            (schema._def as any).out as ZodObjectOrWrapped
+        )
     }
-    return schema as z.ZodObject<any, any>
+    return schema as z.ZodObject<any>
 }
 
 function isIndex(value: unknown): value is number {
     return Number(value) >= 0
 }
+
 /**
- * Constructs a path with dot paths for arrays to use brackets to be compatible with vee-validate path syntax
+ * Constructs a path with dot paths for arrays to use brackets (vee-validate compatible)
  */
 export function normalizeFormPath(path: string): string {
     const pathArr = path.split('.')
@@ -108,7 +127,6 @@ export function normalizeFormPath(path: string): string {
             fullPath += `[${pathArr[i]}]`
             continue
         }
-
         fullPath += `.${pathArr[i]}`
     }
 
@@ -116,12 +134,11 @@ export function normalizeFormPath(path: string): string {
 }
 
 type NestedRecord = Record<string, unknown> | { [k: string]: NestedRecord }
-/**
- * Checks if the path opted out of nested fields using `[fieldName]` syntax
- */
+
 export function isNotNestedPath(path: string) {
     return /^\[.+\]$/.test(path)
 }
+
 function isObject(obj: unknown): obj is Record<string, unknown> {
     return (
         obj !== null && !!obj && typeof obj === 'object' && !Array.isArray(obj)
@@ -132,13 +149,9 @@ function isContainerValue(value: unknown): value is Record<string, unknown> {
 }
 function cleanupNonNestedPath(path: string) {
     if (isNotNestedPath(path)) return path.replace(/\[|\]/g, '')
-
     return path
 }
 
-/**
- * Gets a nested property value from an object
- */
 export function getFromPath<TValue = unknown>(
     object: NestedRecord | undefined,
     path: string
@@ -163,7 +176,6 @@ export function getFromPath<TValue = unknown, TFallback = TValue>(
         .filter(Boolean)
         .reduce((acc, propKey) => {
             if (isContainerValue(acc) && propKey in acc) return acc[propKey]
-
             return fallback
         }, object as unknown)
 

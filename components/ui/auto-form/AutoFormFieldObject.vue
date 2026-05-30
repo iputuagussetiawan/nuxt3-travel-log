@@ -32,24 +32,27 @@ const shapes = computed(() => {
     const val: { [key in keyof T]: Shape } = {}
 
     if (!props.schema) return
-    const shape = getBaseSchema(props.schema)?.shape
+    const base = getBaseSchema(props.schema) as ZodObject<T> | null
+    const shape = base?._def?.shape ?? base?.shape
     if (!shape) return
     Object.keys(shape).forEach((name) => {
         const item = shape[name] as ZodAny
         const baseItem = getBaseSchema(item) as ZodAny
         let options =
-            baseItem && 'values' in baseItem._def
-                ? (baseItem._def.values as string[])
+            baseItem && 'entries' in (baseItem._def as any)
+                ? Object.values(
+                      (baseItem._def as any).entries as Record<string, string>
+                  )
                 : undefined
         if (!Array.isArray(options) && typeof options === 'object')
-            options = Object.values(options)
+            options = Object.values(options as object)
 
         val[name as keyof T] = {
             type: getBaseType(item),
             default: getDefaultValueInZodStack(item),
             options,
-            required: !['ZodOptional', 'ZodNullable'].includes(
-                item._def.typeName
+            required: !['optional', 'nullable'].includes(
+                (item._def as any).type
             ),
             schema: item
         }
@@ -85,7 +88,7 @@ provide(FieldContextKey, fieldContext)
                                 }}
                             </AutoFormLabel>
                         </AccordionTrigger>
-                        <AccordionContent class="p-1 space-y-5">
+                        <AccordionContent class="space-y-5 p-1">
                             <template v-for="(shape, key) in shapes" :key="key">
                                 <AutoFormField
                                     :config="

@@ -27,6 +27,7 @@ const emits = defineEmits<{
 }>()
 
 const { dependencies } = toRefs(props)
+// @ts-expect-error generic Dependency type mismatch between vee-validate and zod inferred types
 provideDependencies(dependencies)
 
 const shapes = computed(() => {
@@ -38,18 +39,20 @@ const shapes = computed(() => {
         const item = shape[name] as ZodAny
         const baseItem = getBaseSchema(item) as ZodAny
         let options =
-            baseItem && 'values' in baseItem._def
-                ? (baseItem._def.values as string[])
+            baseItem && 'entries' in (baseItem._def as any)
+                ? Object.values(
+                      (baseItem._def as any).entries as Record<string, string>
+                  )
                 : undefined
         if (!Array.isArray(options) && typeof options === 'object')
-            options = Object.values(options)
+            options = Object.values(options as object)
 
         val[name as keyof T] = {
             type: getBaseType(item),
             default: getDefaultValueInZodStack(item),
             options,
-            required: !['ZodOptional', 'ZodNullable'].includes(
-                item._def.typeName
+            required: !['optional', 'nullable'].includes(
+                (item._def as any).type
             ),
             schema: baseItem
         }
@@ -81,6 +84,7 @@ const formComponent = computed(() => (props.form ? 'form' : Form))
 const formComponentProps = computed(() => {
     if (props.form) {
         return {
+            // @ts-expect-error GenericObject vs z.infer<T> mismatch — safe at runtime
             onSubmit: props.form.handleSubmit((val) => emits('submit', val))
         }
     } else {
@@ -88,6 +92,7 @@ const formComponentProps = computed(() => {
         return {
             keepValues: true,
             validationSchema: formSchema,
+            // @ts-expect-error GenericObject vs z.infer<T> mismatch — safe at runtime
             onSubmit: (val: GenericObject) => emits('submit', val)
         }
     }

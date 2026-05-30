@@ -17,8 +17,8 @@ export const user = pgTable('user', {
 
 export const InsertUserSchema = createInsertSchema(user, {
     name: (field) => field.min(1).max(50),
-    email: (field) => field.min(1).max(50),
-    image: (field) => field.min(1).max(50)
+    email: (field) => field.email().min(1).max(100),
+    image: (field) => field.url('Must be a valid URL').max(2048).optional()
 }).omit({
     id: true,
     emailVerified: true,

@@ -138,7 +138,29 @@ effect(() => {
             ]
         }
     } else {
-        sidebarStore.sidebarTopItems = [] // default or reset
+        // fallback: always show base Locations nav for unrecognized routes (profile, etc.)
+        sidebarStore.sidebarTopItems = [
+            {
+                title: 'Travel Location',
+                url: '#',
+                icon: 'tabler:map-pin-filled',
+                isActive: true,
+                items: [
+                    {
+                        id: 'dashboard-locations',
+                        label: 'All Location',
+                        to: '/dashboard/locations',
+                        icon: 'lucide:map-pin'
+                    },
+                    {
+                        id: 'view-log',
+                        label: 'Add Location',
+                        to: '/dashboard/locations/add',
+                        icon: 'lucide:plus'
+                    }
+                ]
+            }
+        ]
     }
 })
 
