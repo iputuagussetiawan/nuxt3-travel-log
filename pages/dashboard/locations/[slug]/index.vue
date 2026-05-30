@@ -27,10 +27,10 @@ import {
 
 import { Icon } from '@iconify/vue'
 import { ref } from 'vue'
-import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
+import CustomAlertDialog from '~/components/CustomAlertDialog.vue'
 import type { FetchError } from 'ofetch'
-import CardLocation from '~/components/ui/CardLocation.vue'
-import CardLocationSkelton from '~/components/ui/CardLocationSkelton.vue'
+import CardLocation from '~/components/CardLocation.vue'
+import CardLocationSkelton from '~/components/CardLocationSkelton.vue'
 import { createMapPointFromLocationLog } from '~/lib/map-points'
 
 definePageMeta({ layout: 'dashboard-location' })

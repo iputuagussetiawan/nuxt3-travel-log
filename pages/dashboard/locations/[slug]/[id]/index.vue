@@ -20,7 +20,7 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { EllipsisVertical } from 'lucide-vue-next'
-import CustomAlertDialog from '~/components/ui/CustomAlertDialog.vue'
+import CustomAlertDialog from '~/components/CustomAlertDialog.vue'
 import type { FetchError } from 'ofetch'
 
 definePageMeta({ layout: 'dashboard-location' })

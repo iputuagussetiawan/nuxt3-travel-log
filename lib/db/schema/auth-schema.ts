@@ -2,12 +2,16 @@ import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
 import type z from 'zod'
 
+export const ROLES = ['user', 'admin'] as const
+export type Role = (typeof ROLES)[number]
+
 export const user = pgTable('user', {
     id: text('id').primaryKey(),
     name: text('name').notNull(),
     email: text('email').notNull().unique(),
     emailVerified: boolean('email_verified').default(false).notNull(),
     image: text('image'),
+    role: text('role').$type<Role>().default('user').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at')
         .defaultNow()
@@ -22,6 +26,7 @@ export const InsertUserSchema = createInsertSchema(user, {
 }).omit({
     id: true,
     emailVerified: true,
+    role: true,
     createdAt: true,
     updatedAt: true
 })
@@ -67,7 +72,7 @@ export const account = pgTable('account', {
 export const verification = pgTable('verification', {
     id: text('id').primaryKey(),
     identifier: text('identifier').notNull(),
-    value: text('value').notNull(), // must be JSONB
+    value: text('value').notNull(),
     expiresAt: timestamp('expires_at').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull()

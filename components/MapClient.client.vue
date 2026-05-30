@@ -56,17 +56,18 @@ watch(
     () => mapStore.mapPoints,
     () => {
         clearTimeout(refitTimer)
-        refitTimer = setTimeout(() => fitToMarkers(), 300)
+        refitTimer = setTimeout(() => fitToMarkers(), 400)
     },
     { deep: true }
 )
 
-// 🔁 On route change: init addedPoint + fly on add/edit pages, refit on others
+// 🔁 On route change: manage addedPoint only — let watch(mapPoints) handle refitting
 watch(
     () => route.name,
     (newName) => {
         const name = newName?.toString() || ''
         if (SHOW_MARKER_ON_PAGES.has(name)) {
+            // Ensure draggable picker exists immediately
             if (!mapStore.addedPoint) {
                 mapStore.addedPoint = {
                     id: 'input-only',
@@ -77,6 +78,7 @@ watch(
                     long: String(MAP_INPUT_CENTER[1])
                 }
             }
+            // Fly to input center with smooth animation
             const leafletMap = map.value?.leafletObject
             if (leafletMap) {
                 leafletMap.flyTo(MAP_INPUT_CENTER, 5, {
@@ -85,9 +87,8 @@ watch(
                 })
             }
         } else {
+            // Just reset addedPoint — watch(mapPoints) will refit when new data arrives
             mapStore.addedPoint = null
-            clearTimeout(refitTimer)
-            refitTimer = setTimeout(() => fitToMarkers(), 400)
         }
     }
 )

@@ -2,6 +2,28 @@
 import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
+    experimental: {
+        appManifest: true
+    },
+    runtimeConfig: {
+        // Server-only (not exposed to client)
+        databaseUrl: process.env.DATABASE_URL,
+        betterAuthSecret: process.env.BETTER_AUTH_SECRET,
+        githubClientId: process.env.GITHUB_CLIENT_ID,
+        githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+        googleClientId: process.env.GOOGLE_CLIENT_ID,
+        googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        smtpHost: process.env.SMTP_HOST,
+        smtpPort: process.env.SMTP_PORT,
+        smtpSecure: process.env.SMTP_SECURE,
+        smtpUser: process.env.SMTP_USER,
+        smtpPass: process.env.SMTP_PASS,
+        smtpFrom: process.env.SMTP_FROM,
+        // Public (exposed to client)
+        public: {
+            appUrl: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000'
+        }
+    },
     app: {
         head: {
             titleTemplate: '%s · Travel Log',
@@ -55,7 +77,7 @@ export default defineNuxtConfig({
             sameSite: 'strict'
         },
         methodsToProtect: ['POST', 'PUT', 'PATCH'], // the request methods we want CSRF protection for
-        encryptSecret: '',
+        encryptSecret: process.env.BETTER_AUTH_SECRET ?? '',
         addCsrfTokenToEventCtx: true, // default false, to run useCsrfFetch on server set it to true
         headerName: 'csrf-token' // the header where the csrf token is stored
     },
