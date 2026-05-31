@@ -52,6 +52,9 @@ importers:
             class-variance-authority:
                 specifier: ^0.7.1
                 version: 0.7.1
+            cloudinary:
+                specifier: ^2.10.0
+                version: 2.10.0
             clsx:
                 specifier: ^2.1.1
                 version: 2.1.1
@@ -4549,6 +4552,13 @@ packages:
             }
         engines: { node: '>=12' }
 
+    cloudinary@2.10.0:
+        resolution:
+            {
+                integrity: sha512-sY09kYg7wprkndAOjZBAYqFZqwL+SxnEGcAvksOvFA+5upnFn949UjkEkHKNSwkBtW/xRDd0p6NgbSXZcxkI3w==
+            }
+        engines: { node: '>=9' }
+
     clsx@2.1.1:
         resolution:
             {
@@ -7089,6 +7099,12 @@ packages:
         resolution:
             {
                 integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+            }
+
+    lodash@4.18.1:
+        resolution:
+            {
+                integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==
             }
 
     log-update@6.1.0:
@@ -13378,6 +13394,10 @@ snapshots:
             strip-ansi: 6.0.1
             wrap-ansi: 7.0.0
 
+    cloudinary@2.10.0:
+        dependencies:
+            lodash: 4.18.1
+
     clsx@2.1.1: {}
 
     cluster-key-slot@1.1.2: {}
@@ -14835,6 +14855,8 @@ snapshots:
     lodash.uniq@4.5.0: {}
 
     lodash@4.17.21: {}
+
+    lodash@4.18.1: {}
 
     log-update@6.1.0:
         dependencies:
