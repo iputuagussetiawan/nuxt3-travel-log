@@ -88,6 +88,12 @@ const greeting = computed(() => {
     return 'Good evening'
 })
 
+// ── Access map (admin only) ───────────────────────────────────
+import type { RegionPoint } from '~/server/api/admin/access-map.get'
+const { data: accessPoints, status: mapStatus } = authStore.isAdmin
+    ? await useFetch<RegionPoint[]>('/api/admin/access-map')
+    : { data: ref(null), status: ref('idle') }
+
 onMounted(() => {
     if (!locations.value?.length) locationsStore.refreshLocations()
 })
@@ -276,6 +282,48 @@ onMounted(() => {
                         </NuxtLink>
                     </li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- Access Map (admin only) -->
+        <div
+            v-if="authStore.isAdmin"
+            class="border-border bg-card overflow-hidden rounded-2xl border"
+        >
+            <div class="border-border flex items-center justify-between border-b px-5 py-4">
+                <div>
+                    <h2 class="text-sm font-semibold">Session Access Map</h2>
+                    <p class="text-muted-foreground mt-0.5 text-xs">
+                        Geographic distribution of active sessions
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-indigo-500" />
+                    <span class="text-muted-foreground text-xs">
+                        {{ accessPoints?.length ?? 0 }} region{{
+                            (accessPoints?.length ?? 0) !== 1 ? 's' : ''
+                        }}
+                    </span>
+                </div>
+            </div>
+            <div
+                v-if="mapStatus === 'pending'"
+                class="flex h-[calc(100vh-64px)] items-center justify-center"
+            >
+                <Icon icon="lucide:loader-2" class="text-muted-foreground h-5 w-5 animate-spin" />
+            </div>
+            <div
+                v-else-if="!accessPoints?.length"
+                class="flex h-[calc(100vh-64px)] flex-col items-center justify-center gap-2"
+            >
+                <Icon icon="lucide:map-off" class="text-muted-foreground/40 h-10 w-10" />
+                <p class="text-muted-foreground text-sm">No session location data</p>
+                <p class="text-muted-foreground/50 text-xs">Sessions from localhost are excluded</p>
+            </div>
+            <div v-else class="h-[calc(100vh-64px)]">
+                <ClientOnly>
+                    <AdminAccessMap :points="accessPoints" />
+                </ClientOnly>
             </div>
         </div>
     </section>

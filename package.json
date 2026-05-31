@@ -15,7 +15,8 @@
         "format:check": "pnpm exec prettier . --check",
         "prepare": "husky",
         "typecheck": "nuxi typecheck",
-        "db:seed-users": "tsx scripts/seed-users.ts"
+        "db:seed-users": "tsx scripts/seed-users.ts",
+        "db:seed-plans": "tsx scripts/seed-plans.ts"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown"
@@ -67,6 +68,7 @@
         "vue": "^3.5.22",
         "vue-router": "^4.5.1",
         "vue-sonner": "^2.0.9",
+        "xendit-node": "^7.0.0",
         "zod": "^4.1.12"
     },
     "devDependencies": {

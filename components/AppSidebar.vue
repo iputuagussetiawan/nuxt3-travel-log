@@ -168,6 +168,12 @@ const adminItems = [
         label: 'Manage Users',
         to: '/dashboard/admin/users',
         icon: 'lucide:users'
+    },
+    {
+        id: 'manage-plans',
+        label: 'Subscription Plans',
+        to: '/dashboard/admin/plans',
+        icon: 'lucide:credit-card'
     }
 ]
 </script>
@@ -179,6 +185,27 @@ const adminItems = [
         </SidebarHeader>
         <SidebarContent>
             <NavMain />
+            <!-- Upgrade prompt for free users -->
+            <SidebarGroup v-if="authStore.role === 'user'">
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton
+                            as-child
+                            tooltip="Upgrade to Member"
+                            :is-active="route.path.startsWith('/dashboard/subscription')"
+                        >
+                            <NuxtLink
+                                to="/dashboard/subscription"
+                                class="flex items-center gap-2 text-emerald-500"
+                            >
+                                <Icon icon="lucide:zap" class="h-4 w-4 shrink-0" />
+                                <span>Upgrade to Member</span>
+                            </NuxtLink>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroup>
+
             <SidebarGroup v-if="authStore.isAdmin">
                 <SidebarGroupLabel>Admin</SidebarGroupLabel>
                 <SidebarMenu>

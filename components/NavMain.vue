@@ -102,7 +102,6 @@ function isParentActive(items: { to?: any }[] | undefined) {
                     v-else
                     as-child
                     :default-open="item.isActive || isParentActive(item.items)"
-                    :open="isParentActive(item.items) ? true : undefined"
                     class="group/collapsible"
                 >
                     <SidebarMenuItem>
@@ -129,11 +128,7 @@ function isParentActive(items: { to?: any }[] | undefined) {
                                 >
                                     <SidebarMenuSubButton
                                         as-child
-                                        :class="
-                                            isActive(subItem.to)
-                                                ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
-                                                : ''
-                                        "
+                                        :is-active="isActive(subItem.to)"
                                     >
                                         <NuxtLink
                                             :to="subItem.to"

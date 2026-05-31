@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { refDebounced } from '@vueuse/core'
 
 definePageMeta({ layout: 'dashboard' })
 useSeoMeta({ title: 'User Management' })
@@ -17,6 +18,10 @@ type User = {
 }
 
 const { data: users, refresh, status } = await useFetch<User[]>('/api/admin/users')
+
+import type { RegionPoint } from '~/server/api/admin/access-map.get'
+const { data: accessPoints, status: mapStatus } =
+    await useFetch<RegionPoint[]>('/api/admin/access-map')
 
 // ── Search / filter / sort ────────────────────────────────────────────────────
 const search = ref('')
@@ -42,37 +47,18 @@ const filtered = computed(() => {
 })
 
 // ── Pagination ────────────────────────────────────────────────────────────────
-const PAGE_SIZE = 8
-const page = ref(1)
+const {
+    page,
+    totalPages,
+    paged,
+    pageNumbers,
+    from,
+    to,
+    total: totalFiltered,
+    reset: resetPage
+} = usePagination(filtered, { pageSize: 8, ellipsisThreshold: 5 })
 
-watch([debouncedSearch, filterRole, sortKey, sortDir], () => {
-    page.value = 1
-})
-
-const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE)))
-const paged = computed(() =>
-    filtered.value.slice((page.value - 1) * PAGE_SIZE, page.value * PAGE_SIZE)
-)
-
-const pageNumbers = computed(() => {
-    const total = totalPages.value
-    const current = page.value
-    const pages: (number | '...')[] = []
-
-    if (total <= 5) {
-        return Array.from({ length: total }, (_, i) => i + 1)
-    }
-
-    pages.push(1)
-    if (current > 3) pages.push('...')
-    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
-        pages.push(i)
-    }
-    if (current < total - 2) pages.push('...')
-    pages.push(total)
-
-    return pages
-})
+watch([debouncedSearch, filterRole, sortKey, sortDir], resetPage)
 
 // ── Role change ───────────────────────────────────────────────────────────────
 const updating = ref<string | null>(null)
@@ -200,8 +186,8 @@ const widgets = computed(() => [
                     <p class="text-muted-foreground text-xs font-medium">
                         {{ w.label }}
                     </p>
-                    <div :class="[w.iconBg, 'rounded-lg p-1.5']">
-                        <Icon :icon="w.icon" :class="[w.iconColor, 'h-4 w-4']" />
+                    <div :class="[w.iconBg, 'rounded-xl p-3']">
+                        <Icon :icon="w.icon" :class="[w.iconColor, 'h-6 w-6']" />
                     </div>
                 </div>
                 <p class="text-2xl font-bold">{{ w.count }}</p>
@@ -432,65 +418,54 @@ const widgets = computed(() => [
         </div>
 
         <!-- Pagination -->
-        <div v-if="totalPages > 1" class="flex items-center justify-between">
-            <p class="text-muted-foreground text-xs">
-                Showing {{ (page - 1) * PAGE_SIZE + 1 }}–{{
-                    Math.min(page * PAGE_SIZE, filtered.length)
-                }}
-                of {{ filtered.length }} users
-            </p>
-            <div class="flex items-center gap-1">
-                <button
-                    :disabled="page === 1"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page = 1"
-                >
-                    <Icon icon="lucide:chevrons-left" class="h-4 w-4" />
-                </button>
-                <button
-                    :disabled="page === 1"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page--"
-                >
-                    <Icon icon="lucide:chevron-left" class="h-4 w-4" />
-                </button>
+        <AppPagination
+            :page="page"
+            :total-pages="totalPages"
+            :page-numbers="pageNumbers"
+            :from="from"
+            :to="to"
+            :total="totalFiltered"
+            @update:page="page = $event"
+        />
 
-                <div class="flex items-center gap-1 px-1">
-                    <template v-for="(p, i) in pageNumbers" :key="i">
-                        <span
-                            v-if="p === '...'"
-                            class="text-muted-foreground px-1 text-xs select-none"
-                            >…</span
-                        >
-                        <button
-                            v-else
-                            :class="[
-                                'flex h-8 w-8 items-center justify-center rounded-md border text-xs font-medium transition-colors',
-                                p === page
-                                    ? 'bg-primary text-primary-foreground border-primary'
-                                    : 'text-muted-foreground hover:bg-muted'
-                            ]"
-                            @click="page = p"
-                        >
-                            {{ p }}
-                        </button>
-                    </template>
+        <!-- Access Map -->
+        <div class="overflow-hidden rounded-xl border">
+            <div class="flex items-center justify-between border-b px-5 py-4">
+                <div>
+                    <h2 class="text-sm font-semibold">Access Map</h2>
+                    <p class="text-muted-foreground mt-0.5 text-xs">
+                        Geographic distribution of active sessions
+                    </p>
                 </div>
-
-                <button
-                    :disabled="page === totalPages"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page++"
-                >
-                    <Icon icon="lucide:chevron-right" class="h-4 w-4" />
-                </button>
-                <button
-                    :disabled="page === totalPages"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page = totalPages"
-                >
-                    <Icon icon="lucide:chevrons-right" class="h-4 w-4" />
-                </button>
+                <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-indigo-500" />
+                    <span class="text-muted-foreground text-xs">
+                        {{ accessPoints?.length ?? 0 }} region{{
+                            (accessPoints?.length ?? 0) !== 1 ? 's' : ''
+                        }}
+                    </span>
+                </div>
+            </div>
+            <div
+                v-if="mapStatus === 'pending'"
+                class="flex h-[calc(100vh-64px)] items-center justify-center"
+            >
+                <Icon icon="lucide:loader-2" class="text-muted-foreground h-6 w-6 animate-spin" />
+            </div>
+            <div
+                v-else-if="!accessPoints?.length"
+                class="flex h-[calc(100vh-64px)] flex-col items-center justify-center gap-2"
+            >
+                <Icon icon="lucide:map-off" class="text-muted-foreground/40 h-10 w-10" />
+                <p class="text-muted-foreground text-sm">No session location data available</p>
+                <p class="text-muted-foreground/60 text-xs">
+                    Sessions from localhost or private networks are excluded
+                </p>
+            </div>
+            <div v-else class="h-[calc(100vh-64px)]">
+                <ClientOnly>
+                    <AdminAccessMap :points="accessPoints" />
+                </ClientOnly>
             </div>
         </div>
     </div>
