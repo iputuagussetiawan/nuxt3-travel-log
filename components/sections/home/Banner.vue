@@ -14,37 +14,6 @@ const scrollToFeatures = () => {
             class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60"
         />
 
-        <!-- Floating image cards -->
-        <div
-            class="absolute top-[15%] right-6 z-10 hidden max-w-[220px] overflow-hidden rounded-2xl border border-white/20 p-2 shadow-2xl backdrop-blur-md lg:block"
-            style="background: rgba(0, 0, 0, 0.35)"
-        >
-            <img
-                src="/images/input.jpg"
-                alt="Log a travel moment"
-                class="h-full w-full rounded-xl object-cover"
-            />
-            <div class="mt-2 px-1 pb-1">
-                <p class="text-xs font-medium text-white/90">Log a moment</p>
-                <p class="text-[11px] text-white/60">Bali, Indonesia</p>
-            </div>
-        </div>
-
-        <div
-            class="absolute right-6 bottom-[15%] z-10 hidden max-w-[280px] overflow-hidden rounded-2xl border border-white/20 p-2 shadow-2xl backdrop-blur-md lg:block"
-            style="background: rgba(0, 0, 0, 0.35)"
-        >
-            <img
-                src="/images/image-01.jpg"
-                alt="Your travel map"
-                class="h-full w-full rounded-xl object-cover"
-            />
-            <div class="mt-2 px-1 pb-1">
-                <p class="text-xs font-medium text-white/90">Your travel map</p>
-                <p class="text-[11px] text-white/60">42 locations logged</p>
-            </div>
-        </div>
-
         <!-- Hero content -->
         <div class="relative z-10 max-w-3xl text-center">
             <div
