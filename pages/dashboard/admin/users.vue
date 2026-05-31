@@ -19,6 +19,10 @@ type User = {
 
 const { data: users, refresh, status } = await useFetch<User[]>('/api/admin/users')
 
+import type { RegionPoint } from '~/server/api/admin/access-map.get'
+const { data: accessPoints, status: mapStatus } =
+    await useFetch<RegionPoint[]>('/api/admin/access-map')
+
 // ── Search / filter / sort ────────────────────────────────────────────────────
 const search = ref('')
 const debouncedSearch = refDebounced(search, 300)
@@ -423,5 +427,46 @@ const widgets = computed(() => [
             :total="totalFiltered"
             @update:page="page = $event"
         />
+
+        <!-- Access Map -->
+        <div class="overflow-hidden rounded-xl border">
+            <div class="flex items-center justify-between border-b px-5 py-4">
+                <div>
+                    <h2 class="text-sm font-semibold">Access Map</h2>
+                    <p class="text-muted-foreground mt-0.5 text-xs">
+                        Geographic distribution of active sessions
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-indigo-500" />
+                    <span class="text-muted-foreground text-xs">
+                        {{ accessPoints?.length ?? 0 }} region{{
+                            (accessPoints?.length ?? 0) !== 1 ? 's' : ''
+                        }}
+                    </span>
+                </div>
+            </div>
+            <div
+                v-if="mapStatus === 'pending'"
+                class="flex h-[calc(100vh-64px)] items-center justify-center"
+            >
+                <Icon icon="lucide:loader-2" class="text-muted-foreground h-6 w-6 animate-spin" />
+            </div>
+            <div
+                v-else-if="!accessPoints?.length"
+                class="flex h-[calc(100vh-64px)] flex-col items-center justify-center gap-2"
+            >
+                <Icon icon="lucide:map-off" class="text-muted-foreground/40 h-10 w-10" />
+                <p class="text-muted-foreground text-sm">No session location data available</p>
+                <p class="text-muted-foreground/60 text-xs">
+                    Sessions from localhost or private networks are excluded
+                </p>
+            </div>
+            <div v-else class="h-[calc(100vh-64px)]">
+                <ClientOnly>
+                    <AdminAccessMap :points="accessPoints" />
+                </ClientOnly>
+            </div>
+        </div>
     </div>
 </template>
