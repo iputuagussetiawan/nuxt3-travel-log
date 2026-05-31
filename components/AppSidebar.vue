@@ -193,7 +193,11 @@ const adminItems = [
                 <SidebarGroupLabel>Admin</SidebarGroupLabel>
                 <SidebarMenu>
                     <SidebarMenuItem v-for="item in adminItems" :key="item.id">
-                        <SidebarMenuButton as-child :tooltip="item.label">
+                        <SidebarMenuButton
+                            as-child
+                            :tooltip="item.label"
+                            :is-active="route.path.startsWith(item.to)"
+                        >
                             <NuxtLink
                                 :to="item.to"
                                 class="flex items-center gap-2"
