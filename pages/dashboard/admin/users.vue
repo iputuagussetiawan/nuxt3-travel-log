@@ -20,13 +20,14 @@ const { data: users, refresh, status } = await useFetch<User[]>('/api/admin/user
 
 // ── Search / filter / sort ────────────────────────────────────────────────────
 const search = ref('')
+const debouncedSearch = refDebounced(search, 300)
 const filterRole = ref<Role | 'all'>('all')
 const sortKey = ref<'name' | 'createdAt'>('createdAt')
 const sortDir = ref<'asc' | 'desc'>('desc')
 
 const filtered = computed(() => {
     let list = users.value ?? []
-    const q = search.value.trim().toLowerCase()
+    const q = debouncedSearch.value.trim().toLowerCase()
     if (q)
         list = list.filter(
             (u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
@@ -44,7 +45,7 @@ const filtered = computed(() => {
 const PAGE_SIZE = 8
 const page = ref(1)
 
-watch([search, filterRole, sortKey, sortDir], () => {
+watch([debouncedSearch, filterRole, sortKey, sortDir], () => {
     page.value = 1
 })
 
