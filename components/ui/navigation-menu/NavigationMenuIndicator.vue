@@ -5,9 +5,7 @@ import { reactiveOmit } from '@vueuse/core'
 import { NavigationMenuIndicator, useForwardProps } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
-const props = defineProps<
-    NavigationMenuIndicatorProps & { class?: HTMLAttributes['class'] }
->()
+const props = defineProps<NavigationMenuIndicatorProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = reactiveOmit(props, 'class')
 
@@ -25,8 +23,6 @@ const forwardedProps = useForwardProps(delegatedProps)
             )
         "
     >
-        <div
-            class="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md"
-        />
+        <div class="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md" />
     </NavigationMenuIndicator>
 </template>

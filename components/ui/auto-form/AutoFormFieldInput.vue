@@ -14,9 +14,7 @@ import AutoFormLabel from './AutoFormLabel.vue'
 import { beautifyObjectName } from './utils'
 
 const props = defineProps<FieldProps>()
-const inputComponent = computed(() =>
-    props.config?.component === 'textarea' ? Textarea : Input
-)
+const inputComponent = computed(() => (props.config?.component === 'textarea' ? Textarea : Input))
 </script>
 
 <template>

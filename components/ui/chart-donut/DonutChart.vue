@@ -12,13 +12,7 @@ const props = withDefaults(
     defineProps<
         Pick<
             BaseChartProps<T>,
-            | 'data'
-            | 'colors'
-            | 'index'
-            | 'margin'
-            | 'showLegend'
-            | 'showTooltip'
-            | 'filterOpacity'
+            'data' | 'colors' | 'index' | 'margin' | 'showLegend' | 'showTooltip' | 'filterOpacity'
         > & {
             /**
              * Sets the name of the key containing the quantitative chart values.
@@ -36,11 +30,7 @@ const props = withDefaults(
             /**
              * Controls the formatting for the label.
              */
-            valueFormatter?: (
-                tick: number,
-                i?: number,
-                ticks?: number[]
-            ) => string
+            valueFormatter?: (tick: number, i?: number, ticks?: number[]) => string
             /**
              * Render custom tooltip component.
              */
@@ -69,9 +59,7 @@ const activeSegmentKey = ref<string>()
 const colors = computed(() =>
     props.colors?.length
         ? props.colors
-        : defaultColors(
-              props.data.filter((d) => d[props.category]).filter(Boolean).length
-          )
+        : defaultColors(props.data.filter((d) => d[props.category]).filter(Boolean).length)
 )
 const legendItems = computed(() =>
     props.data.map((item, i) => ({
@@ -89,7 +77,7 @@ const totalValue = computed(() =>
 </script>
 
 <template>
-    <div :class="cn('w-full h-48 flex flex-col items-end', $attrs.class ?? '')">
+    <div :class="cn('flex h-48 w-full flex-col items-end', $attrs.class ?? '')">
         <VisSingleContainer
             :style="{ height: isMounted ? '100%' : 'auto' }"
             :margin="{ left: 20, right: 20 }"
@@ -109,28 +97,16 @@ const totalValue = computed(() =>
                 :color="colors"
                 :arc-width="type === 'donut' ? 20 : 0"
                 :show-background="false"
-                :central-label="
-                    type === 'donut' ? valueFormatter(totalValue) : ''
-                "
+                :central-label="type === 'donut' ? valueFormatter(totalValue) : ''"
                 :events="{
                     [Donut.selectors.segment]: {
-                        click: (
-                            d: Data,
-                            ev: PointerEvent,
-                            i: number,
-                            elements: HTMLElement[]
-                        ) => {
+                        click: (d: Data, ev: PointerEvent, i: number, elements: HTMLElement[]) => {
                             if (d?.data?.[index] === activeSegmentKey) {
                                 activeSegmentKey = undefined
-                                elements.forEach(
-                                    (el) => (el.style.opacity = '1')
-                                )
+                                elements.forEach((el) => (el.style.opacity = '1'))
                             } else {
                                 activeSegmentKey = d?.data?.[index]
-                                elements.forEach(
-                                    (el) =>
-                                        (el.style.opacity = `${filterOpacity}`)
-                                )
+                                elements.forEach((el) => (el.style.opacity = `${filterOpacity}`))
                                 elements[i].style.opacity = '1'
                             }
                         }

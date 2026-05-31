@@ -30,8 +30,7 @@ const onSubmit = handleSubmit(async (values) => {
     try {
         const res = await authStore.forgotPassword(values.email)
         if ((res as any)?.error) {
-            error.value =
-                (res as any).error.message ?? 'Failed to send reset email.'
+            error.value = (res as any).error.message ?? 'Failed to send reset email.'
         } else {
             success.value = true
         }
@@ -67,10 +66,7 @@ const onSubmit = handleSubmit(async (values) => {
                 <div
                     class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-violet-500/15"
                 >
-                    <Icon
-                        icon="lucide:lock-keyhole"
-                        class="h-6 w-6 text-violet-500"
-                    />
+                    <Icon icon="lucide:lock-keyhole" class="h-6 w-6 text-violet-500" />
                 </div>
                 <h1 class="text-2xl font-bold">Forgot password?</h1>
                 <p class="text-muted-foreground mt-1 text-sm">
@@ -104,11 +100,7 @@ const onSubmit = handleSubmit(async (values) => {
                     </FormItem>
                 </FormField>
                 <Button type="submit" class="w-full" :disabled="loading">
-                    <Icon
-                        v-if="loading"
-                        icon="lucide:loader-2"
-                        class="h-4 w-4 animate-spin"
-                    />
+                    <Icon v-if="loading" icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
                     Send Reset Link
                 </Button>
             </form>

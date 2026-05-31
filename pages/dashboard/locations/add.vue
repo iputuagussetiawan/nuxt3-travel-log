@@ -36,9 +36,7 @@ function onSubmitComplete() {
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-lg font-bold">Add Location</h1>
-                <p class="text-muted-foreground text-sm">
-                    Add a new location here
-                </p>
+                <p class="text-muted-foreground text-sm">Add a new location here</p>
             </div>
             <div>
                 <Button type="button" variant="outline" @click="router.back()">

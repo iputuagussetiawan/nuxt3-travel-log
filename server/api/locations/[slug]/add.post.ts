@@ -1,12 +1,12 @@
 import slugify from 'slug'
 import { nanoid } from 'nanoid'
-import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
+import { defineRoleEventHandler } from '~/lib/define-authenticated-event-handler'
 import { InsertLocationLogSchema } from '~/lib/db/schema'
 import { findLocation } from '~/lib/db/queries/location-query'
 import sendZodError from '~/lib/send-zod-error'
 import { insertLocationLog } from '~/lib/db/queries/location-log-query'
 
-export default defineAuthenticatedEventHandler(async (event) => {
+export default defineRoleEventHandler('member', async (event) => {
     const currentUserId = event.context.user.id
     const slug = getRouterParam(event, 'slug') as string
     const location = await findLocation(slug, currentUserId)
@@ -21,10 +21,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
         )
     }
 
-    const result = await readValidatedBody(
-        event,
-        InsertLocationLogSchema.safeParse
-    )
+    const result = await readValidatedBody(event, InsertLocationLogSchema.safeParse)
 
     if (!result.success) {
         return sendZodError(event, result.error)

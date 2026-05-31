@@ -43,9 +43,7 @@ const features = [
 
         <div class="relative container mx-auto max-w-5xl">
             <div class="mb-16 text-center">
-                <p
-                    class="mb-3 text-sm font-medium tracking-widest text-emerald-400 uppercase"
-                >
+                <p class="mb-3 text-sm font-medium tracking-widest text-emerald-400 uppercase">
                     Features
                 </p>
                 <h2 class="text-3xl font-bold text-white sm:text-4xl">
@@ -60,13 +58,8 @@ const features = [
                     :key="feature.title"
                     class="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
                 >
-                    <div
-                        :class="[feature.bg, 'mb-4 inline-flex rounded-xl p-3']"
-                    >
-                        <Icon
-                            :icon="feature.icon"
-                            :class="[feature.color, 'h-5 w-5']"
-                        />
+                    <div :class="[feature.bg, 'mb-4 inline-flex rounded-xl p-3']">
+                        <Icon :icon="feature.icon" :class="[feature.color, 'h-5 w-5']" />
                     </div>
                     <h3 class="mb-2 text-base font-semibold text-white">
                         {{ feature.title }}
@@ -78,14 +71,10 @@ const features = [
             </div>
 
             <!-- Stats row -->
-            <div
-                class="mt-16 grid grid-cols-3 gap-6 border-t border-white/10 pt-12"
-            >
+            <div class="mt-16 grid grid-cols-3 gap-6 border-t border-white/10 pt-12">
                 <div class="text-center">
                     <p class="text-3xl font-bold text-white">195+</p>
-                    <p class="mt-1 text-sm text-white/50">
-                        Countries to explore
-                    </p>
+                    <p class="mt-1 text-sm text-white/50">Countries to explore</p>
                 </div>
                 <div class="text-center">
                     <p class="text-3xl font-bold text-white">∞</p>

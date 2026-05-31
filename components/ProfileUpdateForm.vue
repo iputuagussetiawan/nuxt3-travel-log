@@ -1,17 +1,7 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
-import { ref, computed, watch } from 'vue'
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-    CardDescription
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import { InsertUserSchema, type InsertUserType } from '~/lib/db/schema'
 import type { FetchError } from 'ofetch'
@@ -32,7 +22,7 @@ const loading = ref(false)
 const success = ref(false)
 
 const formSchema = toTypedSchema(InsertUserSchema)
-const { isFieldDirty, handleSubmit, setErrors, setValues, values } = useForm({
+const { isFieldDirty, handleSubmit, setErrors, setValues } = useForm({
     validationSchema: formSchema,
     initialValues: {
         name: props.initialValues?.name ?? '',
@@ -41,7 +31,6 @@ const { isFieldDirty, handleSubmit, setErrors, setValues, values } = useForm({
     }
 })
 
-// Re-populate when initialValues arrive (async session load)
 watch(
     () => props.initialValues,
     (val) => {
@@ -55,14 +44,6 @@ watch(
     },
     { immediate: true }
 )
-
-const avatarPreview = computed(
-    () => values.image || props.initialValues?.image || ''
-)
-const initials = computed(() => {
-    const name = values.name || props.initialValues?.name || ''
-    return name.slice(0, 2).toUpperCase()
-})
 
 const onSubmit = handleSubmit(async (vals: InsertUserType) => {
     try {
@@ -83,13 +64,15 @@ const onSubmit = handleSubmit(async (vals: InsertUserType) => {
 </script>
 
 <template>
-    <div class="w-full max-w-lg">
+    <div class="w-full flex-1">
+        <!-- Error -->
         <Alert v-if="submitError" variant="destructive" class="mb-4">
             <Icon icon="lucide:circle-alert" class="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{{ submitError }}</AlertDescription>
         </Alert>
 
+        <!-- Success -->
         <Alert
             v-if="success"
             class="mb-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
@@ -100,56 +83,13 @@ const onSubmit = handleSubmit(async (vals: InsertUserType) => {
         </Alert>
 
         <Card class="rounded-2xl shadow-sm">
-            <CardHeader>
-                <CardTitle>Update Profile</CardTitle>
-                <CardDescription
-                    >Manage your personal information</CardDescription
-                >
+            <CardHeader class="pb-4">
+                <CardTitle class="text-base font-semibold">Personal Information</CardTitle>
+                <CardDescription>Update your name and email address</CardDescription>
             </CardHeader>
             <CardContent>
                 <form class="space-y-5" @submit.prevent="onSubmit">
                     <fieldset :disabled="loading" class="space-y-5">
-                        <!-- Avatar preview -->
-                        <div class="flex items-center gap-4">
-                            <Avatar class="h-16 w-16">
-                                <AvatarImage
-                                    v-if="avatarPreview"
-                                    :src="avatarPreview"
-                                    alt="Avatar preview"
-                                />
-                                <AvatarFallback class="text-lg">{{
-                                    initials
-                                }}</AvatarFallback>
-                            </Avatar>
-                            <div class="min-w-0 flex-1">
-                                <p class="text-sm font-medium">
-                                    Profile picture
-                                </p>
-                                <p class="text-muted-foreground text-xs">
-                                    Paste an image URL below
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Image URL -->
-                        <FormField
-                            v-slot="{ componentField }"
-                            name="image"
-                            :validate-on-blur="!isFieldDirty"
-                        >
-                            <FormItem>
-                                <FormLabel>Image URL</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="url"
-                                        placeholder="https://example.com/avatar.jpg"
-                                        v-bind="componentField"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-
                         <!-- Name -->
                         <FormField
                             v-slot="{ componentField }"
@@ -157,13 +97,20 @@ const onSubmit = handleSubmit(async (vals: InsertUserType) => {
                             :validate-on-blur="!isFieldDirty"
                         >
                             <FormItem>
-                                <FormLabel>Name</FormLabel>
+                                <FormLabel>Full Name</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        type="text"
-                                        placeholder="Your Name"
-                                        v-bind="componentField"
-                                    />
+                                    <div class="relative">
+                                        <Icon
+                                            icon="lucide:user"
+                                            class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+                                        />
+                                        <Input
+                                            type="text"
+                                            placeholder="Your name"
+                                            class="pl-9"
+                                            v-bind="componentField"
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -176,37 +123,43 @@ const onSubmit = handleSubmit(async (vals: InsertUserType) => {
                             :validate-on-blur="!isFieldDirty"
                         >
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel>Email Address</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        type="email"
-                                        placeholder="you@example.com"
-                                        v-bind="componentField"
-                                    />
+                                    <div class="relative">
+                                        <Icon
+                                            icon="lucide:mail"
+                                            class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+                                        />
+                                        <Input
+                                            type="email"
+                                            placeholder="you@example.com"
+                                            class="pl-9"
+                                            v-bind="componentField"
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         </FormField>
 
-                        <div class="flex justify-between pt-1">
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between gap-3 pt-2">
                             <Button
                                 type="button"
                                 variant="outline"
+                                class="gap-2"
                                 @click="router.back()"
                             >
+                                <Icon icon="lucide:arrow-left" class="h-4 w-4" />
                                 Cancel
                             </Button>
-                            <Button type="submit" :disabled="loading">
+                            <Button type="submit" :disabled="loading" class="gap-2">
                                 <Icon
                                     v-if="loading"
                                     icon="lucide:loader-2"
                                     class="h-4 w-4 animate-spin"
                                 />
-                                <Icon
-                                    v-else
-                                    icon="lucide:check"
-                                    class="h-4 w-4"
-                                />
+                                <Icon v-else icon="lucide:check" class="h-4 w-4" />
                                 {{ submitLabel }}
                             </Button>
                         </div>

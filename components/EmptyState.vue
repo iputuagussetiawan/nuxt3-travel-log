@@ -18,10 +18,7 @@ defineProps<{
         <EmptyHeader>
             <EmptyMedia variant="icon">
                 <!-- default slot for icon -->
-                <component
-                    :is="icon || 'div'"
-                    class="text-muted-foreground h-10 w-10"
-                />
+                <component :is="icon || 'div'" class="text-muted-foreground h-10 w-10" />
             </EmptyMedia>
 
             <EmptyTitle>{{ title }}</EmptyTitle>

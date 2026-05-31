@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from 'lucide-vue-next'
-import {
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    useSidebar
-} from './ui/sidebar'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from './ui/sidebar'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -43,26 +38,19 @@ const isCollapsed = computed(() => state.value === 'collapsed')
                                 :alt="authStore.user?.name || 'User'"
                             />
                             <AvatarFallback class="text-xs font-semibold">
-                                {{
-                                    authStore.user?.name
-                                        ?.slice(0, 2)
-                                        .toUpperCase() || 'U'
-                                }}
+                                {{ authStore.user?.name?.slice(0, 2).toUpperCase() || 'U' }}
                             </AvatarFallback>
                         </Avatar>
                         <!-- Expanded: full avatar with name/email -->
                         <template v-else>
                             <UiUserAvatar />
-                            <ChevronsUpDown
-                                class="ml-auto size-4"
-                                aria-hidden="true"
-                            />
+                            <ChevronsUpDown class="ml-auto size-4" aria-hidden="true" />
                         </template>
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent
-                    class="z-[30001] w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                    class="z-[4000] w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                     :side="isMobile ? 'bottom' : 'right'"
                     align="end"
                     :side-offset="4"
@@ -82,10 +70,7 @@ const isCollapsed = computed(() => state.value === 'collapsed')
                                 class="flex items-center gap-2"
                                 role="menuitem"
                             >
-                                <BadgeCheck
-                                    class="h-4 w-4"
-                                    aria-hidden="true"
-                                />
+                                <BadgeCheck class="h-4 w-4" aria-hidden="true" />
                                 <span>Profile</span>
                             </NuxtLink>
                         </DropdownMenuItem>

@@ -1,18 +1,12 @@
 import slugify from 'slug'
 import { nanoid } from 'nanoid'
-import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
+import { defineRoleEventHandler } from '~/lib/define-authenticated-event-handler'
 import type { DrizzleError } from 'drizzle-orm'
 import { InsertLocationSchema } from '~/lib/db/schema'
-import {
-    findLocationByName,
-    insertLocation
-} from '~/lib/db/queries/location-query'
+import { findLocationByName, insertLocation } from '~/lib/db/queries/location-query'
 
-export default defineAuthenticatedEventHandler(async (event) => {
-    const result = await readValidatedBody(
-        event,
-        InsertLocationSchema.safeParse
-    )
+export default defineRoleEventHandler('member', async (event) => {
+    const result = await readValidatedBody(event, InsertLocationSchema.safeParse)
 
     if (!result.success) {
         const statusMessage = result.error.issues
@@ -40,10 +34,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
         lower: true
     })
 
-    const existingLocation = await findLocationByName(
-        result.data,
-        event.context.user.id
-    )
+    const existingLocation = await findLocationByName(result.data, event.context.user.id)
     if (existingLocation) {
         return sendError(
             event,

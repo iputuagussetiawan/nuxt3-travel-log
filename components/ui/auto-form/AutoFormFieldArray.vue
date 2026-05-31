@@ -25,15 +25,11 @@ const props = defineProps<{
     disabled?: boolean
 }>()
 
-function isZodArray(
-    item: z.ZodArray<any> | z.ZodDefault<any>
-): item is z.ZodArray<any> {
+function isZodArray(item: z.ZodArray<any> | z.ZodDefault<any>): item is z.ZodArray<any> {
     return item instanceof z.ZodArray
 }
 
-function isZodDefault(
-    item: z.ZodArray<any> | z.ZodDefault<any>
-): item is z.ZodDefault<any> {
+function isZodDefault(item: z.ZodArray<any> | z.ZodDefault<any>): item is z.ZodDefault<any> {
     return item instanceof z.ZodDefault
 }
 
@@ -59,38 +55,19 @@ provide(FieldContextKey, fieldContext)
 </script>
 
 <template>
-    <FieldArray
-        v-slot="{ fields, remove, push }"
-        as="section"
-        :name="fieldName"
-    >
+    <FieldArray v-slot="{ fields, remove, push }" as="section" :name="fieldName">
         <slot v-bind="props">
-            <Accordion
-                type="multiple"
-                class="w-full"
-                collapsible
-                :disabled="disabled"
-                as-child
-            >
+            <Accordion type="multiple" class="w-full" collapsible :disabled="disabled" as-child>
                 <FormItem>
                     <AccordionItem :value="fieldName" class="border-none">
                         <AccordionTrigger>
-                            <AutoFormLabel
-                                class="text-base"
-                                :required="required"
-                            >
-                                {{
-                                    schema?.description ||
-                                    beautifyObjectName(fieldName)
-                                }}
+                            <AutoFormLabel class="text-base" :required="required">
+                                {{ schema?.description || beautifyObjectName(fieldName) }}
                             </AutoFormLabel>
                         </AccordionTrigger>
 
                         <AccordionContent>
-                            <template
-                                v-for="(field, index) of fields"
-                                :key="field.key"
-                            >
+                            <template v-for="(field, index) of fields" :key="field.key">
                                 <div class="mb-4 p-1">
                                     <AutoFormField
                                         :field-name="`${fieldName}[${index}]`"

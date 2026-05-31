@@ -44,12 +44,7 @@ function onSubmitComplete() {
                 <p class="text-muted-foreground text-sm">Edit location here</p>
             </div>
             <div>
-                <Button
-                    :disabled="loading"
-                    type="button"
-                    variant="outline"
-                    @click="router.back()"
-                >
+                <Button :disabled="loading" type="button" variant="outline" @click="router.back()">
                     <ArrowLeft class="h-4 w-4" /> Back
                 </Button>
             </div>

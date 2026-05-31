@@ -35,9 +35,7 @@ function onSubmitComplete() {
     >
         <div>
             <h1 class="text-lg font-bold">Add Location Log</h1>
-            <p class="text-muted-foreground text-sm">
-                Add a new location log here
-            </p>
+            <p class="text-muted-foreground text-sm">Add a new location log here</p>
         </div>
         <LocationLogForm
             :on-submit="onSubmit"
@@ -50,12 +48,8 @@ function onSubmitComplete() {
                 description: '',
                 startedAt: '',
                 endedAt: '',
-                lat:
-                    currentLocation?.lat.toString() ||
-                    MAP_INPUT_CENTER[0].toString(),
-                long:
-                    currentLocation?.long.toString() ||
-                    MAP_INPUT_CENTER[1].toString()
+                lat: currentLocation?.lat.toString() || MAP_INPUT_CENTER[0].toString(),
+                long: currentLocation?.long.toString() || MAP_INPUT_CENTER[1].toString()
             }"
         />
     </div>

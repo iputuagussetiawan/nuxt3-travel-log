@@ -1,11 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import {
-    MAP_CENTER,
-    MAP_BOUNDS,
-    MAP_INPUT_CENTER,
-    SHOW_MARKER_ON_PAGES
-} from '~/lib/constants'
+import { MAP_CENTER, MAP_BOUNDS, MAP_INPUT_CENTER, SHOW_MARKER_ON_PAGES } from '~/lib/constants'
 import MapPinMarker from './MapPinMarker.vue'
 
 const map = ref(null)
@@ -28,9 +23,7 @@ const fitToMarkers = async () => {
         leafletMap.setView(MAP_CENTER, 2, { animate: true })
         return
     }
-    const bounds = L.latLngBounds(
-        points.map((p) => [Number(p.lat), Number(p.long)])
-    )
+    const bounds = L.latLngBounds(points.map((p) => [Number(p.lat), Number(p.long)]))
     leafletMap.fitBounds([bounds._northEast, bounds._southWest], {
         padding: [50, 50]
     })
@@ -109,10 +102,10 @@ function onDoubleClick(location) {
 </script>
 
 <template>
-    <div style="height: 100vh; width: 100%">
+    <div class="fixed inset-0" style="z-index: 0">
         <LMap
             ref="map"
-            style="height: 100vh"
+            style="height: 100%; width: 100%"
             :options="{ zoomControl: false }"
             :zoom="2"
             :min-zoom="2"
@@ -157,10 +150,7 @@ function onDoubleClick(location) {
 
             <!-- Draggable input marker (add/edit pages only) -->
             <LMarker
-                v-if="
-                    SHOW_MARKER_ON_PAGES.has(route.name?.toString() || '') &&
-                    mapStore.addedPoint
-                "
+                v-if="SHOW_MARKER_ON_PAGES.has(route.name?.toString() || '') && mapStore.addedPoint"
                 :lat-lng="[mapStore.addedPoint.lat, mapStore.addedPoint.long]"
                 draggable
                 @update:lat-lng="updatePoint($event)"

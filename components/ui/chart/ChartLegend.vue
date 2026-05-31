@@ -5,12 +5,9 @@ import { VisBulletLegend } from '@unovis/vue'
 import { nextTick, onMounted, ref } from 'vue'
 import { buttonVariants } from '@/components/ui/button'
 
-const props = withDefaults(
-    defineProps<{ items?: BulletLegendItemInterface[] }>(),
-    {
-        items: () => []
-    }
-)
+const props = withDefaults(defineProps<{ items?: BulletLegendItemInterface[] }>(), {
+    items: () => []
+})
 
 const emits = defineEmits<{
     legendItemClick: [d: BulletLegendItemInterface, i: number]
@@ -23,13 +20,9 @@ function keepStyling() {
     const selector = `.${BulletLegend.selectors.item}`
     nextTick(() => {
         const elements = elRef.value?.querySelectorAll(selector)
-        const classes = buttonVariants({ variant: 'ghost', size: 'sm' }).split(
-            ' '
-        )
+        const classes = buttonVariants({ variant: 'ghost', size: 'sm' }).split(' ')
 
-        elements?.forEach((el) =>
-            el.classList.add(...classes, '!inline-flex', '!mr-2')
-        )
+        elements?.forEach((el) => el.classList.add(...classes, '!inline-flex', '!mr-2'))
     })
 }
 
@@ -52,9 +45,7 @@ function onLegendItemClick(d: BulletLegendItemInterface, i: number) {
         emits(
             'update:items',
             props.items.map((item) =>
-                item.name === d.name
-                    ? { ...d, inactive: false }
-                    : { ...item, inactive: true }
+                item.name === d.name ? { ...d, inactive: false } : { ...item, inactive: true }
             )
         )
     }
@@ -70,9 +61,6 @@ function onLegendItemClick(d: BulletLegendItemInterface, i: number) {
             '--vis-legend-bullet-size': '16px'
         }"
     >
-        <VisBulletLegend
-            :items="items"
-            :on-legend-item-click="onLegendItemClick"
-        />
+        <VisBulletLegend :items="items" :on-legend-item-click="onLegendItemClick" />
     </div>
 </template>

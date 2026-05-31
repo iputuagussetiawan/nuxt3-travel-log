@@ -21,8 +21,7 @@ const { locations, locationsStatus: status } = storeToRefs(locationsStore)
                 <h1 class="text-lg font-bold">Locations</h1>
                 <p class="text-muted-foreground text-sm">
                     {{ locations?.length ?? 0 }}
-                    location{{ (locations?.length ?? 0) !== 1 ? 's' : '' }} on
-                    map
+                    location{{ (locations?.length ?? 0) !== 1 ? 's' : '' }} on map
                 </p>
             </div>
 

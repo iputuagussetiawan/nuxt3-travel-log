@@ -48,8 +48,7 @@ async function parseFileAsString(file: File | undefined): Promise<string> {
                         :disabled="config?.inputProps?.disabled ?? disabled"
                         @change="
                             async (ev: InputEvent) => {
-                                const file = (ev.target as HTMLInputElement)
-                                    .files?.[0]
+                                const file = (ev.target as HTMLInputElement).files?.[0]
                                 inputFile = file
                                 const parsed = await parseFileAsString(file)
                                 slotProps.componentField.onInput(parsed)
@@ -58,7 +57,7 @@ async function parseFileAsString(file: File | undefined): Promise<string> {
                     />
                     <div
                         v-else
-                        class="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent pl-3 pr-1 py-1 text-sm shadow-sm transition-colors"
+                        class="border-input flex h-9 w-full items-center justify-between rounded-md border bg-transparent py-1 pr-1 pl-3 text-sm shadow-sm transition-colors"
                     >
                         <p>{{ inputFile?.name }}</p>
                         <Button

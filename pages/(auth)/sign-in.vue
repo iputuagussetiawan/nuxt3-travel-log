@@ -31,8 +31,7 @@ const onSubmit = handleSubmit(async (values) => {
     try {
         const res = await authStore.signInEmail(values.email, values.password)
         if (res?.error) {
-            error.value =
-                res.error.message ?? 'Sign in failed. Check your credentials.'
+            error.value = res.error.message ?? 'Sign in failed. Check your credentials.'
         } else {
             await navigateTo('/dashboard')
         }
@@ -48,9 +47,7 @@ const onSubmit = handleSubmit(async (values) => {
     <div>
         <div class="mb-6 text-center">
             <h1 class="text-2xl font-bold">Welcome back</h1>
-            <p class="text-muted-foreground mt-1 text-sm">
-                Sign in to continue your journey
-            </p>
+            <p class="text-muted-foreground mt-1 text-sm">Sign in to continue your journey</p>
         </div>
 
         <div
@@ -62,19 +59,11 @@ const onSubmit = handleSubmit(async (values) => {
         </div>
 
         <form class="space-y-4" @submit.prevent="onSubmit">
-            <FormField
-                v-slot="{ componentField }"
-                name="email"
-                :validate-on-blur="!isFieldDirty"
-            >
+            <FormField v-slot="{ componentField }" name="email" :validate-on-blur="!isFieldDirty">
                 <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input
-                            type="email"
-                            placeholder="you@example.com"
-                            v-bind="componentField"
-                        />
+                        <Input type="email" placeholder="you@example.com" v-bind="componentField" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -109,11 +98,7 @@ const onSubmit = handleSubmit(async (values) => {
                                 @click="showPassword = !showPassword"
                             >
                                 <Icon
-                                    :icon="
-                                        showPassword
-                                            ? 'lucide:eye-off'
-                                            : 'lucide:eye'
-                                    "
+                                    :icon="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
                                     class="h-4 w-4"
                                 />
                             </button>
@@ -124,11 +109,7 @@ const onSubmit = handleSubmit(async (values) => {
             </FormField>
 
             <Button type="submit" class="w-full" :disabled="loading">
-                <Icon
-                    v-if="loading"
-                    icon="lucide:loader-2"
-                    class="h-4 w-4 animate-spin"
-                />
+                <Icon v-if="loading" icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
                 Sign In
             </Button>
         </form>

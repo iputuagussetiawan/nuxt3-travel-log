@@ -37,10 +37,10 @@ function onSubmitComplete() {
 
 <template>
     <section class="p-6">
-        <div class="mb-6">
-            <h1 class="text-xl font-semibold">Profile</h1>
-            <p class="text-muted-foreground text-sm">
-                Manage your personal information
+        <div class="mb-8">
+            <h1 class="text-xl font-bold">Profile</h1>
+            <p class="text-muted-foreground mt-1 text-sm">
+                Manage your account details and profile photo
             </p>
         </div>
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start">

@@ -23,9 +23,7 @@ const errorMessage = computed(() => error.value?.statusMessage)
         <div class="mt-4 px-4">
             <div>
                 <div class="relative flex items-center justify-between">
-                    <h1 class="text-xl font-bold">
-                        Location Name : {{ locationLog.name }}
-                    </h1>
+                    <h1 class="text-xl font-bold">Location Name : {{ locationLog.name }}</h1>
 
                     <ClientOnly>
                         <DropdownMenu>
@@ -36,31 +34,18 @@ const errorMessage = computed(() => error.value?.statusMessage)
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <NuxtLink
-                                        :to="`/dashboard/locations/${route.params.slug}/add`"
-                                    >
-                                        <Icon
-                                            icon="lucide:plus"
-                                            class="ml-2 inline"
-                                        />
+                                    <NuxtLink :to="`/dashboard/locations/${route.params.slug}/add`">
+                                        <Icon icon="lucide:plus" class="ml-2 inline" />
                                         Add
                                     </NuxtLink>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <Icon
-                                        icon="lucide:trash"
-                                        class="ml-2 inline"
-                                    />
+                                    <Icon icon="lucide:trash" class="ml-2 inline" />
                                     Delete
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                    <NuxtLink
-                                        :to="`/dashboard/locations/${locationLog.slug}/edit`"
-                                    >
-                                        <Icon
-                                            icon="lucide:edit"
-                                            class="ml-2 inline"
-                                        />
+                                    <NuxtLink :to="`/dashboard/locations/${locationLog.slug}/edit`">
+                                        <Icon icon="lucide:edit" class="ml-2 inline" />
                                         Edit
                                     </NuxtLink>
                                 </DropdownMenuItem>

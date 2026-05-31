@@ -5,9 +5,7 @@ import { reactiveOmit } from '@vueuse/core'
 import { CalendarHeading, useForwardProps } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
-const props = defineProps<
-    CalendarHeadingProps & { class?: HTMLAttributes['class'] }
->()
+const props = defineProps<CalendarHeadingProps & { class?: HTMLAttributes['class'] }>()
 
 defineSlots<{
     default: (props: { headingValue: string }) => any

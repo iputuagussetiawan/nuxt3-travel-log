@@ -40,9 +40,7 @@ const shapes = computed(() => {
         const baseItem = getBaseSchema(item) as ZodAny
         let options =
             baseItem && 'entries' in (baseItem._def as any)
-                ? Object.values(
-                      (baseItem._def as any).entries as Record<string, string>
-                  )
+                ? Object.values((baseItem._def as any).entries as Record<string, string>)
                 : undefined
         if (!Array.isArray(options) && typeof options === 'object')
             options = Object.values(options as object)
@@ -51,9 +49,7 @@ const shapes = computed(() => {
             type: getBaseType(item),
             default: getDefaultValueInZodStack(item),
             options,
-            required: !['optional', 'nullable'].includes(
-                (item._def as any).type
-            ),
+            required: !['optional', 'nullable'].includes((item._def as any).type),
             schema: baseItem
         }
     })
@@ -107,18 +103,10 @@ const formComponentProps = computed(() => {
                     :shape="shape"
                     :name="key.toString() as keyof z.infer<T>"
                     :field-name="key.toString()"
-                    :config="
-                        fieldConfig?.[
-                            key as keyof typeof fieldConfig
-                        ] as ConfigItem
-                    "
+                    :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem"
                 >
                     <AutoFormField
-                        :config="
-                            fieldConfig?.[
-                                key as keyof typeof fieldConfig
-                            ] as ConfigItem
-                        "
+                        :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem"
                         :field-name="key.toString()"
                         :shape="shape"
                     />

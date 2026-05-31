@@ -12,11 +12,7 @@ import {
     SidebarMenuSubItem,
     useSidebar
 } from './ui/sidebar'
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger
-} from './ui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Icon } from '@iconify/vue'
 
@@ -30,13 +26,18 @@ const isCollapsed = computed(() => state.value === 'collapsed')
 function isActive(to: string | object | undefined) {
     if (!to) return false
     const path = typeof to === 'string' ? to : ((to as any).path ?? '')
-    return route.path === path
+    if (path === '/dashboard') return route.path === path
+    return route.path === path || route.path.startsWith(path + '/')
+}
+
+function isParentActive(items: { to?: any }[] | undefined) {
+    return items?.some((sub) => isActive(sub.to)) ?? false
 }
 </script>
 
 <template>
     <SidebarGroup v-if="sidebarTopItems.length">
-        <SidebarGroupLabel v-if="!isCollapsed">Navigation</SidebarGroupLabel>
+        <SidebarGroupLabel v-if="!isCollapsed" class="sr-only">Navigation</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in sidebarTopItems" :key="item.title">
                 <!-- ── Collapsed: icon + popover ── -->
@@ -44,7 +45,12 @@ function isActive(to: string | object | undefined) {
                     <PopoverTrigger>
                         <button
                             :aria-label="item.title"
-                            class="hover:bg-sidebar-accent text-sidebar-foreground flex h-8 w-8 items-center justify-center rounded-md transition-colors"
+                            :class="[
+                                'flex h-8 w-8 items-center justify-center rounded-md transition-colors',
+                                isParentActive(item.items)
+                                    ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                                    : 'hover:bg-sidebar-accent text-sidebar-foreground'
+                            ]"
                         >
                             <Icon
                                 v-if="item.icon"
@@ -67,18 +73,10 @@ function isActive(to: string | object | undefined) {
                             {{ item.title }}
                         </p>
                         <ul role="list" class="space-y-0.5">
-                            <li
-                                v-for="subItem in item.items"
-                                :key="subItem.id"
-                                role="listitem"
-                            >
+                            <li v-for="subItem in item.items" :key="subItem.id" role="listitem">
                                 <NuxtLink
                                     :to="subItem.to"
-                                    :aria-current="
-                                        isActive(subItem.to)
-                                            ? 'page'
-                                            : undefined
-                                    "
+                                    :aria-current="isActive(subItem.to) ? 'page' : undefined"
                                     class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
                                     :class="
                                         isActive(subItem.to)
@@ -103,7 +101,8 @@ function isActive(to: string | object | undefined) {
                 <Collapsible
                     v-else
                     as-child
-                    :default-open="item.isActive"
+                    :default-open="item.isActive || isParentActive(item.items)"
+                    :open="isParentActive(item.items) ? true : undefined"
                     class="group/collapsible"
                 >
                     <SidebarMenuItem>
@@ -111,12 +110,9 @@ function isActive(to: string | object | undefined) {
                             <SidebarMenuButton
                                 :tooltip="item.title"
                                 :aria-label="item.title"
+                                :is-active="isParentActive(item.items)"
                             >
-                                <Icon
-                                    v-if="item.icon"
-                                    :icon="item.icon"
-                                    aria-hidden="true"
-                                />
+                                <Icon v-if="item.icon" :icon="item.icon" aria-hidden="true" />
                                 <span>{{ item.title }}</span>
                                 <ChevronRight
                                     class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
@@ -142,9 +138,7 @@ function isActive(to: string | object | undefined) {
                                         <NuxtLink
                                             :to="subItem.to"
                                             :aria-current="
-                                                isActive(subItem.to)
-                                                    ? 'page'
-                                                    : undefined
+                                                isActive(subItem.to) ? 'page' : undefined
                                             "
                                         >
                                             <Icon

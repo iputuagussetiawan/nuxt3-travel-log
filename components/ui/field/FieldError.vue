@@ -32,10 +32,7 @@ const content = computed(() => {
             {{ content }}
         </template>
 
-        <ul
-            v-else-if="Array.isArray(content)"
-            class="ml-4 flex list-disc flex-col gap-1"
-        >
+        <ul v-else-if="Array.isArray(content)" class="ml-4 flex list-disc flex-col gap-1">
             <li v-for="(error, index) in content" :key="index">
                 {{ error?.message }}
             </li>

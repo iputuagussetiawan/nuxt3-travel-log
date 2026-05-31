@@ -1,9 +1,7 @@
 import type { SelectLocationLogType, SelectLocationType } from './db/schema'
 import type { MapPoint } from './type'
 
-export function createMapPointFromLocation(
-    location: SelectLocationType
-): MapPoint {
+export function createMapPointFromLocation(location: SelectLocationType): MapPoint {
     return {
         ...location,
         to: {
@@ -14,9 +12,7 @@ export function createMapPointFromLocation(
     }
 }
 
-export function createMapPointFromLocationLog(
-    locationLog: SelectLocationLogType
-): MapPoint {
+export function createMapPointFromLocationLog(locationLog: SelectLocationLogType): MapPoint {
     return {
         ...locationLog,
         to: {

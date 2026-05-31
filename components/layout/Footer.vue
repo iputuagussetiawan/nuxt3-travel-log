@@ -26,9 +26,7 @@ const socials = [
 const year = new Date().getFullYear()
 </script>
 <template>
-    <footer
-        class="relative z-10 border-t border-white/10 bg-black/50 backdrop-blur-sm"
-    >
+    <footer class="relative z-10 border-t border-white/10 bg-black/50 backdrop-blur-sm">
         <div class="container mx-auto max-w-5xl px-4 py-12">
             <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
                 <!-- Brand -->
@@ -63,15 +61,10 @@ const year = new Date().getFullYear()
                                 stroke-width="32"
                             />
                         </svg>
-                        <span class="text-base font-bold text-white"
-                            >Travel Log</span
-                        >
+                        <span class="text-base font-bold text-white">Travel Log</span>
                     </a>
-                    <p
-                        class="mt-3 max-w-xs text-sm leading-relaxed text-white/50"
-                    >
-                        Pin your memories on the map, log your adventures, and
-                        relive every journey.
+                    <p class="mt-3 max-w-xs text-sm leading-relaxed text-white/50">
+                        Pin your memories on the map, log your adventures, and relive every journey.
                     </p>
                     <div class="mt-5 flex gap-3">
                         <a
@@ -90,9 +83,7 @@ const year = new Date().getFullYear()
 
                 <!-- Link columns -->
                 <div v-for="col in links" :key="col.heading">
-                    <p
-                        class="mb-4 text-xs font-semibold tracking-widest text-white/40 uppercase"
-                    >
+                    <p class="mb-4 text-xs font-semibold tracking-widest text-white/40 uppercase">
                         {{ col.heading }}
                     </p>
                     <ul class="space-y-2.5">

@@ -6,25 +6,17 @@ const scrollToFeatures = () => {
 }
 </script>
 <template>
-    <section
-        class="relative z-10 flex h-screen flex-col items-center justify-center px-4"
-    >
+    <section class="relative z-10 flex h-screen flex-col items-center justify-center px-4">
         <!-- Overlay gradient -->
-        <div
-            class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60"
-        />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
 
         <!-- Hero content -->
         <div class="relative z-10 max-w-3xl text-center">
             <div
                 class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm"
             >
-                <Icon
-                    icon="lucide:map-pin"
-                    class="h-3.5 w-3.5 text-emerald-400"
-                />
-                <span
-                    class="text-xs font-medium tracking-wide text-white/80 uppercase"
+                <Icon icon="lucide:map-pin" class="h-3.5 w-3.5 text-emerald-400" />
+                <span class="text-xs font-medium tracking-wide text-white/80 uppercase"
                     >Your personal travel journal</span
                 >
             </div>
@@ -39,8 +31,8 @@ const scrollToFeatures = () => {
             <p
                 class="mx-auto mb-10 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:text-xl"
             >
-                Pin your memories on the map, log your adventures, and revisit
-                every place that took your breath away.
+                Pin your memories on the map, log your adventures, and revisit every place that took
+                your breath away.
             </p>
 
             <div class="flex flex-wrap items-center justify-center gap-4">

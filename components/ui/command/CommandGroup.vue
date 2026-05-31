@@ -19,9 +19,7 @@ const delegatedProps = reactiveOmit(props, 'class')
 const { allGroups, filterState } = useCommand()
 const id = useId()
 
-const isRender = computed(() =>
-    !filterState.search ? true : filterState.filtered.groups.has(id)
-)
+const isRender = computed(() => (!filterState.search ? true : filterState.filtered.groups.has(id)))
 
 provideCommandGroupContext({ id })
 onMounted(() => {
@@ -42,7 +40,7 @@ onUnmounted(() => {
     >
         <ListboxGroupLabel
             v-if="heading"
-            class="px-2 py-1.5 text-xs font-medium text-muted-foreground"
+            class="text-muted-foreground px-2 py-1.5 text-xs font-medium"
         >
             {{ heading }}
         </ListboxGroupLabel>

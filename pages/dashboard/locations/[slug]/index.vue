@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-    FolderOpen,
-    Cloud,
-    CirclePlus,
-    EllipsisVertical,
-    MapPin
-} from 'lucide-vue-next'
+import { FolderOpen, Cloud, CirclePlus, EllipsisVertical, MapPin } from 'lucide-vue-next'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
     Empty,
@@ -48,9 +42,7 @@ const {
 
 useSeoMeta({
     title: computed(() => location.value?.name ?? String(slug)),
-    description: computed(
-        () => location.value?.description ?? `Explore logs for ${slug}.`
-    ),
+    description: computed(() => location.value?.description ?? `Explore logs for ${slug}.`),
     ogTitle: computed(() => `${location.value?.name ?? slug} · Travel Log`)
 })
 
@@ -80,10 +72,7 @@ async function handleContinueDelete() {
 
 watch(location, (val: any) => {
     if (val && val.lat && val.long) {
-        mapStore.flyToMarker(
-            { lat: String(val.lat), long: String(val.long) },
-            10
-        )
+        mapStore.flyToMarker({ lat: String(val.lat), long: String(val.long) }, 10)
     }
 })
 </script>
@@ -93,9 +82,7 @@ watch(location, (val: any) => {
         <div class="mt-4 px-4">
             <div v-if="location && status !== 'pending'">
                 <div class="relative flex items-center justify-between">
-                    <h1 class="text-xl font-bold">
-                        Location Name : {{ location.name }}
-                    </h1>
+                    <h1 class="text-xl font-bold">Location Name : {{ location.name }}</h1>
 
                     <ClientOnly>
                         <DropdownMenu>
@@ -106,31 +93,18 @@ watch(location, (val: any) => {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <NuxtLink
-                                        :to="`/dashboard/locations/${route.params.slug}/add`"
-                                    >
-                                        <Icon
-                                            icon="lucide:plus"
-                                            class="ml-2 inline"
-                                        />
+                                    <NuxtLink :to="`/dashboard/locations/${route.params.slug}/add`">
+                                        <Icon icon="lucide:plus" class="ml-2 inline" />
                                         Add
                                     </NuxtLink>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem @click="handleDeleteLocation">
-                                    <Icon
-                                        icon="lucide:trash"
-                                        class="ml-2 inline"
-                                    />
+                                    <Icon icon="lucide:trash" class="ml-2 inline" />
                                     Delete
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                    <NuxtLink
-                                        :to="`/dashboard/locations/${location.slug}/edit`"
-                                    >
-                                        <Icon
-                                            icon="lucide:edit"
-                                            class="ml-2 inline"
-                                        />
+                                    <NuxtLink :to="`/dashboard/locations/${location.slug}/edit`">
+                                        <Icon icon="lucide:edit" class="ml-2 inline" />
                                         Edit
                                     </NuxtLink>
                                 </DropdownMenuItem>
@@ -161,9 +135,7 @@ watch(location, (val: any) => {
                         <CardLocation
                             v-for="locationLog in location.locationLogs"
                             :key="locationLog.id"
-                            :map-point="
-                                createMapPointFromLocationLog(locationLog)
-                            "
+                            :map-point="createMapPointFromLocationLog(locationLog)"
                         />
                     </div>
                 </div>
@@ -175,12 +147,8 @@ watch(location, (val: any) => {
                         <EmptyMedia variant="icon">
                             <Cloud />
                         </EmptyMedia>
-                        <EmptyTitle class="mb-0"
-                            >Location Log is empty</EmptyTitle
-                        >
-                        <EmptyDescription>
-                            Please create a location log
-                        </EmptyDescription>
+                        <EmptyTitle class="mb-0">Location Log is empty</EmptyTitle>
+                        <EmptyDescription> Please create a location log </EmptyDescription>
                     </EmptyHeader>
                     <EmptyContent>
                         <NuxtLink

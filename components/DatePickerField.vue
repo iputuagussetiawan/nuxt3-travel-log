@@ -15,11 +15,7 @@ import {
     FormLabel,
     FormMessage
 } from '@/components/ui/form'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '~/lib/utils'
 
 const props = defineProps<{
@@ -72,11 +68,7 @@ const onSelect = (v: CalendarDate | undefined) => {
                             "
                         >
                             <span>
-                                {{
-                                    parsedDate
-                                        ? df.format(toDate(parsedDate))
-                                        : placeholder
-                                }}
+                                {{ parsedDate ? df.format(toDate(parsedDate)) : placeholder }}
                             </span>
                             <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
                         </Button>

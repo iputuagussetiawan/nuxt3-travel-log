@@ -18,24 +18,14 @@ export async function findLocations(userId: string) {
     return await db.select().from(location).where(eq(location.userId, userId))
 }
 
-export async function findLocationByName(
-    existingLocation: InsertLocationType,
-    userId: string
-) {
+export async function findLocationByName(existingLocation: InsertLocationType, userId: string) {
     return db.query.location.findFirst({
-        where: and(
-            eq(location.name, existingLocation.name),
-            eq(location.userId, userId)
-        )
+        where: and(eq(location.name, existingLocation.name), eq(location.userId, userId))
     })
 }
 
 export async function findLocationBySlug(slug: string) {
-    return await db
-        .select()
-        .from(location)
-        .where(eq(location.slug, slug))
-        .limit(1)
+    return await db.select().from(location).where(eq(location.slug, slug)).limit(1)
 }
 
 export async function findUniqueSlug(slug: string) {

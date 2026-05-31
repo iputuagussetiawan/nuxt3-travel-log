@@ -46,12 +46,8 @@ function onSubmitComplete() {
                 description: currentLocationLog?.description || '',
                 startedAt: currentLocationLog?.startedAt || '',
                 endedAt: currentLocationLog?.endedAt || '',
-                lat:
-                    currentLocationLog?.lat.toString() ||
-                    MAP_INPUT_CENTER[0].toString(),
-                long:
-                    currentLocationLog?.long.toString() ||
-                    MAP_INPUT_CENTER[1].toString()
+                lat: currentLocationLog?.lat.toString() || MAP_INPUT_CENTER[0].toString(),
+                long: currentLocationLog?.long.toString() || MAP_INPUT_CENTER[1].toString()
             }"
         />
     </div>

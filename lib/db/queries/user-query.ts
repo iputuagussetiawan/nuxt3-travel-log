@@ -26,10 +26,6 @@ export async function findAllUsers() {
 }
 
 export async function updateUserRole(userId: string, role: Role) {
-    const [updated] = await db
-        .update(user)
-        .set({ role })
-        .where(eq(user.id, userId))
-        .returning()
+    const [updated] = await db.update(user).set({ role }).where(eq(user.id, userId)).returning()
     return updated
 }

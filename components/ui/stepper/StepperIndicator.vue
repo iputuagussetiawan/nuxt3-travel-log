@@ -5,9 +5,7 @@ import { reactiveOmit } from '@vueuse/core'
 import { StepperIndicator, useForwardProps } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
-const props = defineProps<
-    StepperIndicatorProps & { class?: HTMLAttributes['class'] }
->()
+const props = defineProps<StepperIndicatorProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = reactiveOmit(props, 'class')
 
@@ -20,7 +18,7 @@ const forwarded = useForwardProps(delegatedProps)
         v-bind="forwarded"
         :class="
             cn(
-                'inline-flex items-center justify-center rounded-full text-muted-foreground/50 w-8 h-8',
+                'text-muted-foreground/50 inline-flex h-8 w-8 items-center justify-center rounded-full',
                 // Disabled
                 'group-data-[disabled]:text-muted-foreground group-data-[disabled]:opacity-50',
                 // Active

@@ -43,8 +43,7 @@ const filteredItems = computed(() => {
     const q = search.value.trim().toLowerCase()
     if (q) list = list.filter((i) => i.label.toLowerCase().includes(q))
     if (sort.value === 'az') list.sort((a, b) => a.label.localeCompare(b.label))
-    else if (sort.value === 'za')
-        list.sort((a, b) => b.label.localeCompare(a.label))
+    else if (sort.value === 'za') list.sort((a, b) => b.label.localeCompare(a.label))
     return list
 })
 
@@ -52,9 +51,7 @@ const filteredItems = computed(() => {
 const PAGE_SIZE = 8
 const page = ref(1)
 
-const totalPages = computed(() =>
-    Math.max(1, Math.ceil(filteredItems.value.length / PAGE_SIZE))
-)
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredItems.value.length / PAGE_SIZE)))
 
 const pagedItems = computed(() => {
     const start = (page.value - 1) * PAGE_SIZE
@@ -86,15 +83,11 @@ function isSelected(subItem: any) {
 }
 
 function isCurrentPage(subItem: any) {
-    return (
-        route.path === subItem.to ||
-        route.path.startsWith(String(subItem.to) + '/')
-    )
+    return route.path === subItem.to || route.path.startsWith(String(subItem.to) + '/')
 }
 
 function handleClick(subItem: any) {
-    if (subItem.location)
-        mapStore.navigateToMarker(subItem.location as MapPoint)
+    if (subItem.location) mapStore.navigateToMarker(subItem.location as MapPoint)
     open.value = false
     navigateTo(subItem.to)
 }
@@ -124,27 +117,19 @@ function handleClick(subItem: any) {
                 class="bg-background/80 supports-[backdrop-filter]:bg-background/60 z-[4000] flex h-full flex-col border-l border-white/10 backdrop-blur-md"
             >
                 <!-- Header -->
-                <DrawerHeader
-                    class="relative shrink-0 overflow-hidden border-b p-0"
-                >
+                <DrawerHeader class="relative shrink-0 overflow-hidden border-b p-0">
                     <div
                         class="from-primary/15 dark:from-primary/20 absolute inset-0 bg-gradient-to-b to-transparent backdrop-blur-sm"
                     />
-                    <div
-                        class="relative flex items-start justify-between p-5 pb-4"
-                    >
+                    <div class="relative flex items-start justify-between p-5 pb-4">
                         <div class="flex flex-col gap-1">
                             <div class="flex items-center gap-2.5">
                                 <div
                                     class="bg-primary/10 ring-primary/20 flex h-8 w-8 items-center justify-center rounded-lg ring-1"
                                 >
-                                    <LucideMapPin
-                                        class="text-primary h-4 w-4"
-                                    />
+                                    <LucideMapPin class="text-primary h-4 w-4" />
                                 </div>
-                                <DrawerTitle
-                                    class="text-base font-semibold tracking-tight"
-                                >
+                                <DrawerTitle class="text-base font-semibold tracking-tight">
                                     Map Listing
                                 </DrawerTitle>
                             </div>
@@ -194,9 +179,7 @@ function handleClick(subItem: any) {
                     </div>
 
                     <!-- Sort pills -->
-                    <div
-                        class="bg-muted/50 dark:bg-muted/20 flex gap-1 rounded-lg p-1"
-                    >
+                    <div class="bg-muted/50 dark:bg-muted/20 flex gap-1 rounded-lg p-1">
                         <button
                             v-for="opt in sortOptions"
                             :key="opt.value"
@@ -209,26 +192,15 @@ function handleClick(subItem: any) {
                             "
                             @click="sort = opt.value"
                         >
-                            <component
-                                :is="opt.icon"
-                                class="h-3 w-3"
-                                aria-hidden="true"
-                            />
+                            <component :is="opt.icon" class="h-3 w-3" aria-hidden="true" />
                             {{ opt.label }}
                         </button>
                     </div>
                 </div>
 
                 <!-- Loading -->
-                <div
-                    v-if="sidebarStore.loading"
-                    class="flex-1 space-y-2 overflow-y-auto p-4"
-                >
-                    <Skeleton
-                        v-for="i in 8"
-                        :key="i"
-                        class="h-10 w-full rounded-lg"
-                    />
+                <div v-if="sidebarStore.loading" class="flex-1 space-y-2 overflow-y-auto p-4">
+                    <Skeleton v-for="i in 8" :key="i" class="h-10 w-full rounded-lg" />
                 </div>
 
                 <!-- No results -->
@@ -250,16 +222,8 @@ function handleClick(subItem: any) {
                 </div>
 
                 <!-- List -->
-                <ul
-                    v-else
-                    class="flex-1 space-y-0.5 overflow-y-auto p-3"
-                    role="list"
-                >
-                    <li
-                        v-for="subItem in pagedItems"
-                        :key="subItem.id"
-                        role="listitem"
-                    >
+                <ul v-else class="flex-1 space-y-0.5 overflow-y-auto p-3" role="list">
+                    <li v-for="subItem in pagedItems" :key="subItem.id" role="listitem">
                         <button
                             class="w-full rounded-lg px-3 py-2.5 text-left text-sm transition-colors"
                             :class="[
@@ -269,9 +233,7 @@ function handleClick(subItem: any) {
                                       ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
                                       : 'text-foreground hover:bg-muted/60'
                             ]"
-                            :aria-current="
-                                isCurrentPage(subItem) ? 'page' : undefined
-                            "
+                            :aria-current="isCurrentPage(subItem) ? 'page' : undefined"
                             @click="handleClick(subItem)"
                         >
                             <div class="flex items-center gap-2">
@@ -284,9 +246,7 @@ function handleClick(subItem: any) {
                                     "
                                     aria-hidden="true"
                                 />
-                                <span class="truncate">{{
-                                    subItem.label
-                                }}</span>
+                                <span class="truncate">{{ subItem.label }}</span>
                             </div>
                         </button>
                     </li>
@@ -294,11 +254,7 @@ function handleClick(subItem: any) {
 
                 <!-- Pagination -->
                 <div
-                    v-if="
-                        !sidebarStore.loading &&
-                        filteredItems.length &&
-                        totalPages > 1
-                    "
+                    v-if="!sidebarStore.loading && filteredItems.length && totalPages > 1"
                     class="bg-background/40 flex shrink-0 items-center justify-between border-t px-4 py-3 backdrop-blur-sm"
                 >
                     <button
