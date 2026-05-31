@@ -182,8 +182,8 @@ const widgets = computed(() => [
                     <p class="text-muted-foreground text-xs font-medium">
                         {{ w.label }}
                     </p>
-                    <div :class="[w.iconBg, 'rounded-lg p-1.5']">
-                        <Icon :icon="w.icon" :class="[w.iconColor, 'h-4 w-4']" />
+                    <div :class="[w.iconBg, 'rounded-xl p-3']">
+                        <Icon :icon="w.icon" :class="[w.iconColor, 'h-6 w-6']" />
                     </div>
                 </div>
                 <p class="text-2xl font-bold">{{ w.count }}</p>
