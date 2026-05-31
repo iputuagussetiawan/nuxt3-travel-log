@@ -5,9 +5,7 @@ import { reactiveOmit } from '@vueuse/core'
 import { MenubarPortal, MenubarSubContent, useForwardPropsEmits } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
-const props = defineProps<
-    MenubarSubContentProps & { class?: HTMLAttributes['class'] }
->()
+const props = defineProps<MenubarSubContentProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<MenubarSubContentEmits>()
 
 const delegatedProps = reactiveOmit(props, 'class')

@@ -36,9 +36,7 @@ const {
 
 useSeoMeta({
     title: computed(() => locationLog.value?.name ?? 'Location Log'),
-    description: computed(
-        () => locationLog.value?.description ?? 'View this travel log entry.'
-    ),
+    description: computed(() => locationLog.value?.description ?? 'View this travel log entry.'),
     ogTitle: computed(() => `${locationLog.value?.name ?? 'Log'} · Travel Log`)
 })
 
@@ -47,9 +45,7 @@ const isDeleting = ref(false)
 const deleteError = ref('')
 
 const loading = computed(() => isDeleting.value || status.value === 'pending')
-const errorMessage = computed(
-    () => deleteError.value || error.value?.statusMessage
-)
+const errorMessage = computed(() => deleteError.value || error.value?.statusMessage)
 
 onMounted(() => {
     setTimeout(() => {
@@ -94,9 +90,7 @@ const handleDeleteLocation = () => {
         <div class="mt-4 px-4">
             <div v-if="locationLog && status !== 'pending'">
                 <div class="relative flex items-center justify-between">
-                    <h1 class="text-xl font-bold">
-                        Location Name : {{ locationLog.name }}
-                    </h1>
+                    <h1 class="text-xl font-bold">Location Name : {{ locationLog.name }}</h1>
 
                     <ClientOnly>
                         <DropdownMenu>
@@ -107,31 +101,20 @@ const handleDeleteLocation = () => {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <NuxtLink
-                                        :to="`/dashboard/locations/${route.params.slug}/add`"
-                                    >
-                                        <Icon
-                                            icon="lucide:plus"
-                                            class="ml-2 inline"
-                                        />
+                                    <NuxtLink :to="`/dashboard/locations/${route.params.slug}/add`">
+                                        <Icon icon="lucide:plus" class="ml-2 inline" />
                                         Add
                                     </NuxtLink>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem @click="handleDeleteLocation">
-                                    <Icon
-                                        icon="lucide:trash"
-                                        class="ml-2 inline"
-                                    />
+                                    <Icon icon="lucide:trash" class="ml-2 inline" />
                                     Delete
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
                                     <NuxtLink
                                         :to="`/dashboard/locations/${route.params.slug}/${locationLog.id}/edit`"
                                     >
-                                        <Icon
-                                            icon="lucide:edit"
-                                            class="ml-2 inline"
-                                        />
+                                        <Icon icon="lucide:edit" class="ml-2 inline" />
                                         Edit
                                     </NuxtLink>
                                 </DropdownMenuItem>

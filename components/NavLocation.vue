@@ -10,11 +10,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem
 } from './ui/sidebar'
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger
-} from './ui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 import { Skeleton } from './ui/skeleton'
 import type { MapPoint } from '~/lib/type'
 
@@ -58,26 +54,18 @@ function isSelected(subItem: any) {
 }
 
 function isCurrentPage(subItem: any) {
-    return (
-        route.path === subItem.to ||
-        route.path.startsWith(String(subItem.to) + '/')
-    )
+    return route.path === subItem.to || route.path.startsWith(String(subItem.to) + '/')
 }
 </script>
 
 <template>
-    <SidebarGroup
-        v-if="sidebarStore.loading || sidebarStore.sidebarItems.length"
-    >
+    <SidebarGroup v-if="sidebarStore.loading || sidebarStore.sidebarItems.length">
         <SidebarGroupLabel>My Map</SidebarGroupLabel>
         <SidebarMenu>
             <Collapsible as-child default-open class="group/collapsible">
                 <SidebarMenuItem>
                     <CollapsibleTrigger as-child>
-                        <SidebarMenuButton
-                            tooltip="Map Listing"
-                            aria-label="Map Listing"
-                        >
+                        <SidebarMenuButton tooltip="Map Listing" aria-label="Map Listing">
                             <LucideMapPin aria-hidden="true" />
                             <span>Map Listing</span>
                             <ChevronRight
@@ -114,27 +102,18 @@ function isCurrentPage(subItem: any) {
                                         isSelected(subItem)
                                             ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                                             : '',
-                                        isCurrentPage(subItem) &&
-                                        !isSelected(subItem)
+                                        isCurrentPage(subItem) && !isSelected(subItem)
                                             ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
                                             : ''
                                     ]"
                                 >
                                     <NuxtLink
                                         :to="subItem.to"
-                                        :aria-current="
-                                            isCurrentPage(subItem)
-                                                ? 'page'
-                                                : undefined
-                                        "
-                                        :aria-pressed="
-                                            isSelected(subItem) || undefined
-                                        "
+                                        :aria-current="isCurrentPage(subItem) ? 'page' : undefined"
+                                        :aria-pressed="isSelected(subItem) || undefined"
                                         @click="
                                             subItem.location &&
-                                            handleNavigateToLocation(
-                                                subItem.location as MapPoint
-                                            )
+                                            handleNavigateToLocation(subItem.location as MapPoint)
                                         "
                                     >
                                         <span>{{ subItem.label }}</span>
@@ -157,9 +136,7 @@ function isCurrentPage(subItem: any) {
                                 <ChevronLeft class="h-3.5 w-3.5" />
                             </button>
 
-                            <span
-                                class="text-muted-foreground text-xs tabular-nums"
-                            >
+                            <span class="text-muted-foreground text-xs tabular-nums">
                                 {{ page }} / {{ totalPages }}
                             </span>
 

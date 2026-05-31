@@ -10,11 +10,7 @@ import {
     FormItem,
     FormMessage
 } from '@/components/ui/form'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
@@ -41,9 +37,8 @@ const df = new DateFormatter('en-US', {
                             <PopoverTrigger
                                 as-child
                                 :disabled="
-                                    maybeBooleanishToBoolean(
-                                        config?.inputProps?.disabled
-                                    ) ?? disabled
+                                    maybeBooleanishToBoolean(config?.inputProps?.disabled) ??
+                                    disabled
                                 "
                             >
                                 <Button
@@ -51,8 +46,7 @@ const df = new DateFormatter('en-US', {
                                     :class="
                                         cn(
                                             'w-full justify-start text-left font-normal',
-                                            !slotProps.componentField
-                                                .modelValue &&
+                                            !slotProps.componentField.modelValue &&
                                                 'text-muted-foreground'
                                         )
                                     "
@@ -70,10 +64,7 @@ const df = new DateFormatter('en-US', {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent class="w-auto p-0">
-                                <Calendar
-                                    initial-focus
-                                    v-bind="slotProps.componentField"
-                                />
+                                <Calendar initial-focus v-bind="slotProps.componentField" />
                             </PopoverContent>
                         </Popover>
                     </div>

@@ -25,16 +25,10 @@ const pinUrl = computed(() => {
     <div class="custom-marker" :class="props.active ? 'active' : ''">
         <div class="custom-marker__image-container">
             <span class="custom-marker__animation"></span>
-            <img
-                class="custom-marker__image"
-                :src="pinUrl"
-                :alt="props.label"
-            />
+            <img class="custom-marker__image" :src="pinUrl" :alt="props.label" />
         </div>
 
-        <div v-if="props.useForInput" class="custom-marker__input-info">
-            Drag Me Here
-        </div>
+        <div v-if="props.useForInput" class="custom-marker__input-info">Drag Me Here</div>
     </div>
 </template>
 <style lang="scss" scoped>

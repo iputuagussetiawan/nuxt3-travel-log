@@ -16,11 +16,7 @@ type User = {
     createdAt: string
 }
 
-const {
-    data: users,
-    refresh,
-    status
-} = await useFetch<User[]>('/api/admin/users')
+const { data: users, refresh, status } = await useFetch<User[]>('/api/admin/users')
 
 // ── Search / filter / sort ────────────────────────────────────────────────────
 const search = ref('')
@@ -33,18 +29,13 @@ const filtered = computed(() => {
     const q = search.value.trim().toLowerCase()
     if (q)
         list = list.filter(
-            (u) =>
-                u.name.toLowerCase().includes(q) ||
-                u.email.toLowerCase().includes(q)
+            (u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
         )
-    if (filterRole.value !== 'all')
-        list = list.filter((u) => u.role === filterRole.value)
+    if (filterRole.value !== 'all') list = list.filter((u) => u.role === filterRole.value)
     list = [...list].sort((a, b) => {
         const va = sortKey.value === 'name' ? a.name.toLowerCase() : a.createdAt
         const vb = sortKey.value === 'name' ? b.name.toLowerCase() : b.createdAt
-        return sortDir.value === 'asc'
-            ? va.localeCompare(vb)
-            : vb.localeCompare(va)
+        return sortDir.value === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va)
     })
     return list
 })
@@ -57,9 +48,7 @@ watch([search, filterRole, sortKey, sortDir], () => {
     page.value = 1
 })
 
-const totalPages = computed(() =>
-    Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE))
-)
+const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE)))
 const paged = computed(() =>
     filtered.value.slice((page.value - 1) * PAGE_SIZE, page.value * PAGE_SIZE)
 )
@@ -75,11 +64,7 @@ const pageNumbers = computed(() => {
 
     pages.push(1)
     if (current > 3) pages.push('...')
-    for (
-        let i = Math.max(2, current - 1);
-        i <= Math.min(total - 1, current + 1);
-        i++
-    ) {
+    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
         pages.push(i)
     }
     if (current < total - 2) pages.push('...')
@@ -103,6 +88,11 @@ async function changeRole(userId: string, role: Role) {
     } finally {
         updating.value = null
     }
+}
+
+function clearFilters() {
+    search.value = ''
+    filterRole.value = 'all'
 }
 
 function toggleSort(key: typeof sortKey.value) {
@@ -178,9 +168,7 @@ const widgets = computed(() => [
 <template>
     <div class="space-y-6 p-6">
         <!-- Header -->
-        <div
-            class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
-        >
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h1 class="text-xl font-bold">User Management</h1>
                 <p class="text-muted-foreground mt-0.5 text-sm">
@@ -203,9 +191,7 @@ const widgets = computed(() => [
                 :key="w.key"
                 :class="[
                     'rounded-xl border p-4 text-left transition-all hover:shadow-sm',
-                    filterRole === w.key
-                        ? `${w.activeBorder} ${w.activeBg}`
-                        : 'hover:bg-muted/40'
+                    filterRole === w.key ? `${w.activeBorder} ${w.activeBg}` : 'hover:bg-muted/40'
                 ]"
                 @click="filterRole = w.key"
             >
@@ -214,19 +200,12 @@ const widgets = computed(() => [
                         {{ w.label }}
                     </p>
                     <div :class="[w.iconBg, 'rounded-lg p-1.5']">
-                        <Icon
-                            :icon="w.icon"
-                            :class="[w.iconColor, 'h-4 w-4']"
-                        />
+                        <Icon :icon="w.icon" :class="[w.iconColor, 'h-4 w-4']" />
                     </div>
                 </div>
                 <p class="text-2xl font-bold">{{ w.count }}</p>
                 <p :class="[w.iconColor, 'mt-1 text-xs font-medium']">
-                    {{
-                        filterRole === w.key
-                            ? 'Active filter'
-                            : 'Click to filter'
-                    }}
+                    {{ filterRole === w.key ? 'Active filter' : 'Click to filter' }}
                 </p>
             </button>
         </div>
@@ -267,19 +246,11 @@ const widgets = computed(() => [
 
             <!-- Empty -->
             <div v-else-if="!paged.length" class="p-12 text-center">
-                <Icon
-                    icon="lucide:users"
-                    class="text-muted-foreground/40 mx-auto mb-3 h-10 w-10"
-                />
-                <p class="text-muted-foreground text-sm">
-                    No users match your search.
-                </p>
+                <Icon icon="lucide:users" class="text-muted-foreground/40 mx-auto mb-3 h-10 w-10" />
+                <p class="text-muted-foreground text-sm">No users match your search.</p>
                 <button
                     class="text-primary mt-2 text-xs underline-offset-4 hover:underline"
-                    @click="
-                        search = ''
-                        filterRole = 'all'
-                    "
+                    @click="clearFilters()"
                 >
                     Clear filters
                 </button>
@@ -303,11 +274,7 @@ const widgets = computed(() => [
                                                 : 'lucide:arrow-down'
                                             : 'lucide:arrow-up-down'
                                     "
-                                    :class="
-                                        sortKey === 'name'
-                                            ? 'text-primary'
-                                            : 'opacity-40'
-                                    "
+                                    :class="sortKey === 'name' ? 'text-primary' : 'opacity-40'"
                                     class="h-3 w-3"
                                 />
                             </button>
@@ -335,11 +302,7 @@ const widgets = computed(() => [
                                                 : 'lucide:arrow-down'
                                             : 'lucide:arrow-up-down'
                                     "
-                                    :class="
-                                        sortKey === 'createdAt'
-                                            ? 'text-primary'
-                                            : 'opacity-40'
-                                    "
+                                    :class="sortKey === 'createdAt' ? 'text-primary' : 'opacity-40'"
                                     class="h-3 w-3"
                                 />
                             </button>
@@ -403,9 +366,7 @@ const widgets = computed(() => [
                                     <p class="truncate font-medium">
                                         {{ user.name }}
                                     </p>
-                                    <p
-                                        class="text-muted-foreground truncate text-xs md:hidden"
-                                    >
+                                    <p class="text-muted-foreground truncate text-xs md:hidden">
                                         {{ user.email }}
                                     </p>
                                 </div>
@@ -413,27 +374,18 @@ const widgets = computed(() => [
                         </td>
 
                         <!-- Email (hidden on mobile) -->
-                        <td
-                            class="text-muted-foreground hidden px-4 py-3 md:table-cell"
-                        >
-                            <span class="block max-w-[200px] truncate">{{
-                                user.email
-                            }}</span>
+                        <td class="text-muted-foreground hidden px-4 py-3 md:table-cell">
+                            <span class="block max-w-[200px] truncate">{{ user.email }}</span>
                         </td>
 
                         <!-- Joined (hidden on tablet) -->
-                        <td
-                            class="text-muted-foreground hidden px-4 py-3 text-xs lg:table-cell"
-                        >
+                        <td class="text-muted-foreground hidden px-4 py-3 text-xs lg:table-cell">
                             {{
-                                new Date(user.createdAt).toLocaleDateString(
-                                    'en-US',
-                                    {
-                                        year: 'numeric',
-                                        month: 'short',
-                                        day: 'numeric'
-                                    }
-                                )
+                                new Date(user.createdAt).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })
                             }}
                         </td>
 
@@ -455,9 +407,7 @@ const widgets = computed(() => [
                                 <button
                                     v-for="r in ROLES"
                                     :key="r"
-                                    :disabled="
-                                        user.role === r || updating === user.id
-                                    "
+                                    :disabled="user.role === r || updating === user.id"
                                     :class="[
                                         'rounded-md px-2 py-0.5 text-xs font-medium transition-colors',
                                         user.role === r
@@ -471,9 +421,7 @@ const widgets = computed(() => [
                                         icon="lucide:loader-2"
                                         class="inline h-3 w-3 animate-spin"
                                     />
-                                    <span v-else class="capitalize">{{
-                                        r
-                                    }}</span>
+                                    <span v-else class="capitalize">{{ r }}</span>
                                 </button>
                             </div>
                         </td>

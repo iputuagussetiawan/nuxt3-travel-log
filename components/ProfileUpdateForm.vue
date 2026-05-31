@@ -84,12 +84,8 @@ const onSubmit = handleSubmit(async (vals: InsertUserType) => {
 
         <Card class="rounded-2xl shadow-sm">
             <CardHeader class="pb-4">
-                <CardTitle class="text-base font-semibold"
-                    >Personal Information</CardTitle
-                >
-                <CardDescription
-                    >Update your name and email address</CardDescription
-                >
+                <CardTitle class="text-base font-semibold">Personal Information</CardTitle>
+                <CardDescription>Update your name and email address</CardDescription>
             </CardHeader>
             <CardContent>
                 <form class="space-y-5" @submit.prevent="onSubmit">
@@ -147,36 +143,23 @@ const onSubmit = handleSubmit(async (vals: InsertUserType) => {
                         </FormField>
 
                         <!-- Actions -->
-                        <div
-                            class="flex items-center justify-between gap-3 pt-2"
-                        >
+                        <div class="flex items-center justify-between gap-3 pt-2">
                             <Button
                                 type="button"
                                 variant="outline"
                                 class="gap-2"
                                 @click="router.back()"
                             >
-                                <Icon
-                                    icon="lucide:arrow-left"
-                                    class="h-4 w-4"
-                                />
+                                <Icon icon="lucide:arrow-left" class="h-4 w-4" />
                                 Cancel
                             </Button>
-                            <Button
-                                type="submit"
-                                :disabled="loading"
-                                class="gap-2"
-                            >
+                            <Button type="submit" :disabled="loading" class="gap-2">
                                 <Icon
                                     v-if="loading"
                                     icon="lucide:loader-2"
                                     class="h-4 w-4 animate-spin"
                                 />
-                                <Icon
-                                    v-else
-                                    icon="lucide:check"
-                                    class="h-4 w-4"
-                                />
+                                <Icon v-else icon="lucide:check" class="h-4 w-4" />
                                 {{ submitLabel }}
                             </Button>
                         </div>

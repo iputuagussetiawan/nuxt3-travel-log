@@ -28,9 +28,7 @@ const emit = defineEmits(['confirm']) // declare event
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction @click="emit('confirm')">{{
-                    confirmLabel
-                }}</AlertDialogAction>
+                <AlertDialogAction @click="emit('confirm')">{{ confirmLabel }}</AlertDialogAction>
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>

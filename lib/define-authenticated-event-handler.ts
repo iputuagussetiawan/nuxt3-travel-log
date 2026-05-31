@@ -37,11 +37,7 @@ export function defineRoleEventHandler<T>(
         if (role === 'admin' && userRole !== 'admin') {
             throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
         }
-        if (
-            role === 'member' &&
-            userRole !== 'member' &&
-            userRole !== 'admin'
-        ) {
+        if (role === 'member' && userRole !== 'member' && userRole !== 'admin') {
             throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
         }
         return handler(event as AuthenticatedEvent)

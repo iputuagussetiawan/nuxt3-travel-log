@@ -5,30 +5,15 @@ import { useForm } from 'vee-validate'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
 import { AlertCircle, ArrowRight } from 'lucide-vue-next'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { LucideCirclePlus, LucideLoader2 } from 'lucide-vue-next'
-import {
-    InsertLocationLogSchema,
-    type InsertLocationLogType
-} from '~/lib/db/schema'
+import { InsertLocationLogSchema, type InsertLocationLogType } from '~/lib/db/schema'
 import { MAP_INPUT_CENTER } from '~/lib/constants'
 import type { FetchError } from 'ofetch'
 import getFetchErrorMessage from '~/lib/get-fetch-error-message'
-import {
-    CalendarDate,
-    today,
-    getLocalTimeZone,
-    parseDate,
-    fromDate
-} from '@internationalized/date'
+import { CalendarDate, today, getLocalTimeZone, parseDate, fromDate } from '@internationalized/date'
 import DatePickerField from '@/components/DatePickerField.vue'
 
 const props = defineProps<{
@@ -52,14 +37,7 @@ const submitted = ref(false)
 
 //3.methods
 const formSchema = toTypedSchema(InsertLocationLogSchema)
-const {
-    isFieldDirty,
-    handleSubmit,
-    setErrors,
-    meta,
-    setFieldValue,
-    controlledValues
-} = useForm({
+const { isFieldDirty, handleSubmit, setErrors, meta, setFieldValue, controlledValues } = useForm({
     validationSchema: formSchema,
     initialValues: {
         slug: props.initialValues?.slug || '',
@@ -116,9 +94,7 @@ onMounted(() => {
 })
 
 const SubmitIcon = computed(() => {
-    return props.submitIcon === 'add-location-icon'
-        ? LucideCirclePlus
-        : ArrowRight
+    return props.submitIcon === 'add-location-icon' ? LucideCirclePlus : ArrowRight
 })
 </script>
 <template>

@@ -5,13 +5,7 @@ import { useForm } from 'vee-validate'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
 import { AlertCircle, ArrowRight } from 'lucide-vue-next'
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { LucideCirclePlus, LucideLoader2 } from 'lucide-vue-next'
@@ -42,14 +36,7 @@ const submitted = ref(false)
 //3.methods
 
 const formSchema = toTypedSchema(InsertLocationSchema)
-const {
-    isFieldDirty,
-    handleSubmit,
-    setErrors,
-    meta,
-    setFieldValue,
-    controlledValues
-} = useForm({
+const { isFieldDirty, handleSubmit, setErrors, meta, setFieldValue, controlledValues } = useForm({
     validationSchema: formSchema,
     initialValues: {
         name: props.initialValues?.name || '',
@@ -104,9 +91,7 @@ onMounted(() => {
 })
 
 const SubmitIcon = computed(() => {
-    return props.submitIcon === 'add-location-icon'
-        ? LucideCirclePlus
-        : ArrowRight
+    return props.submitIcon === 'add-location-icon' ? LucideCirclePlus : ArrowRight
 })
 </script>
 <template>

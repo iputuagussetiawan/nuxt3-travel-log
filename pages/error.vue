@@ -7,9 +7,7 @@ const error = route.query.error || 'Something went wrong'
 </script>
 <template>
     <div class="container mx-auto">
-        <div
-            class="flex flex-col justify-center items-center bg-background mt-4 text-center"
-        >
+        <div class="bg-background mt-4 flex flex-col items-center justify-center text-center">
             <Alert>
                 <AlertTitle>Heads up!</AlertTitle>
                 <AlertDescription> oh no {{ error }} </AlertDescription>

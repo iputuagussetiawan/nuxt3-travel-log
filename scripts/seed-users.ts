@@ -111,10 +111,7 @@ async function seed() {
             emailVerified: true,
             image: `https://api.dicebear.com/9.x/avataaars/svg?seed=${seed}`,
             role,
-            createdAt: new Date(
-                Date.now() -
-                    Math.floor(Math.random() * 90 * 24 * 60 * 60 * 1000)
-            ),
+            createdAt: new Date(Date.now() - Math.floor(Math.random() * 90 * 24 * 60 * 60 * 1000)),
             updatedAt: new Date()
         }
     })

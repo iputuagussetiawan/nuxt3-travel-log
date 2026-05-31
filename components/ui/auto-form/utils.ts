@@ -2,9 +2,7 @@ import type { z } from 'zod'
 
 // Zod v4: ZodEffects is gone — use ZodPipe (z.ZodPipe) for transform/pipe.
 // We support ZodObject directly or wrapped in a ZodPipe.
-export type ZodObjectOrWrapped =
-    | z.ZodObject<any>
-    | z.ZodPipe<any, z.ZodObject<any>>
+export type ZodObjectOrWrapped = z.ZodObject<any> | z.ZodPipe<any, z.ZodObject<any>>
 
 /**
  * Beautify a camelCase string.
@@ -98,14 +96,10 @@ export function getDefaultValueInZodStack(schema: z.ZodTypeAny): any {
  * Unwrap a ZodObjectOrWrapped to the underlying ZodObject.
  * Zod v4: pipe replaces ZodEffects; pipe._def.out holds the output schema.
  */
-export function getObjectFormSchema(
-    schema: ZodObjectOrWrapped
-): z.ZodObject<any> {
+export function getObjectFormSchema(schema: ZodObjectOrWrapped): z.ZodObject<any> {
     const defType = (schema._def as any)?.type
     if (defType === 'pipe') {
-        return getObjectFormSchema(
-            (schema._def as any).out as ZodObjectOrWrapped
-        )
+        return getObjectFormSchema((schema._def as any).out as ZodObjectOrWrapped)
     }
     return schema as z.ZodObject<any>
 }
@@ -140,9 +134,7 @@ export function isNotNestedPath(path: string) {
 }
 
 function isObject(obj: unknown): obj is Record<string, unknown> {
-    return (
-        obj !== null && !!obj && typeof obj === 'object' && !Array.isArray(obj)
-    )
+    return obj !== null && !!obj && typeof obj === 'object' && !Array.isArray(obj)
 }
 function isContainerValue(value: unknown): value is Record<string, unknown> {
     return isObject(value) || Array.isArray(value)
@@ -168,8 +160,7 @@ export function getFromPath<TValue = unknown, TFallback = TValue>(
 ): TValue | TFallback | undefined {
     if (!object) return fallback
 
-    if (isNotNestedPath(path))
-        return object[cleanupNonNestedPath(path)] as TValue | undefined
+    if (isNotNestedPath(path)) return object[cleanupNonNestedPath(path)] as TValue | undefined
 
     const resolvedValue = (path || '')
         .split(/\.|\[(\d+)\]/)

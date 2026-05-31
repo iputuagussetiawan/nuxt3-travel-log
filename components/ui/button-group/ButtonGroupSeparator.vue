@@ -5,12 +5,9 @@ import { reactiveOmit } from '@vueuse/core'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 
-const props = withDefaults(
-    defineProps<SeparatorProps & { class?: HTMLAttributes['class'] }>(),
-    {
-        orientation: 'vertical'
-    }
-)
+const props = withDefaults(defineProps<SeparatorProps & { class?: HTMLAttributes['class'] }>(), {
+    orientation: 'vertical'
+})
 const delegatedProps = reactiveOmit(props, 'class')
 </script>
 

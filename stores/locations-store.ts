@@ -1,12 +1,5 @@
-import type {
-    SelectLocationLogType,
-    SelectLocationWithLogsType
-} from '~/lib/db/schema'
-import {
-    CURRENT_LOCATION_LOG_PAGES,
-    CURRENT_LOCATION_PAGES,
-    LOCATION_PAGES
-} from '~/lib/constants'
+import type { SelectLocationLogType, SelectLocationWithLogsType } from '~/lib/db/schema'
+import { CURRENT_LOCATION_LOG_PAGES, CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
 import { createMapPointFromLocationLog } from '~/lib/map-points'
 import type { MapPoint } from '~/lib/type'
 
@@ -33,9 +26,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
     })
 
     // ✅ Build API URL dynamically
-    const locationUrlWithSlug = computed(
-        () => `/api/locations/${activeSlug.value}`
-    )
+    const locationUrlWithSlug = computed(() => `/api/locations/${activeSlug.value}`)
 
     const locationLogUrlWithSlugAndId = computed(
         () => `/api/locations/${activeSlug.value}/${route.params.id}`
@@ -64,10 +55,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
     })
 
     effect(() => {
-        if (
-            locations.value &&
-            LOCATION_PAGES.has(route.name?.toString() || '')
-        ) {
+        if (locations.value && LOCATION_PAGES.has(route.name?.toString() || '')) {
             sidebarStore.sidebarItems = locations.value.map((location) => ({
                 id: `location-${location.id}`,
                 label: location.name,
@@ -97,18 +85,16 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
                 mapStore.mapPoints = [currentLocation.value]
             }
 
-            sidebarStore.sidebarItems = currentLocation.value.locationLogs.map(
-                (log) => ({
-                    id: `location-log-${log.id}`,
-                    label: log.name,
-                    icon: 'tabler:map-pin-filled',
-                    to: {
-                        name: 'dashboard-locations-slug-id',
-                        params: { slug: route.params.slug, id: log.id }
-                    },
-                    location: createMapPointFromLocationLog(log)
-                })
-            )
+            sidebarStore.sidebarItems = currentLocation.value.locationLogs.map((log) => ({
+                id: `location-log-${log.id}`,
+                label: log.name,
+                icon: 'tabler:map-pin-filled',
+                to: {
+                    name: 'dashboard-locations-slug-id',
+                    params: { slug: route.params.slug, id: log.id }
+                },
+                location: createMapPointFromLocationLog(log)
+            }))
         } else if (
             currentLocationLog.value &&
             CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')
@@ -117,8 +103,7 @@ export const useLocationsStore = defineStore('useLocationsStore', () => {
             mapStore.mapPoints = [currentLocationLog.value]
         }
         sidebarStore.loading =
-            locationsStatus.value === 'pending' ||
-            currentLocationStatus.value === 'pending'
+            locationsStatus.value === 'pending' || currentLocationStatus.value === 'pending'
     })
 
     return {

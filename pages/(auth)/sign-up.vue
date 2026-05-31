@@ -17,9 +17,7 @@ const schema = toTypedSchema(
         .object({
             name: z.string().min(2, 'Name must be at least 2 characters'),
             email: z.string().email('Enter a valid email'),
-            password: z
-                .string()
-                .min(8, 'Password must be at least 8 characters'),
+            password: z.string().min(8, 'Password must be at least 8 characters'),
             confirmPassword: z.string()
         })
         .refine((d) => d.password === d.confirmPassword, {
@@ -39,14 +37,9 @@ const onSubmit = handleSubmit(async (values) => {
     loading.value = true
     error.value = ''
     try {
-        const res = await authStore.signUpEmail(
-            values.name,
-            values.email,
-            values.password
-        )
+        const res = await authStore.signUpEmail(values.name, values.email, values.password)
         if (res?.error) {
-            error.value =
-                res.error.message ?? 'Registration failed. Please try again.'
+            error.value = res.error.message ?? 'Registration failed. Please try again.'
         } else {
             success.value = true
         }
@@ -64,15 +57,11 @@ const onSubmit = handleSubmit(async (values) => {
             <div
                 class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15"
             >
-                <Icon
-                    icon="lucide:mail-check"
-                    class="h-8 w-8 text-emerald-500"
-                />
+                <Icon icon="lucide:mail-check" class="h-8 w-8 text-emerald-500" />
             </div>
             <h1 class="text-xl font-bold">Check your email</h1>
             <p class="text-muted-foreground mt-2 text-sm">
-                We sent a verification link to your email. Click it to activate
-                your account.
+                We sent a verification link to your email. Click it to activate your account.
             </p>
             <NuxtLink
                 to="/sign-in"
@@ -106,10 +95,7 @@ const onSubmit = handleSubmit(async (values) => {
                     <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl
-                            ><Input
-                                type="text"
-                                placeholder="Your Name"
-                                v-bind="componentField"
+                            ><Input type="text" placeholder="Your Name" v-bind="componentField"
                         /></FormControl>
                         <FormMessage />
                     </FormItem>
@@ -153,11 +139,7 @@ const onSubmit = handleSubmit(async (values) => {
                                     @click="showPassword = !showPassword"
                                 >
                                     <Icon
-                                        :icon="
-                                            showPassword
-                                                ? 'lucide:eye-off'
-                                                : 'lucide:eye'
-                                        "
+                                        :icon="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
                                         class="h-4 w-4"
                                     />
                                 </button>
@@ -185,20 +167,14 @@ const onSubmit = handleSubmit(async (values) => {
                 </FormField>
 
                 <Button type="submit" class="w-full" :disabled="loading">
-                    <Icon
-                        v-if="loading"
-                        icon="lucide:loader-2"
-                        class="h-4 w-4 animate-spin"
-                    />
+                    <Icon v-if="loading" icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
                     Create Account
                 </Button>
             </form>
 
             <div class="my-5 flex items-center gap-3">
                 <div class="bg-border h-px flex-1" />
-                <span class="text-muted-foreground text-xs"
-                    >or continue with</span
-                >
+                <span class="text-muted-foreground text-xs">or continue with</span>
                 <div class="bg-border h-px flex-1" />
             </div>
 

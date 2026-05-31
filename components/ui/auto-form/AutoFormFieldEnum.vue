@@ -37,9 +37,7 @@ defineProps<
                     <RadioGroup
                         v-if="config?.component === 'radio'"
                         :disabled="
-                            maybeBooleanishToBoolean(
-                                config?.inputProps?.disabled
-                            ) ?? disabled
+                            maybeBooleanishToBoolean(config?.inputProps?.disabled) ?? disabled
                         "
                         :orientation="'vertical'"
                         v-bind="{ ...slotProps.componentField }"
@@ -49,10 +47,7 @@ defineProps<
                             :key="option"
                             class="mb-2 flex items-center gap-3 space-y-0"
                         >
-                            <RadioGroupItem
-                                :id="`${option}-${index}`"
-                                :value="option"
-                            />
+                            <RadioGroupItem :id="`${option}-${index}`" :value="option" />
                             <Label :for="`${option}-${index}`">{{
                                 beautifyObjectName(option)
                             }}</Label>
@@ -62,23 +57,15 @@ defineProps<
                     <Select
                         v-else
                         :disabled="
-                            maybeBooleanishToBoolean(
-                                config?.inputProps?.disabled
-                            ) ?? disabled
+                            maybeBooleanishToBoolean(config?.inputProps?.disabled) ?? disabled
                         "
                         v-bind="{ ...slotProps.componentField }"
                     >
                         <SelectTrigger class="w-full">
-                            <SelectValue
-                                :placeholder="config?.inputProps?.placeholder"
-                            />
+                            <SelectValue :placeholder="config?.inputProps?.placeholder" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem
-                                v-for="option in options"
-                                :key="option"
-                                :value="option"
-                            >
+                            <SelectItem v-for="option in options" :key="option" :value="option">
                                 {{ beautifyObjectName(option) }}
                             </SelectItem>
                         </SelectContent>

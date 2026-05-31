@@ -17,9 +17,7 @@ const token = computed(() => route.query.token as string | undefined)
 const schema = toTypedSchema(
     z
         .object({
-            password: z
-                .string()
-                .min(8, 'Password must be at least 8 characters'),
+            password: z.string().min(8, 'Password must be at least 8 characters'),
             confirmPassword: z.string()
         })
         .refine((d) => d.password === d.confirmPassword, {
@@ -45,9 +43,7 @@ const onSubmit = handleSubmit(async (values) => {
     try {
         const res = await authStore.resetPassword(values.password, token.value)
         if ((res as any)?.error) {
-            error.value =
-                (res as any).error.message ??
-                'Reset failed. The link may have expired.'
+            error.value = (res as any).error.message ?? 'Reset failed. The link may have expired.'
         } else {
             success.value = true
         }
@@ -81,26 +77,19 @@ const onSubmit = handleSubmit(async (values) => {
             <div
                 class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15"
             >
-                <Icon
-                    icon="lucide:check-circle"
-                    class="h-8 w-8 text-emerald-500"
-                />
+                <Icon icon="lucide:check-circle" class="h-8 w-8 text-emerald-500" />
             </div>
             <h1 class="text-xl font-bold">Password updated</h1>
             <p class="text-muted-foreground mt-2 text-sm">
                 Your password has been reset successfully.
             </p>
-            <NuxtLink to="/sign-in"
-                ><Button class="mt-6">Sign In</Button></NuxtLink
-            >
+            <NuxtLink to="/sign-in"><Button class="mt-6">Sign In</Button></NuxtLink>
         </div>
 
         <div v-else>
             <div class="mb-6 text-center">
                 <h1 class="text-2xl font-bold">Reset password</h1>
-                <p class="text-muted-foreground mt-1 text-sm">
-                    Enter your new password below
-                </p>
+                <p class="text-muted-foreground mt-1 text-sm">Enter your new password below</p>
             </div>
 
             <div
@@ -133,11 +122,7 @@ const onSubmit = handleSubmit(async (values) => {
                                     @click="showPassword = !showPassword"
                                 >
                                     <Icon
-                                        :icon="
-                                            showPassword
-                                                ? 'lucide:eye-off'
-                                                : 'lucide:eye'
-                                        "
+                                        :icon="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
                                         class="h-4 w-4"
                                     />
                                 </button>
@@ -165,11 +150,7 @@ const onSubmit = handleSubmit(async (values) => {
                 </FormField>
 
                 <Button type="submit" class="w-full" :disabled="loading">
-                    <Icon
-                        v-if="loading"
-                        icon="lucide:loader-2"
-                        class="h-4 w-4 animate-spin"
-                    />
+                    <Icon v-if="loading" icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
                     Update Password
                 </Button>
             </form>

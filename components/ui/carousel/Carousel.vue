@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import type {
-    CarouselEmits,
-    CarouselProps,
-    WithClassAsProps
-} from './interface'
+import type { CarouselEmits, CarouselProps, WithClassAsProps } from './interface'
 import { cn } from '@/lib/utils'
 import { useProvideCarousel } from './useCarousel'
 
@@ -35,8 +31,7 @@ defineExpose({
 
 function onKeyDown(event: KeyboardEvent) {
     const prevKey = props.orientation === 'vertical' ? 'ArrowUp' : 'ArrowLeft'
-    const nextKey =
-        props.orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight'
+    const nextKey = props.orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight'
 
     if (event.key === prevKey) {
         event.preventDefault()

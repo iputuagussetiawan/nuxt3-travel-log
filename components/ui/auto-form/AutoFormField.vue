@@ -21,9 +21,7 @@ const delegatedProps = computed(() => {
     return undefined
 })
 
-const { isDisabled, isHidden, isRequired, overrideOptions } = useDependencies(
-    props.fieldName
-)
+const { isDisabled, isHidden, isRequired, overrideOptions } = useDependencies(props.fieldName)
 </script>
 
 <template>

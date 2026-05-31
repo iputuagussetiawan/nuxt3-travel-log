@@ -3,16 +3,10 @@ import { nanoid } from 'nanoid'
 import { defineRoleEventHandler } from '~/lib/define-authenticated-event-handler'
 import type { DrizzleError } from 'drizzle-orm'
 import { InsertLocationSchema } from '~/lib/db/schema'
-import {
-    findLocationByName,
-    insertLocation
-} from '~/lib/db/queries/location-query'
+import { findLocationByName, insertLocation } from '~/lib/db/queries/location-query'
 
 export default defineRoleEventHandler('member', async (event) => {
-    const result = await readValidatedBody(
-        event,
-        InsertLocationSchema.safeParse
-    )
+    const result = await readValidatedBody(event, InsertLocationSchema.safeParse)
 
     if (!result.success) {
         const statusMessage = result.error.issues
@@ -40,10 +34,7 @@ export default defineRoleEventHandler('member', async (event) => {
         lower: true
     })
 
-    const existingLocation = await findLocationByName(
-        result.data,
-        event.context.user.id
-    )
+    const existingLocation = await findLocationByName(result.data, event.context.user.id)
     if (existingLocation) {
         return sendError(
             event,

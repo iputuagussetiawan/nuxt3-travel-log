@@ -1,20 +1,12 @@
 <script setup lang="ts">
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger
-} from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import MapClientClient from '~/components/MapClient.client.vue'
 import MapListDrawer from '~/components/MapListDrawer.vue'
 import DashboardBreadcrumb from '~/components/DashboardBreadcrumb.vue'
 import { Separator } from '~/components/ui/separator'
 import ThemeToggle from '~/components/ThemeToggle.vue'
 import { Plus } from 'lucide-vue-next'
-import {
-    CURRENT_LOCATION_LOG_PAGES,
-    CURRENT_LOCATION_PAGES,
-    LOCATION_PAGES
-} from '~/lib/constants'
+import { CURRENT_LOCATION_LOG_PAGES, CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
 
 const locationsStore = useLocationsStore()
 const authStore = useAuthStore()
@@ -44,9 +36,7 @@ if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
             <header
                 class="bg-background/60 sticky top-0 z-[3400] flex h-16 shrink-0 items-center gap-2 border-b border-white/10 backdrop-blur-md transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 dark:border-white/5"
             >
-                <div
-                    class="flex w-full items-center justify-between gap-2 px-4"
-                >
+                <div class="flex w-full items-center justify-between gap-2 px-4">
                     <div class="flex items-center gap-2">
                         <SidebarTrigger class="-ml-1" />
                         <Separator orientation="vertical" class="mr-2 h-4" />
@@ -64,9 +54,7 @@ if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || '')) {
                     <MapListDrawer />
 
                     <!-- Floating add location button -->
-                    <div
-                        class="add-location-btn fixed bottom-6 left-1/2 z-[2000] -translate-x-1/2"
-                    >
+                    <div class="add-location-btn fixed bottom-6 left-1/2 z-[2000] -translate-x-1/2">
                         <NuxtLink
                             to="/dashboard/locations/add"
                             class="relative flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"

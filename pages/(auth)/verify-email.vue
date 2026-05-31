@@ -37,15 +37,10 @@ onMounted(async () => {
             <div
                 class="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
             >
-                <Icon
-                    icon="lucide:loader-2"
-                    class="text-primary h-8 w-8 animate-spin"
-                />
+                <Icon icon="lucide:loader-2" class="text-primary h-8 w-8 animate-spin" />
             </div>
             <h1 class="text-xl font-bold">Verifying your email…</h1>
-            <p class="text-muted-foreground mt-2 text-sm">
-                Please wait a moment.
-            </p>
+            <p class="text-muted-foreground mt-2 text-sm">Please wait a moment.</p>
         </div>
 
         <!-- Success -->
@@ -53,10 +48,7 @@ onMounted(async () => {
             <div
                 class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15"
             >
-                <Icon
-                    icon="lucide:circle-check"
-                    class="h-8 w-8 text-emerald-500"
-                />
+                <Icon icon="lucide:circle-check" class="h-8 w-8 text-emerald-500" />
             </div>
             <h1 class="text-xl font-bold">Email verified!</h1>
             <p class="text-muted-foreground mt-2 text-sm">

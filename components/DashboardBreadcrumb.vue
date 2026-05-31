@@ -48,10 +48,7 @@ const crumbs = computed<Crumb[]>(() => {
 
     const map: Record<string, Crumb[]> = {
         dashboard: [{ ...dashboard }],
-        'dashboard-locations': [
-            dashboard,
-            { label: 'Locations', icon: 'lucide:map-pin' }
-        ],
+        'dashboard-locations': [dashboard, { label: 'Locations', icon: 'lucide:map-pin' }],
         'dashboard-locations-add': [
             dashboard,
             locations,
@@ -94,10 +91,7 @@ const crumbs = computed<Crumb[]>(() => {
             logCrumb,
             { label: 'Images', icon: 'lucide:images' }
         ],
-        'dashboard-profile': [
-            dashboard,
-            { label: 'Profile', icon: 'lucide:user' }
-        ]
+        'dashboard-profile': [dashboard, { label: 'Profile', icon: 'lucide:user' }]
     }
 
     return map[name] ?? [dashboard]
@@ -122,16 +116,10 @@ const crumbs = computed<Crumb[]>(() => {
                             class="h-3.5 w-3.5"
                             aria-hidden="true"
                         />
-                        <span class="max-w-[140px] truncate">{{
-                            crumb.label
-                        }}</span>
+                        <span class="max-w-[140px] truncate">{{ crumb.label }}</span>
                     </BreadcrumbPage>
                     <!-- All other items = links -->
-                    <BreadcrumbLink
-                        v-else
-                        as-child
-                        class="flex items-center gap-1.5"
-                    >
+                    <BreadcrumbLink v-else as-child class="flex items-center gap-1.5">
                         <NuxtLink :to="crumb.to">
                             <Icon
                                 v-if="crumb.icon"
@@ -139,9 +127,7 @@ const crumbs = computed<Crumb[]>(() => {
                                 class="h-3.5 w-3.5"
                                 aria-hidden="true"
                             />
-                            <span class="max-w-[120px] truncate">{{
-                                crumb.label
-                            }}</span>
+                            <span class="max-w-[120px] truncate">{{ crumb.label }}</span>
                         </NuxtLink>
                     </BreadcrumbLink>
                 </BreadcrumbItem>

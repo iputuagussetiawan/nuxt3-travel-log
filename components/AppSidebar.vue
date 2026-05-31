@@ -16,11 +16,7 @@ import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
 import { Icon } from '@iconify/vue'
-import {
-    CURRENT_LOCATION_LOG_PAGES,
-    CURRENT_LOCATION_PAGES,
-    LOCATION_PAGES
-} from '~/lib/constants'
+import { CURRENT_LOCATION_LOG_PAGES, CURRENT_LOCATION_PAGES, LOCATION_PAGES } from '~/lib/constants'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -58,10 +54,7 @@ effect(() => {
                 ]
             }
         ]
-    } else if (
-        CURRENT_LOCATION_PAGES.has(name) &&
-        locationStore?.currentLocation?.id
-    ) {
+    } else if (CURRENT_LOCATION_PAGES.has(name) && locationStore?.currentLocation?.id) {
         sidebarStore.sidebarTopItems = [
             {
                 title: 'Travel Log',
@@ -96,10 +89,7 @@ effect(() => {
                 ]
             }
         ]
-    } else if (
-        CURRENT_LOCATION_LOG_PAGES.has(name) &&
-        locationStore?.currentLocation?.id
-    ) {
+    } else if (CURRENT_LOCATION_LOG_PAGES.has(name) && locationStore?.currentLocation?.id) {
         sidebarStore.sidebarTopItems = [
             {
                 title: 'Location Log',
@@ -198,14 +188,8 @@ const adminItems = [
                             :tooltip="item.label"
                             :is-active="route.path.startsWith(item.to)"
                         >
-                            <NuxtLink
-                                :to="item.to"
-                                class="flex items-center gap-2"
-                            >
-                                <Icon
-                                    :icon="item.icon"
-                                    class="h-4 w-4 shrink-0"
-                                />
+                            <NuxtLink :to="item.to" class="flex items-center gap-2">
+                                <Icon :icon="item.icon" class="h-4 w-4 shrink-0" />
                                 <span>{{ item.label }}</span>
                             </NuxtLink>
                         </SidebarMenuButton>

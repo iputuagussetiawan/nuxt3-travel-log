@@ -3,9 +3,7 @@ import { createAuthClient } from 'better-auth/vue'
 const authClient = createAuthClient()
 
 export const useAuthStore = defineStore('useAuthStore', () => {
-    const session = ref<Awaited<
-        ReturnType<typeof authClient.useSession>
-    > | null>(null)
+    const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null)
 
     async function init() {
         const data = await authClient.useSession(useFetch)
@@ -14,13 +12,9 @@ export const useAuthStore = defineStore('useAuthStore', () => {
 
     const user = computed(() => session.value?.data?.user)
     const loading = computed(() => session.value?.isPending)
-    const role = computed(
-        () => (session.value?.data?.user as any)?.role ?? 'user'
-    )
+    const role = computed(() => (session.value?.data?.user as any)?.role ?? 'user')
     const isAdmin = computed(() => role.value === 'admin')
-    const isMember = computed(
-        () => role.value === 'member' || role.value === 'admin'
-    )
+    const isMember = computed(() => role.value === 'member' || role.value === 'admin')
 
     async function signIn(provider: 'google' | 'github') {
         const { csrf } = useCsrf()

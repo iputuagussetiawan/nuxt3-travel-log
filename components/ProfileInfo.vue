@@ -24,13 +24,10 @@ async function handleFileChange(e: Event) {
         const form = new FormData()
         form.append('file', file)
 
-        const { url } = await $csrfFetch<{ url: string }>(
-            '/api/upload/avatar',
-            {
-                method: 'POST',
-                body: form
-            }
-        )
+        const { url } = await $csrfFetch<{ url: string }>('/api/upload/avatar', {
+            method: 'POST',
+            body: form
+        })
 
         await $csrfFetch('/api/auth/user', {
             method: 'PUT',
@@ -85,11 +82,7 @@ const roleColor: Record<string, string> = {
                         icon="lucide:loader-2"
                         class="h-6 w-6 animate-spin text-white"
                     />
-                    <Icon
-                        v-else
-                        icon="lucide:camera"
-                        class="h-6 w-6 text-white"
-                    />
+                    <Icon v-else icon="lucide:camera" class="h-6 w-6 text-white" />
                 </button>
 
                 <input
@@ -127,13 +120,8 @@ const roleColor: Record<string, string> = {
             <!-- Info rows -->
             <div class="w-full space-y-2 border-t pt-4">
                 <div class="flex items-center gap-2 text-sm">
-                    <Icon
-                        icon="lucide:mail"
-                        class="text-muted-foreground h-4 w-4 shrink-0"
-                    />
-                    <span class="text-muted-foreground truncate">{{
-                        authStore.user?.email
-                    }}</span>
+                    <Icon icon="lucide:mail" class="text-muted-foreground h-4 w-4 shrink-0" />
+                    <span class="text-muted-foreground truncate">{{ authStore.user?.email }}</span>
                 </div>
                 <div class="flex items-center gap-2 text-sm">
                     <Icon
@@ -143,24 +131,18 @@ const roleColor: Record<string, string> = {
                                 : 'lucide:shield-x'
                         "
                         :class="
-                            authStore.user?.emailVerified
-                                ? 'text-emerald-500'
-                                : 'text-destructive'
+                            authStore.user?.emailVerified ? 'text-emerald-500' : 'text-destructive'
                         "
                         class="h-4 w-4 shrink-0"
                     />
                     <span
                         :class="
-                            authStore.user?.emailVerified
-                                ? 'text-emerald-500'
-                                : 'text-destructive'
+                            authStore.user?.emailVerified ? 'text-emerald-500' : 'text-destructive'
                         "
                         class="text-sm"
                     >
                         {{
-                            authStore.user?.emailVerified
-                                ? 'Email verified'
-                                : 'Email not verified'
+                            authStore.user?.emailVerified ? 'Email verified' : 'Email not verified'
                         }}
                     </span>
                 </div>

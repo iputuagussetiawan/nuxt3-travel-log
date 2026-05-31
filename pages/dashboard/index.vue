@@ -19,11 +19,7 @@ const loading = computed(() => locationsStatus.value === 'pending')
 // ── Stats ────────────────────────────────────────────────────
 const totalLocations = computed(() => locations.value?.length ?? 0)
 const totalLogs = computed(
-    () =>
-        locations.value?.reduce(
-            (s, l) => s + (l.locationLogs?.length ?? 0),
-            0
-        ) ?? 0
+    () => locations.value?.reduce((s, l) => s + (l.locationLogs?.length ?? 0), 0) ?? 0
 )
 
 const stats = computed(() => [
@@ -45,9 +41,7 @@ const stats = computed(() => [
     },
     {
         label: 'Avg Logs / Loc',
-        value: totalLocations.value
-            ? (totalLogs.value / totalLocations.value).toFixed(1)
-            : '—',
+        value: totalLocations.value ? (totalLogs.value / totalLocations.value).toFixed(1) : '—',
         icon: 'lucide:bar-chart-2',
         color: 'text-sky-500',
         bg: 'bg-sky-500/10',
@@ -59,10 +53,7 @@ const stats = computed(() => [
 // Bar: logs per location (top 8)
 const barData = computed(() =>
     [...(locations.value ?? [])]
-        .sort(
-            (a, b) =>
-                (b.locationLogs?.length ?? 0) - (a.locationLogs?.length ?? 0)
-        )
+        .sort((a, b) => (b.locationLogs?.length ?? 0) - (a.locationLogs?.length ?? 0))
         .slice(0, 8)
         .map((l) => ({
             name: l.name.length > 12 ? l.name.slice(0, 12) + '…' : l.name,
@@ -72,17 +63,13 @@ const barData = computed(() =>
 
 // Donut: distribution buckets
 const donutData = computed(() => {
-    const none =
-        locations.value?.filter((l) => (l.locationLogs?.length ?? 0) === 0)
-            .length ?? 0
+    const none = locations.value?.filter((l) => (l.locationLogs?.length ?? 0) === 0).length ?? 0
     const few =
         locations.value?.filter((l) => {
             const n = l.locationLogs?.length ?? 0
             return n >= 1 && n <= 3
         }).length ?? 0
-    const many =
-        locations.value?.filter((l) => (l.locationLogs?.length ?? 0) > 3)
-            .length ?? 0
+    const many = locations.value?.filter((l) => (l.locationLogs?.length ?? 0) > 3).length ?? 0
     return [
         { name: 'No logs', value: none },
         { name: '1–3 logs', value: few },
@@ -111,9 +98,7 @@ onMounted(() => {
         <!-- Greeting -->
         <div>
             <p class="text-muted-foreground text-sm">{{ greeting }},</p>
-            <h1 class="text-2xl font-bold">
-                {{ authStore.user?.name ?? 'Traveller' }} 👋
-            </h1>
+            <h1 class="text-2xl font-bold">{{ authStore.user?.name ?? 'Traveller' }} 👋</h1>
             <p class="text-muted-foreground mt-1 text-sm">
                 Here's an overview of your travel journey.
             </p>
@@ -153,21 +138,11 @@ onMounted(() => {
         <!-- Charts row -->
         <div class="grid gap-6 lg:grid-cols-3">
             <!-- Bar chart: logs per location -->
-            <div
-                class="border-border bg-card rounded-2xl border p-5 lg:col-span-2"
-            >
+            <div class="border-border bg-card rounded-2xl border p-5 lg:col-span-2">
                 <h2 class="mb-1 text-sm font-semibold">Logs per Location</h2>
-                <p class="text-muted-foreground mb-4 text-xs">
-                    Top 8 locations by log count
-                </p>
-                <div
-                    v-if="loading"
-                    class="bg-muted h-[220px] animate-pulse rounded-xl"
-                />
-                <div
-                    v-else-if="!barData.length"
-                    class="flex h-[220px] items-center justify-center"
-                >
+                <p class="text-muted-foreground mb-4 text-xs">Top 8 locations by log count</p>
+                <div v-if="loading" class="bg-muted h-[220px] animate-pulse rounded-xl" />
+                <div v-else-if="!barData.length" class="flex h-[220px] items-center justify-center">
                     <p class="text-muted-foreground text-sm">No data yet</p>
                 </div>
                 <ClientOnly v-else>
@@ -186,13 +161,8 @@ onMounted(() => {
             <!-- Donut chart: log distribution -->
             <div class="border-border bg-card rounded-2xl border p-5">
                 <h2 class="mb-1 text-sm font-semibold">Log Distribution</h2>
-                <p class="text-muted-foreground mb-4 text-xs">
-                    Locations by log count
-                </p>
-                <div
-                    v-if="loading"
-                    class="bg-muted h-[220px] animate-pulse rounded-xl"
-                />
+                <p class="text-muted-foreground mb-4 text-xs">Locations by log count</p>
+                <div v-if="loading" class="bg-muted h-[220px] animate-pulse rounded-xl" />
                 <div
                     v-else-if="!donutData.length"
                     class="flex h-[220px] items-center justify-center"
@@ -242,9 +212,7 @@ onMounted(() => {
             </div>
 
             <!-- Recent locations -->
-            <div
-                class="border-border bg-card rounded-2xl border p-5 lg:col-span-2"
-            >
+            <div class="border-border bg-card rounded-2xl border p-5 lg:col-span-2">
                 <div class="mb-4 flex items-center justify-between">
                     <h2 class="text-sm font-semibold">Recent Locations</h2>
                     <NuxtLink
@@ -257,11 +225,7 @@ onMounted(() => {
                 </div>
 
                 <div v-if="loading" class="space-y-2">
-                    <div
-                        v-for="i in 4"
-                        :key="i"
-                        class="bg-muted h-14 animate-pulse rounded-xl"
-                    />
+                    <div v-for="i in 4" :key="i" class="bg-muted h-14 animate-pulse rounded-xl" />
                 </div>
 
                 <div
@@ -272,9 +236,7 @@ onMounted(() => {
                         icon="lucide:map-pin"
                         class="text-muted-foreground/40 mx-auto mb-2 h-7 w-7"
                     />
-                    <p class="text-muted-foreground text-sm">
-                        No locations yet.
-                    </p>
+                    <p class="text-muted-foreground text-sm">No locations yet.</p>
                     <NuxtLink
                         to="/dashboard/locations/add"
                         class="text-primary mt-1 inline-block text-xs underline-offset-4 hover:underline"
@@ -292,31 +254,19 @@ onMounted(() => {
                             <div
                                 class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10"
                             >
-                                <Icon
-                                    icon="lucide:map-pin"
-                                    class="h-4 w-4 text-emerald-500"
-                                />
+                                <Icon icon="lucide:map-pin" class="h-4 w-4 text-emerald-500" />
                             </div>
                             <div class="min-w-0 flex-1">
                                 <p class="truncate text-sm font-medium">
                                     {{ loc.name }}
                                 </p>
-                                <p
-                                    class="text-muted-foreground truncate text-xs"
-                                >
-                                    {{
-                                        loc.description ??
-                                        `${loc.lat}, ${loc.long}`
-                                    }}
+                                <p class="text-muted-foreground truncate text-xs">
+                                    {{ loc.description ?? `${loc.lat}, ${loc.long}` }}
                                 </p>
                             </div>
-                            <span
-                                class="text-muted-foreground shrink-0 text-xs tabular-nums"
-                            >
+                            <span class="text-muted-foreground shrink-0 text-xs tabular-nums">
                                 {{ loc.locationLogs?.length ?? 0 }} log{{
-                                    (loc.locationLogs?.length ?? 0) !== 1
-                                        ? 's'
-                                        : ''
+                                    (loc.locationLogs?.length ?? 0) !== 1 ? 's' : ''
                                 }}
                             </span>
                             <Icon

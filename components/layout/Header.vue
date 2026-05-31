@@ -107,49 +107,29 @@ const authStore = useAuthStore()
                                 :alt="authStore.user.name"
                             />
                             <AvatarFallback class="text-xs font-semibold">
-                                {{
-                                    authStore.user.name
-                                        ?.slice(0, 2)
-                                        .toUpperCase()
-                                }}
+                                {{ authStore.user.name?.slice(0, 2).toUpperCase() }}
                             </AvatarFallback>
                         </Avatar>
-                        <span
-                            class="hidden text-xs font-medium text-white sm:block"
-                            >{{ authStore.user.name }}</span
-                        >
-                        <Icon
-                            icon="lucide:chevron-down"
-                            class="h-3.5 w-3.5 text-white/60"
-                        />
+                        <span class="hidden text-xs font-medium text-white sm:block">{{
+                            authStore.user.name
+                        }}</span>
+                        <Icon icon="lucide:chevron-down" class="h-3.5 w-3.5 text-white/60" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" class="min-w-[160px]">
                         <DropdownMenuItem as-child>
-                            <NuxtLink
-                                to="/dashboard"
-                                class="flex items-center gap-2"
-                            >
-                                <Icon
-                                    icon="lucide:layout-dashboard"
-                                    class="h-4 w-4"
-                                />
+                            <NuxtLink to="/dashboard" class="flex items-center gap-2">
+                                <Icon icon="lucide:layout-dashboard" class="h-4 w-4" />
                                 Dashboard
                             </NuxtLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem as-child>
-                            <NuxtLink
-                                to="/dashboard/locations"
-                                class="flex items-center gap-2"
-                            >
+                            <NuxtLink to="/dashboard/locations" class="flex items-center gap-2">
                                 <Icon icon="lucide:map" class="h-4 w-4" />
                                 My Travels
                             </NuxtLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem as-child>
-                            <NuxtLink
-                                to="/dashboard/profile"
-                                class="flex items-center gap-2"
-                            >
+                            <NuxtLink to="/dashboard/profile" class="flex items-center gap-2">
                                 <Icon icon="lucide:user" class="h-4 w-4" />
                                 Profile
                             </NuxtLink>

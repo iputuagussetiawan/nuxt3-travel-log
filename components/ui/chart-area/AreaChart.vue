@@ -9,11 +9,7 @@ import { useMounted } from '@vueuse/core'
 import { useId } from 'reka-ui'
 import { computed, ref } from 'vue'
 import { cn } from '@/lib/utils'
-import {
-    ChartCrosshair,
-    ChartLegend,
-    defaultColors
-} from '@/components/ui/chart'
+import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart'
 
 const props = withDefaults(
     defineProps<
@@ -76,11 +72,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
 </script>
 
 <template>
-    <div
-        :class="
-            cn('w-full h-[400px] flex flex-col items-end', $attrs.class ?? '')
-        "
-    >
+    <div :class="cn('flex h-[400px] w-full flex-col items-end', $attrs.class ?? '')">
         <ChartLegend
             v-if="showLegend"
             v-model:items="legendItems"
@@ -104,16 +96,8 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
                         y2="1"
                     >
                         <template v-if="showGradient">
-                            <stop
-                                offset="5%"
-                                :stop-color="color"
-                                stop-opacity="0.4"
-                            />
-                            <stop
-                                offset="95%"
-                                :stop-color="color"
-                                stop-opacity="0"
-                            />
+                            <stop offset="5%" :stop-color="color" stop-opacity="0.4" />
+                            <stop offset="95%" :stop-color="color" stop-opacity="0" />
                         </template>
                         <template v-else>
                             <stop offset="0%" :stop-color="color" />
@@ -142,8 +126,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
                         }
                     }"
                     :opacity="
-                        legendItems.find((item) => item.name === category)
-                            ?.inactive
+                        legendItems.find((item) => item.name === category)?.inactive
                             ? filterOpacity
                             : 1
                     "
@@ -158,9 +141,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
                     :curve-type="curveType"
                     :attributes="{
                         [Line.selectors.line]: {
-                            opacity: legendItems.find(
-                                (item) => item.name === category
-                            )?.inactive
+                            opacity: legendItems.find((item) => item.name === category)?.inactive
                                 ? filterOpacity
                                 : 1
                         }

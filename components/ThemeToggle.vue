@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { Button } from '@/components/ui/button'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 const colorMode = useColorMode()
 
@@ -15,9 +10,7 @@ const toggleMode = () => {
 }
 
 const tooltipText = computed(() =>
-    colorMode.preference === 'dark'
-        ? 'Switch to Light Mode'
-        : 'Switch to Dark Mode'
+    colorMode.preference === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'
 )
 </script>
 
@@ -25,17 +18,10 @@ const tooltipText = computed(() =>
     <TooltipProvider>
         <Tooltip>
             <TooltipTrigger as-child>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    class="relative"
-                    @click="toggleMode"
-                >
+                <Button variant="outline" size="icon" class="relative" @click="toggleMode">
                     <Icon
                         :icon="
-                            colorMode.preference === 'dark'
-                                ? 'radix-icons:sun'
-                                : 'radix-icons:moon'
+                            colorMode.preference === 'dark' ? 'radix-icons:sun' : 'radix-icons:moon'
                         "
                         class="h-[1.2rem] w-[1.2rem] transition-all"
                     />

@@ -20,20 +20,14 @@ withDefaults(defineProps<{ showInfo?: boolean }>(), { showInfo: true })
                 :src="authStore.user.image"
                 :alt="authStore.user.name || 'User avatar'"
             />
-            <AvatarFallback
-                class="flex items-center justify-center text-xs font-semibold"
-            >
+            <AvatarFallback class="flex items-center justify-center text-xs font-semibold">
                 {{ authStore?.user?.name?.slice(0, 2).toUpperCase() || 'U' }}
             </AvatarFallback>
         </Avatar>
         <template v-if="showInfo">
             <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{
-                    authStore?.user?.name
-                }}</span>
-                <span class="truncate text-xs">{{
-                    authStore?.user?.email
-                }}</span>
+                <span class="truncate font-semibold">{{ authStore?.user?.name }}</span>
+                <span class="truncate text-xs">{{ authStore?.user?.email }}</span>
             </div>
         </template>
     </div>

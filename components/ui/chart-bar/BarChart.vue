@@ -3,20 +3,11 @@ import type { BulletLegendItemInterface } from '@unovis/ts'
 import type { Component } from 'vue'
 import type { BaseChartProps } from '.'
 import { Axis, GroupedBar, StackedBar } from '@unovis/ts'
-import {
-    VisAxis,
-    VisGroupedBar,
-    VisStackedBar,
-    VisXYContainer
-} from '@unovis/vue'
+import { VisAxis, VisGroupedBar, VisStackedBar, VisXYContainer } from '@unovis/vue'
 import { useMounted } from '@vueuse/core'
 import { computed, ref } from 'vue'
 import { cn } from '@/lib/utils'
-import {
-    ChartCrosshair,
-    ChartLegend,
-    defaultColors
-} from '@/components/ui/chart'
+import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart'
 
 const props = withDefaults(
     defineProps<
@@ -74,22 +65,14 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
     emits('legendItemClick', d, i)
 }
 
-const VisBarComponent = computed(() =>
-    props.type === 'grouped' ? VisGroupedBar : VisStackedBar
-)
+const VisBarComponent = computed(() => (props.type === 'grouped' ? VisGroupedBar : VisStackedBar))
 const selectorsBar = computed(() =>
-    props.type === 'grouped'
-        ? GroupedBar.selectors.bar
-        : StackedBar.selectors.bar
+    props.type === 'grouped' ? GroupedBar.selectors.bar : StackedBar.selectors.bar
 )
 </script>
 
 <template>
-    <div
-        :class="
-            cn('w-full h-[400px] flex flex-col items-end', $attrs.class ?? '')
-        "
-    >
+    <div :class="cn('flex h-[400px] w-full flex-col items-end', $attrs.class ?? '')">
         <ChartLegend
             v-if="showLegend"
             v-model:items="legendItems"
@@ -119,9 +102,7 @@ const selectorsBar = computed(() =>
                     [selectorsBar]: {
                         opacity: (d: Data, i: number) => {
                             const pos = i % categories.length
-                            return legendItems[pos]?.inactive
-                                ? filterOpacity
-                                : 1
+                            return legendItems[pos]?.inactive ? filterOpacity : 1
                         }
                     }
                 }"

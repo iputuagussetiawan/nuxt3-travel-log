@@ -21,10 +21,7 @@ export default defineRoleEventHandler('member', async (event) => {
         )
     }
 
-    const result = await readValidatedBody(
-        event,
-        InsertLocationLogSchema.safeParse
-    )
+    const result = await readValidatedBody(event, InsertLocationLogSchema.safeParse)
 
     if (!result.success) {
         return sendZodError(event, result.error)

@@ -6,9 +6,7 @@ import { DrawerContent, DrawerPortal } from 'vaul-vue'
 import { cn } from '@/lib/utils'
 import DrawerOverlay from './DrawerOverlay.vue'
 
-const props = defineProps<
-    DialogContentProps & { class?: HTMLAttributes['class'] }
->()
+const props = defineProps<DialogContentProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<DialogContentEmits>()
 
 const forwarded = useForwardPropsEmits(props, emits)

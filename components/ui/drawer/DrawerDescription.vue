@@ -5,9 +5,7 @@ import { reactiveOmit } from '@vueuse/core'
 import { DrawerDescription } from 'vaul-vue'
 import { cn } from '@/lib/utils'
 
-const props = defineProps<
-    DrawerDescriptionProps & { class?: HTMLAttributes['class'] }
->()
+const props = defineProps<DrawerDescriptionProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = reactiveOmit(props, 'class')
 </script>
