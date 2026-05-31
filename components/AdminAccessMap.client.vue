@@ -16,12 +16,13 @@ onMounted(async () => {
         const leafletMap = (mapRef.value as any)?.leafletObject
         if (!leafletMap) return
 
-        // Fix pane z-indices so markers render above dashboard UI layers
+        // Fix pane z-indices so tooltips render above everything
         const panes = leafletMap.getPanes()
-        if (panes.overlayPane) panes.overlayPane.style.zIndex = '1000'
-        if (panes.markerPane) panes.markerPane.style.zIndex = '1100'
-        if (panes.tooltipPane) panes.tooltipPane.style.zIndex = '1200'
-        if (panes.popupPane) panes.popupPane.style.zIndex = '1300'
+        if (panes.overlayPane) panes.overlayPane.style.zIndex = '400'
+        if (panes.shadowPane) panes.shadowPane.style.zIndex = '500'
+        if (panes.markerPane) panes.markerPane.style.zIndex = '600'
+        if (panes.tooltipPane) panes.tooltipPane.style.zIndex = '9000'
+        if (panes.popupPane) panes.popupPane.style.zIndex = '9100'
 
         // Fit to Indonesia bounds
         leafletMap.fitBounds(
@@ -161,16 +162,25 @@ function color(userCount: number) {
 .leaflet-pane {
     z-index: auto !important;
 }
+.leaflet-tile-pane {
+    z-index: 200 !important;
+}
 .leaflet-overlay-pane {
-    z-index: 1000 !important;
+    z-index: 400 !important;
+}
+.leaflet-shadow-pane {
+    z-index: 500 !important;
 }
 .leaflet-marker-pane {
-    z-index: 1100 !important;
+    z-index: 600 !important;
 }
 .leaflet-tooltip-pane {
-    z-index: 1200 !important;
+    z-index: 9000 !important;
 }
 .leaflet-popup-pane {
-    z-index: 1300 !important;
+    z-index: 9100 !important;
+}
+.leaflet-map-pane {
+    z-index: 0 !important;
 }
 </style>
