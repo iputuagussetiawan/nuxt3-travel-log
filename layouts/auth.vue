@@ -4,8 +4,11 @@
         <div
             class="relative flex w-full flex-col justify-center px-8 py-12 sm:px-12 lg:w-[480px] lg:px-16 xl:px-20"
         >
-            <!-- Logo -->
-            <NuxtLink to="/" class="mb-10 flex items-center gap-2">
+            <!-- Logo pinned top-left -->
+            <NuxtLink
+                to="/"
+                class="absolute top-8 left-8 flex items-center gap-2"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 256 256"

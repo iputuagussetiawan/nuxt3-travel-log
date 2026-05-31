@@ -1,9 +1,9 @@
 import { updateLocationLog } from '~/lib/db/queries/location-log-query'
 import { findLocation } from '~/lib/db/queries/location-query'
 import { InsertLocationLogSchema } from '~/lib/db/schema'
-import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
+import { defineRoleEventHandler } from '~/lib/define-authenticated-event-handler'
 import sendZodError from '~/lib/send-zod-error'
-export default defineAuthenticatedEventHandler(async (event) => {
+export default defineRoleEventHandler('member', async (event) => {
     const currentUserId = event.context.user.id
     const slug = getRouterParam(event, 'slug') as string
 

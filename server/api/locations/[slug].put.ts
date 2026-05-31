@@ -3,10 +3,10 @@ import {
     updateLocationBySlug
 } from '~/lib/db/queries/location-query'
 import { InsertLocationSchema } from '~/lib/db/schema'
-import defineAuthenticatedEventHandler from '~/lib/define-authenticated-event-handler'
+import { defineRoleEventHandler } from '~/lib/define-authenticated-event-handler'
 import sendZodError from '~/lib/send-zod-error'
 
-export default defineAuthenticatedEventHandler(async (event) => {
+export default defineRoleEventHandler('member', async (event) => {
     const slug = getRouterParam(event, 'slug') as string
     const result = await readValidatedBody(
         event,

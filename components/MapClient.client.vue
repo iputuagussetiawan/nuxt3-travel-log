@@ -109,10 +109,10 @@ function onDoubleClick(location) {
 </script>
 
 <template>
-    <div style="height: 100vh; width: 100%">
+    <div class="fixed inset-0" style="z-index: 0">
         <LMap
             ref="map"
-            style="height: 100vh"
+            style="height: 100%; width: 100%"
             :options="{ zoomControl: false }"
             :zoom="2"
             :min-zoom="2"

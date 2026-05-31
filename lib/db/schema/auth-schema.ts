@@ -2,7 +2,7 @@ import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
 import type z from 'zod'
 
-export const ROLES = ['user', 'admin'] as const
+export const ROLES = ['user', 'member', 'admin'] as const
 export type Role = (typeof ROLES)[number]
 
 export const user = pgTable('user', {

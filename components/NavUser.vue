@@ -62,7 +62,7 @@ const isCollapsed = computed(() => state.value === 'collapsed')
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent
-                    class="z-[30001] w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                    class="z-[4000] w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                     :side="isMobile ? 'bottom' : 'right'"
                     align="end"
                     :side-offset="4"

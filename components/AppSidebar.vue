@@ -4,12 +4,18 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
+    SidebarGroup,
+    SidebarGroupLabel,
     SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
     type SidebarProps
 } from './ui/sidebar'
 import NavMain from './NavMain.vue'
 import NavUser from './NavUser.vue'
 import NavLogo from './NavLogo.vue'
+import { Icon } from '@iconify/vue'
 import {
     CURRENT_LOCATION_LOG_PAGES,
     CURRENT_LOCATION_PAGES,
@@ -165,6 +171,15 @@ const teams = {
     logo: Image,
     plan: 'Personal'
 }
+
+const adminItems = [
+    {
+        id: 'manage-users',
+        label: 'Manage Users',
+        to: '/dashboard/admin/users',
+        icon: 'lucide:users'
+    }
+]
 </script>
 
 <template>
@@ -174,8 +189,27 @@ const teams = {
         </SidebarHeader>
         <SidebarContent>
             <NavMain />
+            <SidebarGroup v-if="authStore.isAdmin">
+                <SidebarGroupLabel>Admin</SidebarGroupLabel>
+                <SidebarMenu>
+                    <SidebarMenuItem v-for="item in adminItems" :key="item.id">
+                        <SidebarMenuButton as-child :tooltip="item.label">
+                            <NuxtLink
+                                :to="item.to"
+                                class="flex items-center gap-2"
+                            >
+                                <Icon
+                                    :icon="item.icon"
+                                    class="h-4 w-4 shrink-0"
+                                />
+                                <span>{{ item.label }}</span>
+                            </NuxtLink>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter class="z-[30001]">
+        <SidebarFooter>
             <NavUser />
         </SidebarFooter>
         <SidebarRail />

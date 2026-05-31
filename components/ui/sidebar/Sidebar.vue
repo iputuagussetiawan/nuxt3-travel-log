@@ -46,7 +46,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
             data-slot="sidebar"
             data-mobile="true"
             :side="side"
-            class="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
+            class="text-sidebar-foreground bg-sidebar/50 w-(--sidebar-width) p-0 backdrop-blur-md [&>button]:hidden"
             :style="{
                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE
             }"
@@ -88,7 +88,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
         <div
             :class="
                 cn(
-                    'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
+                    'fixed inset-y-0 z-[3500] hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
                     side === 'left'
                         ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
                         : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
@@ -103,7 +103,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
         >
             <div
                 data-sidebar="sidebar"
-                class="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
+                class="group-data-[variant=floating]:border-sidebar-border bg-sidebar/50 flex h-full w-full flex-col backdrop-blur-md group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
             >
                 <slot />
             </div>
