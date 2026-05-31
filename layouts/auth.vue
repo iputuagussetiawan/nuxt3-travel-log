@@ -48,7 +48,7 @@
         <div class="relative hidden flex-1 lg:block">
             <!-- Background image -->
             <img
-                src="/images/image-01.jpg"
+                src="/images/bg-signup.png"
                 alt="Travel"
                 class="absolute inset-0 h-full w-full object-cover"
             />
