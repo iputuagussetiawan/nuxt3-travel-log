@@ -7,20 +7,16 @@ export default defineRoleEventHandler('member', async (event) => {
     const currentUserId = event.context.user.id
     const slug = getRouterParam(event, 'slug') as string
 
-    console.log('Updating location log for location:', slug)
-    console.log('Current user ID:', currentUserId)
-
-    // const location = await findLocation(slug, currentUserId)
-
-    // if (!location) {
-    //     return sendError(
-    //         event,
-    //         createError({
-    //             statusCode: 404,
-    //             statusMessage: 'Location not found'
-    //         })
-    //     )
-    // }
+    const location = await findLocation(slug, currentUserId)
+    if (!location) {
+        return sendError(
+            event,
+            createError({
+                statusCode: 404,
+                statusMessage: 'Location not found'
+            })
+        )
+    }
 
     const result = await readValidatedBody(
         event,

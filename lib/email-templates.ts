@@ -1,3 +1,22 @@
+function escapeHtml(s: string): string {
+    return s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+}
+
+function safeUrl(url: string): string {
+    try {
+        const u = new URL(url)
+        if (u.protocol !== 'https:' && u.protocol !== 'http:') return '#'
+        return url
+    } catch {
+        return '#'
+    }
+}
+
 function base(previewText: string, content: string) {
     return `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -6,7 +25,7 @@ function base(previewText: string, content: string) {
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta name="x-apple-disable-message-reformatting"/>
   <title>Travel Log</title>
-  <span style="display:none;max-height:0;overflow:hidden">${previewText}</span>
+  <span style="display:none;max-height:0;overflow:hidden">${escapeHtml(previewText)}</span>
 </head>
 <body style="margin:0;padding:0;background:#f6f7fb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased">
 
@@ -69,13 +88,14 @@ function base(previewText: string, content: string) {
 }
 
 function cta(label: string, url: string, color: string) {
+    const safe = safeUrl(url)
     return `
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0 24px">
       <tr>
         <td style="border-radius:8px;background:${color}">
-          <a href="${url}"
+          <a href="${safe}"
              style="display:inline-block;padding:12px 28px;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;border-radius:8px;letter-spacing:0.01em;line-height:1.5">
-            ${label}
+            ${escapeHtml(label)}
           </a>
         </td>
       </tr>
@@ -83,12 +103,13 @@ function cta(label: string, url: string, color: string) {
 }
 
 function fallback(url: string) {
+    const safe = safeUrl(url)
     return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;border-top:1px solid #f0f2f5">
       <tr><td style="padding-top:20px">
         <p style="margin:0 0 6px;font-size:12px;color:#9aa3af">Button not working? Paste this link into your browser:</p>
         <p style="margin:0;font-size:12px;word-break:break-all">
-          <a href="${url}" style="color:#6366f1;text-decoration:none">${url}</a>
+          <a href="${safe}" style="color:#6366f1;text-decoration:none">${escapeHtml(safe)}</a>
         </p>
       </td></tr>
     </table>`
@@ -97,12 +118,13 @@ function fallback(url: string) {
 // ── Templates ──────────────────────────────────────────────────────────────────
 
 export function verifyEmailTemplate(name: string, url: string) {
+    const safeName = escapeHtml(name)
     return base(
         'Verify your email to activate your Travel Log account.',
         `
       <p style="margin:0 0 20px;font-size:13px;font-weight:600;color:#10b981;letter-spacing:0.06em;text-transform:uppercase">Email Verification</p>
       <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#0f172a;line-height:1.3">Verify your email address</h1>
-      <p style="margin:0 0 6px;font-size:15px;color:#374151;line-height:1.6">Hi <strong>${name}</strong>,</p>
+      <p style="margin:0 0 6px;font-size:15px;color:#374151;line-height:1.6">Hi <strong>${safeName}</strong>,</p>
       <p style="margin:0;font-size:15px;color:#6b7280;line-height:1.7">
         Thanks for creating a Travel Log account. Please verify your email address to get started — it only takes a second.
       </p>
@@ -116,12 +138,13 @@ export function verifyEmailTemplate(name: string, url: string) {
 }
 
 export function resetPasswordTemplate(name: string, url: string) {
+    const safeName = escapeHtml(name)
     return base(
         'Reset your Travel Log password.',
         `
       <p style="margin:0 0 20px;font-size:13px;font-weight:600;color:#8b5cf6;letter-spacing:0.06em;text-transform:uppercase">Password Reset</p>
       <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#0f172a;line-height:1.3">Reset your password</h1>
-      <p style="margin:0 0 6px;font-size:15px;color:#374151;line-height:1.6">Hi <strong>${name}</strong>,</p>
+      <p style="margin:0 0 6px;font-size:15px;color:#374151;line-height:1.6">Hi <strong>${safeName}</strong>,</p>
       <p style="margin:0;font-size:15px;color:#6b7280;line-height:1.7">
         We received a request to reset the password for your Travel Log account. Click the button below to choose a new password.
       </p>
