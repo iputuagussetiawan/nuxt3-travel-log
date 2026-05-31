@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { refDebounced } from '@vueuse/core'
 
 definePageMeta({ layout: 'dashboard' })
 useSeoMeta({ title: 'User Management' })
@@ -42,37 +43,18 @@ const filtered = computed(() => {
 })
 
 // ── Pagination ────────────────────────────────────────────────────────────────
-const PAGE_SIZE = 8
-const page = ref(1)
+const {
+    page,
+    totalPages,
+    paged,
+    pageNumbers,
+    from,
+    to,
+    total: totalFiltered,
+    reset: resetPage
+} = usePagination(filtered, { pageSize: 8, ellipsisThreshold: 5 })
 
-watch([debouncedSearch, filterRole, sortKey, sortDir], () => {
-    page.value = 1
-})
-
-const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE)))
-const paged = computed(() =>
-    filtered.value.slice((page.value - 1) * PAGE_SIZE, page.value * PAGE_SIZE)
-)
-
-const pageNumbers = computed(() => {
-    const total = totalPages.value
-    const current = page.value
-    const pages: (number | '...')[] = []
-
-    if (total <= 5) {
-        return Array.from({ length: total }, (_, i) => i + 1)
-    }
-
-    pages.push(1)
-    if (current > 3) pages.push('...')
-    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
-        pages.push(i)
-    }
-    if (current < total - 2) pages.push('...')
-    pages.push(total)
-
-    return pages
-})
+watch([debouncedSearch, filterRole, sortKey, sortDir], resetPage)
 
 // ── Role change ───────────────────────────────────────────────────────────────
 const updating = ref<string | null>(null)
@@ -432,66 +414,14 @@ const widgets = computed(() => [
         </div>
 
         <!-- Pagination -->
-        <div v-if="totalPages > 1" class="flex items-center justify-between">
-            <p class="text-muted-foreground text-xs">
-                Showing {{ (page - 1) * PAGE_SIZE + 1 }}–{{
-                    Math.min(page * PAGE_SIZE, filtered.length)
-                }}
-                of {{ filtered.length }} users
-            </p>
-            <div class="flex items-center gap-1">
-                <button
-                    :disabled="page === 1"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page = 1"
-                >
-                    <Icon icon="lucide:chevrons-left" class="h-4 w-4" />
-                </button>
-                <button
-                    :disabled="page === 1"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page--"
-                >
-                    <Icon icon="lucide:chevron-left" class="h-4 w-4" />
-                </button>
-
-                <div class="flex items-center gap-1 px-1">
-                    <template v-for="(p, i) in pageNumbers" :key="i">
-                        <span
-                            v-if="p === '...'"
-                            class="text-muted-foreground px-1 text-xs select-none"
-                            >…</span
-                        >
-                        <button
-                            v-else
-                            :class="[
-                                'flex h-8 w-8 items-center justify-center rounded-md border text-xs font-medium transition-colors',
-                                p === page
-                                    ? 'bg-primary text-primary-foreground border-primary'
-                                    : 'text-muted-foreground hover:bg-muted'
-                            ]"
-                            @click="page = p"
-                        >
-                            {{ p }}
-                        </button>
-                    </template>
-                </div>
-
-                <button
-                    :disabled="page === totalPages"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page++"
-                >
-                    <Icon icon="lucide:chevron-right" class="h-4 w-4" />
-                </button>
-                <button
-                    :disabled="page === totalPages"
-                    class="text-muted-foreground hover:text-foreground hover:bg-muted flex h-8 w-8 items-center justify-center rounded-md border transition-colors disabled:opacity-30"
-                    @click="page = totalPages"
-                >
-                    <Icon icon="lucide:chevrons-right" class="h-4 w-4" />
-                </button>
-            </div>
-        </div>
+        <AppPagination
+            :page="page"
+            :total-pages="totalPages"
+            :page-numbers="pageNumbers"
+            :from="from"
+            :to="to"
+            :total="totalFiltered"
+            @update:page="page = $event"
+        />
     </div>
 </template>
